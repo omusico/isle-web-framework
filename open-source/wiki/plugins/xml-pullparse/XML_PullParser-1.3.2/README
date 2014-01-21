@@ -1,0 +1,89 @@
+Copyright (C) 2006  Myron Turner
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+----------------------------------------------------
+XMLPullParser README
+
+
+1. Installation:
+    a. This distribution file is a valid Pear package and can be installed using the Pear package manager:
+            pear install XML_PullParser.tgz
+                OR
+            pear install XML_PullParser-n1.n2.n3.tgz
+                where n1.n2.n3 is the version number
+ 
+    b. It can be installed locally using tar:
+     	    tar -xzf XML_PullParser.tgz
+                OR
+            tar -xzf XML_PullParser-n1.n2.n3.tgz
+                where n1.n2.n3 is the version number
+
+
+2. The only file needed to use XML_PullParser is XML_PullParser.inc:
+            require_once "install_directory/XML_PullParser.inc";        
+
+
+   If the version you are using is 1.2.n or greater, then XML_PullParser.inc will attempt
+   to include XML_PullParser_Errors.inc using the following code: 
+
+      if(isset($XML_PullParser_Errors_Path) && 
+                              is_readable($XML_PullParser_Errors_Path . "/XML_PullParser_Errors.inc")) {
+        include ($XML_PullParser_Errors_Path . "/XML_PullParser_Errors.inc");// user-defined directory
+      }
+      else {
+         require_once "XML_PullParser_Errors.inc";
+      }
+
+   If XML_PullParser_Errors.inc is not in the default Pear include directory or is not in the same
+   local directory as XML_PullParser.inc or for some other reason cannot be found, set the package level 
+   variable $XML_PullParser_Errors_Path to the directory where XML_PullParser_Errors.inc will be found. 
+   Place it in your script before including XML_PullParser.inc:
+            
+                  $XML_PullParser_Errors_Path = "my/other/directory";
+                  require_once("XML_PullParser.inc");
+             
+
+3. Documentation Directory:  manual
+    manual/xml
+	Manual: XML documentation written in Dockbook format.  The Manual is accessible in browsers
+	through manual/xml/contents.html, which redirects the xml to a PHP script that uses
+	XML_PullParser to parse and re-format the xml as html
+
+   manual/html
+	This directory contains the re-formatted Manual as html, and is accessible through
+	manual/html/contents.html
+			
+  manual/listings
+	Contains all the example code from the Manual.
+  manual/listings_NS
+	Contains example code relating to Namespace support
+		
+  manual/doc
+	This is the output from phpDocumentor. It is a complete detailing of all the functions
+	and methods used in XML_PullParser and will sometimes cover details not found in the Manual.
+
+4. Tests directory: tests
+	This directory contains a set of PHPUnit tests.  There is a set of scripts named t1.php, t2.php, etc.
+	These can be called individually.  In addition, there is a batch script named php_unit.php which will
+	run all the individual t scripts.
+	
+
+
+	
+web site:  http://www.mturner.org/XML_PullParser/
+contact:   Myron_Turner@shaw.ca
+
+

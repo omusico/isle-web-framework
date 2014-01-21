@@ -1,0 +1,297 @@
+rev 13-Nov_06-11_35
+
+6 June
+Upgraded from FCKeditor 2.4.1 to 2.6.6.  2.6.6 includes the scayt spellchecker, which is an in-editor spellchecker.
+2.6.6 is the final FCKeditor before the change-over to CKeditor.  The upgrade required bringing the ie and gecko 
+javascript files into sync, in particular so that the image and link dialogs open to a larger size.
+This upgrade will now be designated fckgLite 07.
+
+7 June 
+Added configuration options for turning SCAYT on and off, setting it as auto,  and for selecting SCAYT language . 
+Hide language selection button for SpellerPages spell checker when SCAYT is in effect.
+
+9 June
+Converted Arabic language file for fckg editing window from BOM to non-BOM (Corrupted image display).
+Enabled overflow and scrolling in SCAYT dialog.
+
+10 June
+Increased sizes of link and image dialog windows in gecko. Adjusted font sizes in link.html
+
+11 June 
+Corrected url in Anteater safe encodig message (meta.php)
+
+5 July 2012
+Fix to FCKEditor fck_link.js for IE9, where FCKeditor's Selection.SelectNode() fails to insert link at 
+cursor position if text not previously selected. This only comes into play if fckgLite is prevent from
+auto-switching IE to IE8 compatibility while in editing mode.
+
+7 July 2012
+Fix to FCKeditor fck_image.js for IE9, where FCK.InsertElement failed to insert image at
+cursor. (See fck_link 5 July 2012).
+
+9 July
+Removed some unnecessary files from distribution and comproessed  old Changs files to zip.
+
+Confined IE image and link fixes to IE9 since FCKeditor will not load in IE10.  Users of IE10
+where templates force Standards Mode will have to manually switch to compatibilty mode.
+In other cases, fckgLite auto-switches to IE8 compatibility,
+
+23 August
+Fixed for smileys in lists where CR was lost if smiley was in li
+
+24 August
+fckeditor/dwsmileys.php: set alternate path for ajax access to smiley.conf in debian and ubuntu
+
+25 August
+Set IE compatiblity mode to IE=EmulateIE8 in file browser when browserMode > 8 (used writeln in file: fckxml.js).
+This was needed by IE 10.
+
+28 August
+Implemented option to rewrite FCKeditor smiley URLs when pages are moved to new server. Regex at top of
+edit.php:_preprocess.  The URLs are reset on a page by page basis when loaded and saved.  The option
+should be turned off except when needed.
+
+16 September 2012
+Added experimental handling of tables, attempting to solve problems in rendering complex tables that have multiple col and row spans.
+This uses a new configuration option which will turn on the experimenmtal algorithm for all pages, or it can be turned
+on, on a per-page basis, either by use of a checkbox or by adding a syntax plugin style switch to the top of the page:
+~~COMPLEX_TABLES~~.  Since ~~COMPLEX_TABLES~~ is implemented as a syntax plugin, it will come into effect only after the page
+has been saved; before the save, the user should check off the complex tables checkbox.  The logorithm is not perfect, but it is
+considerably superior to the standard table-handling parser.
+
+17 September 2012
+Minor edit to edit.php
+
+19 September
+Created loop in insert_table() that goes through all rows checking for rowspans. Rowspan property of rows array is set to 0 for
+all rows where rowspans have been processed, causing them to be ignored on subsequent passes of loop.
+
+Minor edit to edit.php editor form syntax
+
+9 October 2012
+Fixed bug where table markup inside code blocks dropped empty cells (edit.php::_preprocess)
+
+20 Nov
+Added session_id check to config.php:  in some system setting session which has already been set throws
+an error.
+Added $mssg="" to FileUpload() in commands.php for SendUploadResults(), without which some systems freeze.
+Both of the above occurred on Windows with PHP 5.3
+
+25
+Improved mime-type handling in config.php and fckconfig.js
+
+28 Nov
+Fixed font tool plugin to work with stricter define checking of current browsers.
+
+29 Nov
+Fixed regex which removed precent-escaped backslashes in plugin syntax so that backslashes are
+removed only around non-alpha characters, preserving sequences such as \r\n.
+
+30 Nov
+Added two  short-cut keys for numbered list: ctrl-+ and ctrl+{.  Both do the same thing.
+
+8 Dec
+In edit.php: insert this.is_smiley = false after alt (text form of smiley) is added to results;
+prevents corruption of text formats and insertion of javascript 'undefined' when alt is not found
+on next time through start()
+
+Dec 21 2012
+Updated css for new template
+
+Dec 22
+Updated fck_editorarea.css.new_template for code blocks
+
+
+23 December
+Replaced default fck_editorarea.css with original that was accidentally exchanged for the new
+
+Created an IE CSS hack for geshi snippets in IE8+ and HTML5
+
+26 December
+Fix for nested lists in webkit browsers
+
+2013 January 4
+Fix for urls in DW footnotes, which were lost on re-saves.
+Still-to-be-done: handling of media files in DW footnotes
+
+Jan 4
+fix to DW footnote handling to prevent url from being transferred to subsequent fotnote text
+after update to previous notes's url using link tool.
+
+Jan 5
+Upgraded DW footnotes to handle links to media files
+
+10 Jan
+Added tooltip for Scayt
+
+Jan 14
+Removed "new by reference" assignment in fckg/syntax/dwplugin.php (line 191)
+
+Jan 17
+Made an exception for svg-edit svg images in php/connectors/php/util.php (l. 150), which
+rejected (function: DetectHtml) them because they contained a <title> tag.
+
+Jan 23
+Upgraded Geshi plugin (input from Kamil Demecki). 
+
+Jan 28
+This version of the ctables distribution combines with and replaces the unbuntu-debian distribution.
+
+Jan 31
+In preprocessor, edit.php ca. 235ff:  Create tagged <code>. . .</code> blocks from code blocks marked
+up by indentation.  This insures that the code blocks are correctly processed in the fckgLite parser.
+
+Feb 2
+convert html tag markup < and > to entities in indented code blocks
+(In edit.php:_preprocess())
+
+Feb 13
+replace '>' in interwiki markup in lists, removed in above.
+
+Removed new by reference warning  in edit.php on line 2552
+
+Feb 14
+Upgraded handling of interwiki links
+
+6 March
+Check for files and/or directories in userfiles that have not been converted into 
+links to data/media or have been converted to directories (Weatherwas). If found
+delete them so that the links can be created.
+
+8 March
+fix for missing XPATH functions in fckxml.js
+
+12 March
+Added Dokuwiki-style signature item to context menu.
+Handle multiple footnotes with identical texts.
+
+13 March
+Added ftp option to link dialog
+Put some controls into ftp liink creation.
+
+16 March
+Added missing smiley_hack metadata entry
+
+18 March
+Fixed broken internal media links in Weatherwax, which now appends file size to titl attr,
+from which fckgL takes the urls.
+
+19 March
+Update to entities file.
+
+22 March
+Automated insertion of ~~COMPLEX_TABLES~~ macro when complex tables checkbox is set to true,
+if not already inserted.
+
+28 March
+Fixed IE 10 JS incompatiblity
+Fixed URL display line in image dialog: now  displays file name as saved, instead of encoded format.
+
+29 March double urlencode image names for filebrowser thumbnails, which otherwise do not display in Windows.
+
+30 March
+Restored aspell Language button (when Scayt is turned off).
+
+9 April
+Removed compatibility support for pre-jquery functions.
+
+10 April
+Removed missed jquery compatibility script.
+
+12 April
+In edit.php fix for images with detail urls using .htaccess nice urls
+
+29 April
+Fixed regex for recognizing indented code blocks.
+Fixed handlng of footnotes containing parentheses.
+
+3 May
+Synced switch/edit.php with master/edit.php
+Added support for ~~NOTOC~~ macro
+
+15 May
+Added PHP's file upload errors to filebrowser.
+
+30 May
+Accept image copy and paste with https urls.
+
+15 June
+Removed duplicate ~~CMPLEX_TABLES~~ macros
+
+11 July
+Added escapes to Plugin pattern regexes in edit.php, e.g. for '('
+
+
+19 Jul
+Dutch language files for settings.php and action/lang
+
+25 Jul
+Corrects bug which deletes final monospace markup from list items
+
+28 Jul
+Fixed corrupted links to media from userfiles and bad file mode set for edit.php
+  --occurred only in fackgLite/dailies versions--
+
+6 Aug
+Added language variable to image dialog's align list for "remove alignment"
+
+13 Aug
+Preserve plain text samba share syntax
+
+15 Aug
+Dutch language updates for fckeditor lang.nl.js and fonts/lang/nl.js
+
+22 Aug
+Updates to language strings in link dialog
+
+23 Aug
+Fixed error in edit.php that caused external links on initial creation to be converted to internal if links were
+created in internal-external order.
+
+24 Aug
+Supplied missing fckeditor language strings and JS FCKLang references.
+
+25 Aug
+cleaned up fckeditor unused plugins and replaced nested list plugins with FCKeditor's indent and outdent.
+
+27 Aug
+Interwiki links: preserve lost forward slashes and query strings
+
+28 Aug
+Added language strings and FCKLang refs for file browser
+
+31 Aug
+Prevent Alt from accessing CTRL short-cuts when Alt Gr key is hit( in helper.php)
+
+5 Sep
+New language strings for Signature plugin and "what's this" in editing window
+
+6 Sep
+New lang string-- 'complex_tables'-- for editing window
+
+12 Sep
+Corrected fckconfig.js to use editor/lang/<iso.js> files for geshi and keyboard plugins.
+
+Updated language strings for Geshi plugin.
+
+Updated language strings and code for Scayt
+
+Dutch language updates.
+
+13 Sep
+Removed trailing comma from en.js (FCKLang) which failed in earlier versions of IE;  fixed
+missing span tag in geshi plugin.
+
+14 Sep
+Updates to languagestrings and code
+Fixed some label tags in edit.php
+
+15 Sep
+Updates to language strings in fckeditor
+Final Dutch lang update
+
+24 Oct
+Removed Aug 13 fix for handling plain text samaba shares; it corrupts some plugin markup.
+
+6 Nov
+replace utf8 chars in plugin regexes with entities (edit.php)

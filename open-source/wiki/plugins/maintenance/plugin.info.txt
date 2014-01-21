@@ -1,0 +1,7 @@
+base   maintenance
+author Danny Lin
+email  danny0838@gmail.com
+date   2013-11-03
+name   maintenance plugin
+desc   Locks the site and runs a maintenance script
+url    http://www.dokuwiki.org/plugin:maintenance

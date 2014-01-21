@@ -1,0 +1,333 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Attribute Accessors</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+
+         <firstname>Myron</firstname>
+
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+ 
+  <formalpara><title></title><para>
+  </para></formalpara>
+  <formalpara><title></title><para>
+  There are four attribute accessors in <classname>XML_PullParser:</classname>
+  </para></formalpara>
+
+
+  <formalpara><title></title><para>
+  </para></formalpara>
+
+
+   <formalpara role="list"><title></title>
+   <para>
+   <simplelist type='vert' columns='1'>
+   <member>
+        array XML_PullParser_getAttributes (mixed $name, [mixed $which = 1], [array $el = ""])
+   </member>
+   <member>
+        string XML_PullParser_getAttrVal (string $name, array $attr_array)
+   </member>
+   <member>
+        array XML_PullParser_getAttrValues (array $ar)
+   </member>
+   <member>
+        array XML_PullParser_nextAttr ()
+   </member>
+    </simplelist>
+    </para></formalpara>
+
+
+<formalpara><title><emphasis>1. XML_PullParser_getAttributes</emphasis></title><para>
+<emphasis>2. XML_PullParser_getAttrVal</emphasis><![CDATA[<br />]]>
+These two companion methods have been treated elsewhere in the manual.  See
+<ulink url="XML_PullParserCoding_2.xml">Introduction to Coding 2: Adding Attributes</ulink>
+and 
+<ulink url="XML_PullParserCodingStrategies_2.xml">Coding Strategies 2: the 'which' parameter.</ulink>
+They have also been used in many example listings throughout the manual.<superscript>1</superscript>
+</para></formalpara>
+
+<formalpara><title><emphasis>3. XML_PullParser_getAttrValues</emphasis></title><para>
+The method takes as a parameter an associative array consisting of a single array element
+of the following form:
+<token> array("element_name"=>$parent) OR array("element_name"=>"parent")</token>
+
+The key, which is a string, is the name of one or more child elements that hold the attributes being sought.
+The value is the parent to these elements, and is either a tokenized array or a string that names
+the parent.  An example will make all this a lot clearer.
+
+</para></formalpara>
+
+
+
+ <blockquote><title>Example 1</title>
+ <programlisting>
+    &lt;ENTRY> 
+    &lt;ipaddress>172.20.19.6 &lt;/ipaddress> 
+    &lt;domain> example.com &lt;/domain> 
+    &lt;server ip="192.168.10.1" registrant="example.com"> example_1.com &lt;/server> 
+    &lt;server ip="192.168.10.2"> example_2.com &lt;/server> 
+    &lt;server ip="192.168.10.3"> example_3.com &lt;/server> 
+    &lt;alias> www.example.com &lt;/alias> 
+    &lt;/ENTRY> 
+
+ </programlisting>
+ </blockquote>
+
+<formalpara><title></title><para>
+Let's assume the following method call:
+   <token>$attr_array = $parser->XML_PullParser_getAttrValues(array("server"=>"Entry"));</token>
+The resulting <code>$attr_array</code> would be as follows:
+</para></formalpara>
+<simpara>
+Array
+(
+    [0] => Array
+        (
+            [IP] => 192.168.10.1
+            [REGISTRANT] => example.com
+        )
+
+    [1] => Array
+        (
+            [IP] => 192.168.10.2
+        )
+
+    [2] => Array
+        (
+            [IP] => 192.168.10.3
+        )
+
+)
+</simpara>
+
+<formalpara><title></title><para>
+Each array element of <code>$attr_array</code> holds the attribute date for one of the <emphasis>server</emphasis>
+elements.  Accesing these elements is a simple matter of looping through the array, as in the following code listing:
+</para></formalpara>
+
+ <blockquote><title role="code">Listing 19</title>
+ <programlisting>
+ 1.   $parser = new XML_PullParser_doc($doc,array("Entry"),array());     
+ 2.   while($token = $parser->XML_PullParser_getToken()) {
+ 3.    //    $attributes = $parser->XML_PullParser_getAttrValues(array("server"=>"Entry"));
+ 4.        $attributes = $parser->XML_PullParser_getAttrValues(array("server"=>$token));
+ 5.        foreach($attributes as $attr) {
+ 6.            foreach($attr as $attr_name => $attr_value) {
+ 7.                echo "$attr_name => $attr_value\n";
+ 8.            }
+ 9.          echo "\n";
+10.        }
+11.    }
+
+/*
+  Result
+        IP => 192.168.10.1
+        REGISTRANT => example.com
+
+        IP => 192.168.10.2
+
+        IP => 192.168.10.3
+*/
+
+ </programlisting>
+ </blockquote>
+
+<formalpara><title></title><para>
+Instead of using the double string parameter (line 3), we use the alternate parameter type:
+array("server"=>$token).  The result shows that all the attributes have been found and that
+where there's more than one attribute in a <emphasis>server</emphasis> element, the 
+attributes for that element, <emphasis>IP</emphasis> and <emphasis>REGSISTRANT,</emphasis> are kept together,
+making it possible to identify the element which has two attributes.
+
+</para></formalpara>
+
+<formalpara>
+<title><emphasis>4. XML_PullParser_nextAttr</emphasis></title>
+<para>
+This method returns the attribute(s) from the next element on the attribute loop stack, which is created
+using one of the following two methods:
+<token>array   XML_PullParser_setAttrLoop ([array $el = ""], [boolean $assignText = false])</token>
+<token>array   XML_PullParser_setAttrLoop_elcd() ([array $el = ""])</token>
+Both of these take as a parameter an optional tokenized array.  If this parameter is not passed in,
+then they will use the <code>$current_element</code> or, if that's not available, the current
+token.  The second parameter to <code>XML_PullParser_setAttrLoop</code> is for internal use only.
+Calls to <code>XML_PullParser_setAttrLoop_elcd</code> are passed on to <code>XML_PullParser_setAttrLoop</code>
+after pre-processing, and the boolean <code>$assignText</code> signals this fact.
+</para></formalpara>
+
+<formalpara><title></title><para>
+<code>XML_PullParser_setAttrLoop</code> captures the name of the element and its attributes.  
+<code>XML_PullParser_setAttrLoop_elcd</code> captures, in addition to name and attributes, any character data assigned to the
+element, hence the suffix <emphasis>_elcd.</emphasis>  Both of these methods create 
+the same data structure, except that in the case of <code>XML_PullParser_setAttrLoop,</code>
+the field holding the element's character data is set to the empty string.  A data unit based
+on the first <emphasis>server</emphasis> element in <emphasis>Example 1</emphasis> above
+would be the following array:
+</para></formalpara>
+
+<simpara>
+ Array
+  (
+   [0] => SERVER
+   [1] => Array
+       (
+           [IP] => 192.168.0.1
+           [REGISTRANT] => example.com
+       )
+   [2] => example_1.com  OR  ""
+  )
+</simpara>
+
+<formalpara><title></title><para>
+The complete data structure is a numerically indexed array of these arrays, and so technically they can be
+accessed in a loop that peels off one of these data units with each iteration.  In effect, that's what
+<code>XML_PullParser_nextAttr</code> does: it returns the next data unit and updates an internal index.  
+When it comes to the end of the array, it returns a <emphasis>False</emphasis> value and so when
+used in a loop that tests for this event, the loop comes to an end.  The internal index can be reset 
+to zero by calling: 
+<token>void   XML_PullParser_resetAttrLoopPtr ()</token>
+Perhaps the most distinct advantage of using <code>XML_PullParser_nextAttr</code> is that it does
+keep its own internal index. Therefore, it is always guaranteed to return the next data unit from the array. 
+This could be useful when it is not being used in a loop and in situations where it is
+inconvenient to keep track of the current index in one's own code.  Following is a sample listing that
+uses <emphasis>Example 1</emphasis> above.
+</para></formalpara>
+
+ <blockquote><title role="code">Listing 20</title>
+ <programlisting>
+ 1.   $parser = new XML_PullParser_doc($doc,$tags,$child_tags);    
+ 2.
+ 3.   while($token = $parser->XML_PullParser_getToken())
+ 4.    {
+ 5.       $parser->XML_PullParser_getElement('server');   
+ 6.       $parser->XML_PullParser_setAttrLoop();
+ 7.
+ 8.       while($attr = $parser->XML_PullParser_nextAttr()) {
+ 9.           foreach($attr[1] as $attr_name => $attr_value) {
+10.                echo "$attr[0]: $attr_name => $attr_value\n";
+11.            }
+12.        echo "\n";  
+13.        }
+14.    }
+
+/*
+    Result
+        SERVER: IP => 192.168.10.1
+        SERVER: REGISTRANT => example.com
+
+        SERVER: IP => 192.168.10.2
+
+        SERVER: IP => 192.168.10.3
+*/
+ </programlisting>
+ </blockquote>
+
+
+<formalpara><title></title><para>
+Line 5 calls <code>XML_PullParser_getElement</code> requesting the <emphasis>server</emphasis>
+elements.  When <code>XML_PullParser_setAttrLoop</code> is called 
+it finds the <code>$current_element</code>, in which <code>XML_PullParser_getElement</code> has stored
+the servers, and uses that for its search.  Had it not found the <code>$current_element,</code>
+it would have used the current token.  The result would have been the same, because none of the
+other elements have attributes.  But let's assume the <emphasis>ipaddress</emphasis> element
+had this form:
+</para></formalpara>
+<simpara>
+         &lt;ipaddress type="primary">172.20.19.6 &lt;/ipaddress>
+</simpara>
+
+<formalpara><title></title><para>
+In this case, if ther current token were ued, there would be an additional data unit in the
+array and the Result would reflect this:
+</para></formalpara>
+<simpara>Array
+        (
+            [0] => IPADDRESS
+            [1] => Array
+                (
+                    [TYPE] => primary
+                )
+
+            [2] =>
+        )
+
+/*
+  Result
+        IPADDRESS: TYPE => primary
+
+        SERVER: IP => 192.168.10.1
+        SERVER: REGISTRANT => example.com
+
+        SERVER: IP => 192.168.10.2
+
+        SERVER: IP => 192.168.10.3
+*/
+</simpara>
+
+
+<formalpara><title></title><para>
+Finally, had we called <code>XML_PullParser_setAttrLoop_elcd</code> in line 6, our Result would
+have looked like this, where the data in square brackets is the text which was found in
+each of the elements:
+</para></formalpara>
+
+<simpara>
+        IPADDRESS [172.20.19.6]: TYPE => primary
+
+        SERVER [example_1.com]: IP => 192.168.10.1
+        SERVER [example_1.com]: REGISTRANT => example.com
+
+        SERVER [example_2.com]: IP => 192.168.10.2
+
+        SERVER [example_3.com]: IP => 192.168.10.3
+        </simpara>
+
+<formalpara><title></title><para>
+These methods should prove useful for excavating attributes and locating element data that is identified
+by attributes with particular name and values.
+
+</para></formalpara>
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+  <blockquote role="blank_box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+        <member>
+1. See code listings: <ulink url="XML_PullParserCoding_2.xml#listing_3">3,</ulink>
+<ulink url="XML_PullParserCoding_2.xml#listing_4">4,</ulink>
+<ulink url="XML_PullParserCodingStrategies_2.xml#listing_9">9,</ulink>
+<ulink url="XML_PullParserCodingStrategies_3.xml#listing_10">10,</ulink>
+<ulink url="XML_PullParserCodingStrategies_3.xml#listing_11">11,</ulink>
+<ulink url="XML_PullParserCodingStrategies_4.xml#listing_12">12,</ulink>
+and <ulink url="XML_PullParserCodingStrategies_4.xml#listing_13">13</ulink>
+</member>
+        <member></member>
+    </simplelist>
+  </blockquote> 
+  <simpara role="hr"></simpara>
+  <formalpara><title></title>
+    <para>
+     <ulink type="prev" url="XML_PullParser_TextAccessors.xml">Text Accessors</ulink>
+    <ulink type="next" url="XML_PullParser_Utilities.xml">Utlities and Helper Functions</ulink>
+   </para></formalpara>    
+
+  <formalpara><title></title><para></para></formalpara><formalpara><title></title><para></para></formalpara>
+
+</article>
+
+

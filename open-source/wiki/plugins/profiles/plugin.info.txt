@@ -1,0 +1,10 @@
+# General Plugin Info do not edit
+
+base   profiles
+author Alexandru Radovici
+email  msg4alex@gmail.com
+date   2013-07-20
+name   Profiles Plugin
+desc   Add Facebook, GitHub, Google Plus, Linkedin and Twitter profile links
+url    https://www.dokuwiki.org/plugins:profiles
+

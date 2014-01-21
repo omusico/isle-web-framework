@@ -1,0 +1,502 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Appendix 1: Tokenized Arrays</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+         <firstname>Myron</firstname>
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+ 
+  <formalpara><title></title><para>
+   What follows are examples of the arrays returned by the <classname>XML_PullParser</classname>
+   tokenizing functions.  Unless otherwise indicated, they are based on the DNS
+   <ulink type ="anchor" url="XML_PullParserCoding_1.xml#example_1">example</ulink>    
+    used in most of the code listings.
+  </para></formalpara>
+
+  <blockquote role="blank_box"><title>Notes on the structure of these arrays</title>
+    <simplelist type='vert' columns='1'>
+        <member>1.  These are "flat" arrays: they are not tree-structured,
+         their members are addressed sequentially.
+       </member>
+        <member>2. The <code>S__</code> and <code>E__</code> members of these
+        arrays represent START and END tags.
+    </member>
+    <member>3. The  first member following the START tag is a an array of the element's attributes.
+    If there are no attributes the array is empty.  If there are attributes, they take the form of 
+    an associative array in which each key term is an attribute's name and its value term is the value 
+    of the attribute. 
+    </member>
+    <member>4. The character data follows the attributes array and it always marked as an associative
+    array with a key named <code>cdata.</code>  In large blocks of text marked up for conversion to other
+    formats such (e.g. HTML), each set of mark-up tags has its own cdata section.  
+    <ulink url="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextMarkedUp">XML_PullParser_getTextMarkedUP</ulink>
+    has the facility to handle mark up for HTML but could presumably be used for other types by subclassing.
+    </member>
+    <member>5. Included here among the tokenizers are <code>XML_PullParser_getChildren</code>
+    and <code>XML_PullParser_getChildrenFromName.</code>  Their return type is not a tokenized array
+    but instead a numerically indexed array of tokens.
+   </member>
+    <member></member>
+
+    </simplelist>
+  </blockquote> 
+
+ <blockquote><title role="code">XML_PullParser_getToken</title>
+ <anchor id="getToken" />
+ <programlisting>
+ 
+        Array
+        (
+            [0] => S__ENTRY
+            [1] => Array
+                (
+                )
+
+            [2] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [3] => S__IPADDRESS
+            [4] => Array
+                (
+                )
+
+            [5] => Array
+                (
+                    [cdata] => 172.20.19.6
+                )
+
+            [6] => E__IPADDRESS
+            [7] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [8] => S__DOMAIN
+            [9] => Array
+                (
+                )
+
+            [10] => Array
+                (
+                    [cdata] =>  example.com
+                )
+
+            [11] => E__DOMAIN
+            [12] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [13] => S__SERVER
+            [14] => Array
+                (
+                    [IP] => 192.168.10.1
+                )
+
+            [15] => Array
+                (
+                    [cdata] =>  example_1.com
+                )
+
+            [16] => E__SERVER
+            [17] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [18] => S__SERVER
+            [19] => Array
+                (
+                    [IP] => 192.168.10.2
+                )
+
+            [20] => Array
+                (
+                    [cdata] =>  example_2.com
+                )
+
+            [21] => E__SERVER
+            [22] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [23] => S__SERVER
+            [24] => Array
+                (
+                    [IP] => 192.168.10.3
+                )
+
+            [25] => Array
+                (
+                    [cdata] =>  example_3.com
+                )
+
+            [26] => E__SERVER
+            [27] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [28] => S__ALIAS
+            [29] => Array
+                (
+                )
+
+            [30] => Array
+                (
+                    [cdata] =>  www.example.com
+                )
+
+            [31] => E__ALIAS
+            [32] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [33] => E__ENTRY
+        )
+
+ </programlisting>
+ </blockquote>
+
+  <formalpara><title></title><para>
+  </para></formalpara>
+
+
+ <blockquote><title role="code">XML_PullParser_getElement("server")</title>
+ <anchor id="getElement" />
+ <programlisting>
+        Array
+        (
+            [0] => S__SERVER
+            [1] => Array
+                (
+                    [IP] => 192.168.10.1
+                )
+
+            [2] => Array
+                (
+                    [cdata] =>  example_1.com
+                )
+
+            [3] => E__SERVER
+            [4] => S__SERVER
+            [5] => Array
+                (
+                    [IP] => 192.168.10.2
+                )
+
+            [6] => Array
+                (
+                    [cdata] =>  example_2.com
+                )
+
+            [7] => E__SERVER
+            [8] => S__SERVER
+            [9] => Array
+                (
+                    [IP] => 192.168.10.3
+                )
+
+            [10] => Array
+                (
+                    [cdata] =>  example_3.com
+                )
+
+            [11] => E__SERVER
+        )
+         </programlisting>
+ </blockquote>
+
+  <formalpara><title></title><para>
+  </para></formalpara>
+
+
+ <blockquote><title role="code">XML_PullParser_getChild('server',$which,$token)</title>
+ <anchor id="getChild" />
+ <programlisting>
+        Array
+        (
+            [0] => S__SERVER
+            [1] => Array
+                (
+                    [IP] => 192.168.10.1
+                )
+
+            [2] => Array
+                (
+                    [cdata] =>  example_1.com
+                )
+
+            [3] => E__SERVER
+        )
+
+ </programlisting>
+ </blockquote>
+
+  <blockquote role="box"><title>Notes for XML_PullParser_getChild</title>
+    <simplelist type='vert' columns='1'>
+       <member>This function extracts the $which_th element and all its descendents.
+      </member>         
+       <member>
+       See the class
+      <ulink url="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_getChild">documentation</ulink>
+      for details.  
+      </member>
+
+    </simplelist>
+  </blockquote> 
+
+ <blockquote><title role="code">XML_PullParser_getChildren 
+        <![CDATA[<span style="color:black">and </span>]]>XML_PullParser_getChildrenFromName</title>
+ <anchor id="getChildren" />
+ <programlisting>
+        Array
+        (
+            [0] => Array
+                (
+                    [0] => S__SERVER
+                    [1] => Array
+                        (
+                            [IP] => 192.168.10.1
+                        )
+
+                    [2] => Array
+                        (
+                            [cdata] =>  example_1.com
+                        )
+
+                    [3] => E__SERVER
+                )
+
+            [1] => Array
+                (
+                    [0] => S__SERVER
+                    [1] => Array
+                        (
+                            [IP] => 192.168.10.2
+                        )
+
+                    [2] => Array
+                        (
+                            [cdata] =>  example_2.com
+                        )
+
+                    [3] => E__SERVER
+                )
+
+            [2] => Array
+                (
+                    [0] => S__SERVER
+                    [1] => Array
+                        (
+                            [IP] => 192.168.10.3
+                        )
+
+                    [2] => Array
+                        (
+                            [cdata] =>  example_3.com
+                        )
+
+                    [3] => E__SERVER
+                )
+
+        )
+
+     </programlisting>
+ </blockquote> 
+
+  <blockquote role="box"><title>Notes for XML_PullParser_getChildren and XML_PullParser_getChildrenFromName</title>
+    <simplelist type='vert' columns='1'>
+       <member>
+        See the discussion of these 
+       <ulink url="XML_PullParserCodingStrategies_5.xml#getChildren">functions</ulink> in the section on tokenized arrays.
+      </member>         
+    </simplelist>
+  </blockquote> 
+  <formalpara><title></title><para>
+  </para></formalpara>
+
+  <formalpara><title><emphasis>Namespace Support</emphasis></title><para>
+ <anchor id="namespace" />
+  The following token was returned by <code>XML_PullParser_getToken</code>
+  using the <ulink url="XML_PullParser_NS_2.xml#movies_xml">Movies document.</ulink>
+  It illustrates how namespaces are coded into each element's attribute array.
+  Every element which has been asigned a namespace has an <emphasis>_ns_</emphasis>
+  attribute, which points to a single element associative array.  This makes it possible
+  to use PHP's built-in <code>array_key_exists</code> to test for namespace agreement, which
+  is more precise and more efficient than string comparisons.
+  </para></formalpara>
+
+  <formalpara><title></title><para>
+  In the case of attributes
+  found in the XML document, the namespace URI is prefixed to the attribute name with a verticle
+  bar.  Consequently attributes cannot be accessed by name directly, unless 
+  an accomodation is made for the namespace prefix.
+  </para></formalpara>
+
+ <blockquote><title role="code">A Token Illustrating Namespaces</title>
+
+
+ <programlisting>
+
+Array
+(
+    [0] => S__MOVIE
+    [1] => Array
+        (
+            [_ns_] => Array
+                (
+                    [HTTP://FEDORA.GEMINI.CA/LOCAL/] => 1
+                )
+
+        )
+
+    [2] => Array
+        (
+            [cdata] =>
+
+        )
+
+    [3] => S__TITLE
+    [4] => Array
+        (
+            [_ns_] => Array
+                (
+                    [HTTP://ROOM535.ORG/MOVIES/TITLE/] => 1
+                )
+
+        )
+
+    [5] => Array
+        (
+            [cdata] => Gone With The wind
+        )
+
+    [6] => E__TITLE
+    [7] => Array
+        (
+            [cdata] =>
+
+        )
+
+    [8] => S__DATE
+    [9] => Array
+        (
+            [HTTP://ROOM535.ORG/MOVIES/DATES/|DAY] => 25
+            [HTTP://ROOM535.ORG/MOVIES/DATES/|MONTH] => Apr
+            [_ns_] => Array
+                (
+                    [HTTP://ROOM535.ORG/MOVIES/DATES/] => 1
+                )
+
+        )
+
+    [10] => Array
+        (
+            [cdata] => 1939
+        )
+
+    [11] => E__DATE
+    [12] => Array
+        (
+            [cdata] =>
+
+        )
+
+    [13] => S__LEADING_LADY
+    [14] => Array
+        (
+            [_ns_] => Array
+                (
+                    [HTTP://ROOM535.ORG/MOVIES/STAR/] => 1
+                )
+
+        )
+
+    [15] => Array
+        (
+            [cdata] => Vivien Leigh
+        )
+
+    [16] => E__LEADING_LADY
+    [17] => Array
+        (
+            [cdata] =>
+
+        )
+
+    [18] => S__LEADING_MAN
+    [19] => Array
+        (
+            [_ns_] => Array
+                (
+                    [HTTP://ROOM535.ORG/MOVIES/STAR/] => 1
+                )
+
+        )
+
+    [20] => Array
+        (
+            [cdata] => Clark Gable
+        )
+
+    [21] => E__LEADING_MAN
+    [22] => Array
+        (
+            [cdata] =>
+
+        )
+
+    [23] => E__MOVIE
+)
+
+     </programlisting>
+ </blockquote> 
+
+
+
+  <!-- blockquote role="box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+        <member></member>
+        <member></member>
+    </simplelist>
+  </blockquote
+--> 
+  <simpara role="hr"></simpara>
+  <formalpara><title></title><para>
+  <ulink type="prev" url="XML_PullParser_Errors.xml">Errors Module</ulink>
+  <ulink type = "next" url="XML_PullParser_index.xml">Index</ulink>
+  </para></formalpara>    
+
+  <formalpara><title></title><para></para></formalpara><formalpara><title></title><para></para></formalpara>
+
+</article>
+
+

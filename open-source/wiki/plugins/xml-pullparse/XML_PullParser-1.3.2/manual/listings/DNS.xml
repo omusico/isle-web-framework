@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE DNS [
+<!ELEMENT DNS (ENTRY)>
+<!ELEMENT ENTRY (ipaddress,domain,server+,alias)>
+<!ELEMENT ipaddress (#PCDATA)>
+<!ELEMENT domain (#PCDATA)>
+<!ELEMENT server (#PCDATA)>
+<!ELEMENT alias (#PCDATA)>
+<!ATTLIST server ip CDATA #REQUIRED>
+]>
+
+<DNS>
+<ENTRY> 
+<ipaddress>172.20.19.6</ipaddress> 
+<domain>example.com</domain> 
+<server ip="192.168.10.1">example_1.com</server> 
+<server ip="192.168.10.2">example_2.com</server> 
+<server ip="192.168.10.3">example_3.com</server> 
+<alias>www.example.com</alias> 
+</ENTRY> 
+</DNS>

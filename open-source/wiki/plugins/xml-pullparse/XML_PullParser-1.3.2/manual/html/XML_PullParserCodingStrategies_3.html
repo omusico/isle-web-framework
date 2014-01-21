@@ -1,0 +1,249 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Strategies 3: $which and XML_PullParser_getSequence</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para">
+   <h4  style="left:35px">array  XML_PullParser_getSequence  ([array $el = ""], [mixed $args = ""])</h4>
+</p></div>
+
+<p><div class="para">
+   <span class='code'>XML_PullParser_getSequence</span>  is designed to work with the functions that
+  use the  <span class='code'>$which</span>  parameter.  It takes two optional parameters.
+</p></div>
+
+<p><div class="para"><A Name='getSequence'></a>
+<!--   REPLACEMENT MADE -->
+
+
+
+  The first parameter must be a tokenized array, which is
+  an array returned by   <span class='code'>XML_PullParser_getToken,</span>
+   <span class='code'>XML_PullParser_getElement,</span>   <span class='code'>XML_PullParser_getChild,</span>
+  or one of several other token-returning functions. <span class='super'>1</span>
+  If this parameter is absent, then the function will first look for the  <span class='code'>$current_element</span>
+  and if that hasn't been set then it will use the current token. One or both of these
+  will have been
+   <A href="XML_PullParserCoding_3.html#selectors_2">preset internally.</A> <span class='super'>2</span>
+</p></div>
+
+<p><div class="para">
+   The second parameter is a list of elements for inclusion in the returned sequence array.
+   It is either a variable length list of names or an array of names.  These will all be strings.
+   If this parameter is absent then all the elements found in the first parameter
+   (or the internal default array) are included in the returned array.
+</p></div>
+
+<p><div class="para">
+   The return value is a numerically indexed array whose elements are associate arrays which
+   store the names of the selected elements and their positions in the document. See the
+    <A href="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_getSequence">
+   documentation</A>  for this method.
+</p></div>
+
+<p><div class="para">
+    This method silently resets the  <span class='code'>$current_element</span>  to the tokenized array from which
+    creates its sequencing array.  You can set it back to its original value by saving the
+     <span class='code'>$current_element</span>  and calling  <span class='code'>XML_PullParser_resetCurrentElement()</span>  with the
+    saved value.  The original value of the  <span class='code'>$current_element</span>  is also saved internally by
+     <span class='code'>XML_PullParser_getSequence</span>  in  <span class='code'>$_save_current_element,</span>  so that the
+    following call will also do the reset:
+    <h4  style="left:25px">$parser->XML_PullParser_resetCurrentElement($parser->_save_current_element)</h4>
+</p></div>
+
+<p><div class="para">
+</p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+Following are a number of examples of how to use  <span class='code'>XML_PullParser_getSequence</span> .
+The first of these illustrates its use in conjunction with  <span class='code'>XML_PullParser_getElement</span> . <span class='super'>3</span>
+(We are still using the  <A href="XML_PullParserCoding_1.html#example_1">DNS</A>
+example.)
+</p></div>
+
+<A Name='listing_10'><p><div class="block"><A Name="listing_10"></A><center><b><span class="code_title" style="font-style:italic;">Listing 10</span></b></center>
+<pre>
+ 1.    $tags = array("entry");
+ 2.   $child_tags = array("server","ipaddress", "domain");
+ 3.
+ 4.   $parser = new XML_PullParser_doc($doc,$tags,$child_tags);
+ 5.
+ 6.   while($token = $parser->XML_PullParser_getToken())
+ 7.   {
+ 8.     $parser->XML_PullParser_getElement('server');
+ 9.     $seq =  $parser->XML_PullParser_getSequence();
+10.
+11.     for($i=0; $i  &lt; count($seq); $i++) {
+12.          list($server, $which) = each($seq[$i]);
+13.
+14.          $name = $parser->XML_PullParser_getText($server,$which);
+15.          echo "Name: $name\n";
+16.
+17.          $ip = $parser->XML_PullParser_getAttributes($server,$which);
+18.          echo "\tIP: " . $parser->XML_PullParser_getAttrVal('ip', $ip) . "\n";
+19.      }
+10.
+21.    }
+
+/*
+ Result
+        Name:  example_1.com
+                IP: 192.168.10.1
+        Name:  example_2.com
+                IP: 192.168.10.2
+        Name:  example_3.com
+                IP: 192.168.10.3
+*/
+
+</pre></div>
+<p><div class="para">
+    Line 8 stores the three  <span class='emphasis'>server</span>  elements in the  <span class='code'>$current_element,</span>
+    and line 9 creates the sequence array, which we then loop through. Each element in the
+    array is in turn an associative array of the form:   <h4  style="left:290px">Element_Name => $which</h4>
+    In the present case, the first element would be "SERVER" => 1, the second "SERVER" => 2, etc.  In line 14
+    the element name and its  <span class='emphasis'>which</span>  value are passed into
+     <span class='code'>XML_PullParser_getText</span>  and in line 17 they are passed into
+     <span class='code'>XML_PullParser_getAttributes.</span>   Therefore, the two functions know the name
+    of the element to address-- <span class='emphasis'>server</span> -- and which element in the sequence of
+     <span class='emphasis'>server</span>  elements.
+</p></div>
+
+<p><div class="para">
+   To treat all of the elements in  <span class='emphasis'>Entry,</span>  we would not call  <span class='code'>XML_PullParser_getElement.</span>
+   In that case, if  <span class='code'>XML_PullParser_getSequence</span>  is not passed the array parameter, it returns
+   a sequencing array based on   <A href="#getSequence">the current token.</A>
+    <span class='emphasis'>Listing 11</span>  shows how this might be implemented using a  <span class='code'>switch</span>  statement.
+</p></div>
+
+<A Name='listing_11'><p><div class="block"><A Name="listing_11"></A><center><b><span class="code_title" style="font-style:italic;">Listing 11</span></b></center>
+<pre>
+ 1.    while($token = $parser->XML_PullParser_getToken())
+ 2.    {
+ 3.
+ 4.      $seq =  $parser->XML_PullParser_getSequence();
+ 5.
+ 6.       for($i=0; $i  &lt; count($seq); $i++) {
+ 7.          list($element, $which) = each($seq[$i]);
+ 8.
+ 9.          switch($element) {
+12.            case 'IPADDRESS':
+13.                echo "$element: $which\n";
+14.                echo $parser->XML_PullParser_getText($element,$which) . "\n";
+15.                break;
+16.            case 'SERVER':
+17.                echo "$element: $which\n";
+18.                echo $parser->XML_PullParser_getText($element,$which) . "\n";
+19.                $ip = $parser->XML_PullParser_getAttributes($element,$which);
+20.                echo "\tIP: " . $parser->XML_PullParser_getAttrVal('ip', $ip) . "\n";
+21.                break;
+22.            case 'DOMAIN':
+23.                echo "$element: $which\n";
+24.                echo $parser->XML_PullParser_getText($element,$which) . "\n";
+25.                break;
+26.            case 'ALIAS':
+27.                echo "$element: $which\n";
+28.                echo $parser->XML_PullParser_getText($element,$which) . "\n";
+29.                break;
+30.            default:
+31.                echo "default: $element: $which\n";
+32.
+33.         }
+34.      }
+35.
+35.   }
+
+/* Result
+    default: ENTRY: 1
+    IPADDRESS: 1
+     172.20.19.6
+    DOMAIN: 1
+     example.com
+    SERVER: 1
+     example_1.com
+            IP: 192.168.10.1
+    SERVER: 2
+     example_2.com
+            IP: 192.168.10.2
+    SERVER: 3
+     example_3.com
+            IP: 192.168.10.3
+    ALIAS: 1
+     www.example.com
+*/
+
+</pre></div>
+<p><div class="para">
+  It is worth noting here that the  <span class='code'>switch</span>  statement use upper case for each of the  <span class='code'>case</span>
+  statements.  The PHP XML facility defaults to upper case for all element and attribute names.  This can
+  be changed in  <span class='classname'>XML_PullParser</span>  by calling the package level function
+   <A href="../doc/XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_caseSensitive">XML_PullParser_caseSensitive</A>  with a value of
+   <span class='emphasis'>true.</span> <span class='super'>4</span>
+</p></div>
+
+<p><div class="para"></p></div>
+
+
+<!--   REPLACEMENT MADE -->
+<table border=1 bgcolor='#ffffff' width = 750 cellpadding ='6'>
+<tr><th align='left' class='white_block'>Notes<tr><td class='white_block'>1. See  <A href="XML_PullParserCodingStrategies_5.html">Tokenizing Functions</A></td>
+<tr><td class='white_block'>2. The array parameter is required only if the second parameter is absent.</td>
+<tr><td class='white_block'>3. A typical procedure would be to call  <span class='code'>XML_PullParser_getElement</span>  to select
+        the elements of interest and then to call this function without any parameters.</td>
+<tr><td class='white_block'>4. It's possible to test for case using the class method
+         <A href="../doc/XML_PullParser/XML_PullParser.html#XML_PullParser_isCaseFolded">XML_PullParser_isCaseFolded</A></td>
+</table>
+<p><div class="para"></p></div>
+
+
+<!--   REPLACEMENT MADE -->
+<table border=1 bgcolor='#eeeeee' width = 750 cellpadding ='6'>
+<tr><th align='left' class='block'>Commentary<tr><td class='block'>If  <span class='code'>XML_PullParser_getElement</span>  has been called and one wishes to treat the entire
+         <span class='emphasis'>Entry</span>  structure, then pass  <span class='code'>XML_PullParser_getSequence</span>  the token
+        returned from  <span class='code'>XML_PullParser_getToken.</span>  Or, make the
+        <A href="XML_PullParserCoding_3.html#selectors_2">current token</A>
+        the  <span class='code'>$current_element</span>
+        by calling:  <span class='code'>XML_PullParser_resetCurrentElement($token).</span></td>
+<tr><td class='block'>In the case of a complex database with mulitple repeated element names
+        (like the DNS whois database), it is possible to gobble up the entire entry, as
+        in  <span class='emphasis'>Listing 11</span> ,
+        and then to successively shift the focus of interest by calling  <span class='code'>XML_PullParser_getElement</span>
+        with the appropriate element name,
+        and then to use the result from  <span class='code'>XML_PullParser_getSequence</span>  to sequence through
+        the multiples of that element.</td>
+<tr><td class='block'>It's instructive to note that the result in  <span class='emphasis'>Listing 11</span>  occurs
+        in document order, beginning with  <span class='emphasis'>Entry</span>  and ending with  <span class='emphasis'>Alias.</span></td>
+</table>
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParserCodingStrategies_2.html'>Strategies 2: the 'which' parameter</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParserCodingStrategies_4.html' class='navigation'>Strategies 4: Nested Selecting</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+

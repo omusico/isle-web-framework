@@ -1,0 +1,54 @@
+This is a macro substitution plugin which enables substitutions of both words and longer
+strings of text.
+
+Basic Syntax:  #@Macro_Name@#
+
+It provides an administrative panel which makes for simple adding, editing and deletion
+of macros.
+
+Much of the functionality of this plugin can be more easily implemented with Dokuwiki's
+own entities facility: http://www.dokuwiki.org/entities.  The advantage of TextInsert
+comes when dealing with extended blocks of text and with its ability to include other
+macros inside the primary macro definition. That is, it can accept:
+
+MACRO_1  This macro can include #@MACR0_2@# inside it.
+MACRO_2  a second macro
+
+The result is:
+    This macro can include a second macro inside it.
+    
+It accepts only one level of macro inclusion, so that if MACRO_3 were included in
+MACRO_2, MACRO_3 would not be rendered.
+
+The macro definitions will also accept entities defined dokuwiki's conf/entities.conf and
+user-defined entities conf/entities.local.conf.  Entities will be replaced in both the
+primary and the included macros.
+
+HTML Support
+#Macro_HTML@#
+A macro name with the _HTML suffix will be output as HTML, whereas without the _HTML suffix the
+HTML markup will be treated as literals.  With it, <p> creates a paragraph; wthout it the <p>
+markup is printed to the screen.
+
+Translation Support
+#@LANG_name@#
+If a macro has this format, textinsert checks the file's namespace for a language specified
+as an ISO abbreviation,  for instance nl for Dutch or de for German -- as in de:my_file.  If it finds
+a language specification, it will check the textinsert/lang directory for a lang.php file in the relevant
+language directory, for instance lang/de/lang.php.  It will then look for a $lang['name'] entry and if
+it finds one, it will substitute this for the macro. Otherwise, it will substitute the entry for 
+LANG_name in the textinsert database.  So, there must be a default entry in that database.
+
+Translation macros can be embeded in other macros, including other translation macros.
+And other macros can emdedded in translation macros.  They also accept entities, as
+described above.
+
+For HTML output, HTML tags are accepted in translation macros, but for the HTML
+to become effective, these must be included in a standard HTML macro definition
+string. In effect, they must be doubly bound to the HTML   
+
+See http://dokuwiki.org/plugin:textinsert for further information.
+
+ 
+
+

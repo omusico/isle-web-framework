@@ -1,0 +1,15 @@
+<!DOCTYPE para PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+    "http://fedora.gemini.ca/XML/docbook-4.3/docbookx.dtd">
+<para>
+   <simplelist type='vert' columns='1'>
+      <member>array XML_PullParser_childXCL (array $parent, [mixed $args = ""])</member>
+      <member>
+        array XML_PullParser_getChild (string $child, [integer $which = 1], [array $el = ""])
+     </member>
+      <member>array XML_PullParser_getElement (string $el)</member>
+      <member>array XML_PullParser_getEscapedToken ()</member>
+      <member>array XML_PullParser_getToken ()</member>
+      <member>array XML_PullParser_nextElement ()</member>
+  </simplelist>
+</para>
+

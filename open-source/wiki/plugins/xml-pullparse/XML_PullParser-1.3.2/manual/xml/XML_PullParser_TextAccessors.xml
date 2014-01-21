@@ -1,0 +1,551 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+     <!ENTITY nbsp  "&#160;">  
+    ] 
+>
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Text Accesors</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+         <firstname>Myron</firstname>
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+
+ 
+
+   <formalpara><title></title><para>
+  There are four text accessors in <classname>XML_PullParser:</classname>
+  </para></formalpara>
+
+
+   
+
+   <formalpara role="list"><title></title><para>
+   <simplelist type='vert' columns='1'>
+   <member>
+        string XML_PullParser_getText ([mixed $el = ""], [integer $which = 0])
+   </member>
+   <member>
+        arrray XML_PullParser_getTextArray (mixed $el)
+   </member>
+   <member>
+        string XML_PullParser_getTextMarkedUp (array $mark_up, [mixed $el = ""])
+   </member>
+   <member>
+        string XML_PullParser_getTextStripped ([mixed $el = ""])
+   </member>
+    </simplelist>
+  </para></formalpara>
+
+
+ <formalpara><title></title><para>
+All the text accessors return either <code>Null</code> or an empty string or array if no data is available.
+All of these methods are well documented in the Class Documentation, which should be consulted in addition 
+to this manual.
+</para></formalpara>
+
+ <formalpara><title><emphasis>1. XML_PullParser_getTextStripped</emphasis></title><para>
+
+ <code>XML_PullParser_getText</code> and <code>XML_PullParser_getTextArray</code> are front-ends for
+ <code>XML_PullParser_getTextStripped.</code>  Therefore, an understanding of this method will
+ aid in the understanding of the other two.
+</para></formalpara>
+ <formalpara><title></title><para> 
+ <anchor id="gTS_param" />
+ <code>XML_PullParser_getTextStripped</code> takes one parameter, which can be either a tokenized array or the name of an element.
+ If a name is passed in, or if no parameter is passed in, then it assumes that the subject of
+ the request is either the <code>$current_element</code> or the current token.<superscript>1</superscript>
+ <![CDATA[&nbsp;]]>If a token is passed in then it uses the token.  Its defining characteristic is
+ that is does not observe element boundaries.  It returns a concatenated string made up of all the
+ text found in the token.  This includes the text of all children, and descendent elements.
+ It includes as well all white space separating element from element, and white space includes
+ new-lines.  The default delimiter between the concatenated members of this string is a single
+ space character.  This can be changed using
+   <token>string   XML_PullParser_setDelimiter  (string $delimiter)</token> 
+ The returned string is the old delimiter, which can then be reset, if necessary, with
+ a second call to <code>XML_PullParser_setDelimiter.</code>
+</para></formalpara>
+   
+ 
+<formalpara role="list">
+<title></title>
+<para><anchor id="cdata_modifiers" />
+ The text returned by <code>XML_PullParser_getTextStripped</code> is subject to the CDATA modifiers:
+   <simplelist type='vert' columns='1'>
+   <member>
+        <code>void   XML_PullParser_excludeBlanks  (boolean $bool)</code>
+        <![CDATA[<BR>Setting this to true will exclude all text lines which consist solely of white space.]]>
+   </member>
+   <member>
+        <code>void   XML_PullParser_excludeBlanksStrict  (boolean $bool)</code>
+       <![CDATA[<BR>Setting this to true  will exclude all text lines which do not have alphanumeric characters,
+         <br> hyphen, and underscore, ie. do not satify the the regular expression <span class="code">'/\w+/'</span>]]>
+   </member>
+   <member>
+        <code>void   XML_PullParser_trimCdata  (boolean $bool)</code>				
+       <![CDATA[<BR>Setting this to true will cause all text extracted from each element to be passed through
+        <br> the PHP trim function.]]>
+   </member>
+    </simplelist>
+ </para></formalpara>
+
+
+
+  <formalpara><title></title><para>In the following example the <![CDATA[&lt;emphasis>]]> element is concatenated with the  
+  first &lt;News_item> element and both with the second &lt;News_item>; they are separated
+  by the default delimiter, a single space:
+ </para></formalpara>
+
+ <simpara>   
+ XML:  
+   <![CDATA[&lt;News_item> ]]>
+           There was a <![CDATA[&lt;emphasis>big&lt;/emphasis>]]> rainstorm last night.
+   <![CDATA[&lt;/News_item> ]]>
+   <![CDATA[&lt;News_item>]]>It rained cats and dogs<![CDATA[&lt;/News_item>]]>
+
+ Result: There was a <![CDATA[<b style="font-size: 13pt;">big</b>]]> rainstorm last night. It rained cats and dogs! 
+  </simpara>
+
+ <formalpara><title></title><para>For more examples and further detail see the class
+ <ulink url="../doc/XML_PullParser/XML_PullParser.html#XML_PullParser_getTextStripped">documentation.</ulink>
+</para></formalpara>
+
+<formalpara><title><emphasis>2. XML_PullParser_getTextArray</emphasis></title><para>
+This method is a front-end to <code>XML_PullParser_getTextStripped.</code>
+It returns an array of the strings in the element specified in the parameter, which
+is required and which is either a tokenized array or a string and is treated exactly the same
+as the <ulink url="#gTS_param">parameter</ulink> to <code>XML_PullParser_getTextStripped.</code>
+</para></formalpara>
+
+ <formalpara><title></title><para>
+This method takes advantage of the fact that <code>XML_PullParser_getTextStripped</code> ignores
+element boundaries and returns a concatenated string of texts separated by a pre-set delimiter.
+It changes the delimiter to <code>';;'</code> by calling <code> XML_PullParser_setDelimiter(';;');</code>
+then it creates the array by calling explode on the string.  It then resets the delimiter to
+its old value.   Obviously, this means that if a database uses a double semi-colon, 
+this method will not work correctly, but it can be easily enough duplicated.
+</para></formalpara>
+
+ <formalpara><title></title><para>
+Let's assume the following database to demonstrate <code>XML_PullParser_getTextArray.</code>
+</para></formalpara>
+
+<blockquote><title>Example 1: Movies.xml</title>
+<programlisting>
+<![CDATA[&lt;Movies>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;Movie>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Title>Gone With The wind&lt;/Title>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;date>1939&lt;/date>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_lady>Vivien Leigh&lt;/leading_lady>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_man>Clark Gable&lt;/leading_man>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Movie>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;Movie>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Title>How Green Was My Valley&lt;/Title>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;date>1941&lt;/date>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_lady>Maureen O'Hara&lt;/leading_lady>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_man>Walter Pidgeon&lt;/leading_man>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Movie>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;Movie>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Title>Jurassic Park&lt;/Title>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;date>1993&lt;/date>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_lady>Laura Dern&lt;/leading_lady>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_man>Sam Neil&lt;/leading_man>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Movie>
+&lt;/Movies>
+ ]]>
+</programlisting>
+ </blockquote>
+
+ <formalpara><title></title><para>
+To get all the titles from <![CDATA[ <I>Movies.xml</I>]]>, all that's necessary is the following call:
+   <token>$parser->XML_PullParser_getTextArray("Title")</token>
+The technique is demonstrated in <emphasis>Listing 17:</emphasis>
+</para></formalpara>
+
+<blockquote><title role="code">Listing 17</title>
+<programlisting>
+
+1.    $tags = array("Movies");
+2.    $child_tags = array();
+3.
+3.    $parser = new XML_PullParser("Movies.xml", $tags,$child_tags);
+5.
+6.    $token = $parser->XML_PullParser_getToken(); 
+7.
+8.    $text_array = $parser->XML_PullParser_getTextArray("Title");
+9.    print_r($text_array);
+
+/*
+ Result
+    Array
+    (
+        [0] => Gone With The wind
+        [1] => How Green Was My Valley
+        [2] => Jurassic Park
+    )
+*/
+
+</programlisting>
+ </blockquote>
+
+ <formalpara><title></title><para>
+One precautionary note.  Given the current coding, the following call
+will not return the expected result:
+ <token>$parser->XML_PullParser_getTextArray("Title")</token>
+The expected result is:
+</para></formalpara>
+<simpara>
+<![CDATA[
+<PRE>Array
+    (
+        [0] => Gone With The wind
+        [1] => 1939
+        [2] => Vivien Leigh
+        [3] => Clark Gable
+        [4] => How Green Was My Valley
+        [5] => 1941
+        [6] => Maureen O'Hara
+        [7] => Walter Pidgeon
+        [8] => Jurassic Park
+        [9] => 1993
+        [10] => Laura Dern
+        [11] => Sam Neil
+    )
+    </PRE>
+]]> 
+</simpara>
+
+ <formalpara><title></title><para>
+But instead we get:
+</para></formalpara>
+
+<simpara>
+<![CDATA[
+<PRE>Array
+(
+    [0] =>
+
+    [1] =>
+
+    [2] => Gone With The wind
+    [3] =>
+
+    [4] => 1939
+    [5] =>
+
+    [6] => Vivien Leigh
+    [7] =>
+     &bull;
+     &bull;
+     &bull;
+)
+]]>  
+</simpara>
+
+ <formalpara><title></title><para>
+The empty array elements represent new-lines, and we can see that's the case since there is no new-line
+between elements [2] and [3] or elements  [4] and [5].  What's required here is a call to
+<code>XML_PullParser_excludeBlanksStrict</code> with a value of <emphasis>true.</emphasis>  That
+gets rid of all the blank elements and gives the expected result.
+</para></formalpara>
+
+
+
+
+<!--   3. XML_PULLPARSER_GETTEXT  -->
+
+ <formalpara><title><emphasis>3. XML_PullParser_getText</emphasis></title><para>
+<anchor id="get_Text" />
+
+All calls to this method are eventually passed on to <code>XML_PullParser_getTextStripped.</code>
+<code>XML_PullParser_getText</code> identifies and prepares the element which will be passed in
+to <code>XML_PullParser_getTextStripped,</code> and that method then returns all the text found
+in the element in accordance with the rules that govern its return values.
+
+</para></formalpara>
+ <formalpara><title></title><para>
+<code>XML_PullParser_getText</code> takes three optional parameters, <code>$el,</code>
+which is a tokenized element (an array) or its name (a string), a
+<code>$which</code> value, and  the boolean <code>$xcl.</code> In its default state, none of these parameters are passed in and
+it uses either the <code>$current_element</code> or the current token, whichever is currently operative, 
+together with a <code>$which</code> value of zero and an <code>$xcl</code> value of FALSE. 
+</para></formalpara>
+
+ <formalpara><title></title><para>
+The following listing demonstrates the use of the defaults;
+it uses the DNS <ulink url="XML_PullParserCoding_1.xml#example_1">example</ulink>
+we've worked with throughout.
+</para></formalpara>
+
+<blockquote><title role="code">Listing 18</title>
+ <anchor id="listing_18" />
+  <programlisting>
+ 1.   $tags = array("entry");
+ 2.   $child_tags = array("server","domain");
+ 3.
+ 4.    $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);     
+ 5.
+ 6.    $parser->XML_PullParser_getToken();
+ 7.    echo $parser->XML_PullParser_getText() . "\n";
+ 8.
+ 9.    $el = $parser->XML_PullParser_getElement("server");
+10.    echo $parser->XML_PullParser_getText() . "\n";
+11.
+12.
+13.    $parser->XML_PullParser_getElement("domain");
+14.    echo $parser->XML_PullParser_getText() . "\n";
+
+/*
+Result
+ 
+     172.20.19.6
+      example.com
+      example_1.com
+      example_2.com
+      example_3.com
+      www.example.com
+
+     example_1.com example_2.com example_3.com
+     example.com
+*/
+
+  </programlisting>
+</blockquote>
+
+ <formalpara><title></title><para>
+ Line 6 retrieves the entire <emphasis>Entry</emphasis> element and all of its children, and these
+ are output on line 7, giving us the first block of the Result section.  This consists of everything
+ included in the element and all of the white space, which is why the result appears on separate
+ lines.  Had we called <code>XML_PullParser_excludeBlanks(true)</code> the result would have
+ appeared as a single line of text: 
+<token>172.20.19.6 example.com example_1.com example_2.com example_3.com www.example.com
+</token>
+ The result from the call to <code>XML_PullParser_getElement('server')</code> in line 9 appears
+ on a single line, because <code>XML_PullParser_getElement</code> incorporates into the token
+ only the <emphasis>server</emphasis> elements.  In this case, any whitespace found within the elements 
+ themselves would appear in the result but not the whitespace separating element from element. 
+ It's the latter, with its new-lines,  which causes the texts derived from the
+ <code>$converted_token</code> created by <code>XML_PullParser_getToken</code>
+ to be printed on separate lines.
+</para></formalpara>
+ <formalpara><title></title><para>
+  The call to <code>XML_PullParser_getElement('domain')</code> in line 13 
+ yields <token>example.com</token>
+ because there is only one <emphasis>domain</emphasis> element in the XML document. Had there been more than
+ one <emphasis>domain</emphasis> element we would have to use the <code>$which</code> parameter to 
+ single out  the desired <emphasis>domain</emphasis> element.  The same mechanism applies, of course, to
+ the server elements.
+</para></formalpara>
+
+
+<formalpara><title><emphasis>A Closer Look at the Parameters to XML_PullParser_getText</emphasis></title><para>
+
+The element parameter (<emphasis>$el</emphasis>)  passed in to <code>XML_PullParser_getText</code> can be either a string,
+which is the name of an element, or a tokenized array.  
+<![CDATA[<OL><LI>]]>
+If the element parameter is the name of an element,
+then either the <code>$current_element</code> or the current token will be searched for the named element,
+depending on which is currently operative. 
+The method returns the <emphasis>which_th</emphasis> instance of that element.  If <code>$which = 0,</code>
+it will return the texts from all instances of the named element found in the token.
+
+
+<![CDATA[<LI>]]>
+If the element parameter is a tokenized array, the method will
+return the character data from <emphasis>which_th</emphasis> element found in the array. 
+If  <code>$which = 0,</code> it will return all the character data found in the array.
+This is the rule which governs the output of line 6 in <emphasis>Listing 16</emphasis> above.
+That is, no parameters are passed into the method, so that the the default token becomes the entire
+<![CDATA[&lt;ENTRY> array]]> and <code>$which</code> defaults to zero.  Therefore, all the
+character data found in the default token is returned--all parents, all descendents,
+
+<![CDATA[</OL>]]>
+
+The difference between the two sets of returned values arises out of what the method knows.  In the first
+case, it knows the name of the element and can therefore search the default token for one of more instances
+of the named element.  In the second case, it doesn't have the name of an element.  Therefore, if
+it's passed a <code>$which</code> value of 1, it returns the character data of the first element,
+regardless of its name. 
+
+</para></formalpara>
+
+<formalpara><title></title><para>
+The third parameter to <code>XML_PullParser_getText</code> is the boolean <![CDATA[<b>$xcl</b>.]]>
+This parameter plays a part only in the handling of arrays, that is where <code>$el</code> is a
+tokenized array or one of the two default tokens.  It defaults to FALSE.  But when it is set to TRUE,
+the subject array is filtered through 
+<ulink url = "../doc/XML_PullParser/XML_PullParser.html#XML_PullParser_childXCL">XML_PullParser_childXCL.</ulink> 
+This means that all descendent elements are removed and that we are left with an array consisting 
+solely of the parent or of elements with the same name as the first top-level element
+and which are themselves not descendents of any other element.  
+
+</para></formalpara>
+
+
+<formalpara><title></title><para>
+
+</para></formalpara>
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+ <formalpara><title></title><para>
+This is a complex function and it might be worthwhile to look at the class 
+<ulink url="../doc/XML_PullParser/XML_PullParser.html#XML_PullParser_getText">documentation.</ulink> In addition,
+<ulink url="../html/Listing_23.phps">Listing_23.php</ulink>
+ and
+<ulink url="../html/Listing_24.phps">Listing_24.php</ulink> 
+in the manual/listings directory demonstrate the variety of parameter
+combinations and their results.  
+To see their output, click on these links:&nbsp;<ulink url="../listings/Listing_23.php">Listing_23.php</ulink> and 
+<ulink url="../listings/Listing_24.php">Listing_24.php.</ulink>
+</para></formalpara>
+
+ <blockquote role="box"><title>Note</title>
+    <simplelist type='vert' columns='1'>
+        <member>
+            Prior to release 1.2.1, if the <code>$el</code> parameter was the name of the default token,
+            <emphasis>Null</emphasis> was returned. In current releases, 
+            if <code>$el</code> is the name of the default token, the behavior is the same as
+            the behavior when an array is passed in as <code>$el.</code> 
+       </member>
+    </simplelist>
+  </blockquote> 
+
+<!--  4. XML_PULLPARSER_GETTEXTMARKEDUP  -->
+
+ <formalpara><title><emphasis>4. XML_PullParser_getTextMarkedUp</emphasis></title><para>
+
+This function is designed for converting streams of XML to HTML. It converts XML elements to
+HTML tags. Otherwise, its functionlity is the essentially the same as
+that of <code>XML_PullParser_getTextStripped,</code> with one exception:  it is not subject to the
+<ulink url="#cdata_modifiers">CDATA  modifiers.</ulink>
+</para></formalpara>
+
+
+   <formalpara><title></title><para>
+  It takes two parameters. The first is the <code>$markup</code> array which maps XML elements to HTML tags, 
+  the second an optional element parameter consisting of either a tokenized array or the name of an element.
+  The element parameter behaves exactly as it does in <code>XML_PullParser_getTextStripped.</code> 
+  The advantage of placing the optional element parameter last is that it can be omitted when one of the
+  two default tokens is being used.<superscript>2</superscript><![CDATA[ &nbsp;]]> All that is needed then is to
+  pass in the <code>$markup</code> array.
+  </para></formalpara>
+
+ <formalpara><title></title><para>
+  </para></formalpara>
+
+   <formalpara role="list"><title></title>
+   <para>
+   The markup array uses four helper methods:
+   <simplelist type='vert' columns='1'>
+   <member>
+        array XML_PullParser_getCSSSpans (array $markup)
+   </member>
+   <member>
+        array XML_PullParser_getHTMLTags (array $markup)
+   </member>
+   <member>
+        array XML_PullParser_getStyledSpans (array $markup, array $attributes)
+   </member>
+   <member>
+        array XML_PullParser_getStyledTags (array $markup, array $attributes)
+   </member>
+    </simplelist>
+    </para></formalpara>
+  
+
+   <formalpara><title></title><para>
+  All the parameters are associative arrays.  In the two "Spans" methods, the <code>$markup</code>
+  arrays map XML element names to HTML class names: 
+  </para></formalpara>
+    <simpara>array("code"=>"code", "emphasis"=>"bold_italic", "classname"=>"cname")</simpara>
+
+  <formalpara><title></title><para>
+  These will create &lt;SPAN> tags with the <emphasis>class</emphasis> attribute set to the
+  the mapped value:
+  </para></formalpara>
+    <simpara><![CDATA[&lt;span class="cname">XML_PullParser&lt;/span>]]></simpara>
+ 
+  <formalpara><title></title><para>
+  In the two "Tags" methods, the <code>$markup</code> arrays map XML element names to 
+  standard HTML tag names: 
+ </para></formalpara>
+    <simpara>array("code"=>"code", "emphasis"=>"b", "classname"=>"i")</simpara>
+    
+
+ <formalpara><title></title><para>The <code>$attributes</code> parameter of the two "Styled" methods allows for additional
+attributes to be inserted in the HTML tags.  For the most part these will be <emphasis>style</emphasis>
+attributes, but technically they can be anything. The <code>$attributes</code> parameters
+are also associative arrays:
+</para></formalpara>
+ <simpara>
+    array("style"=>"font-size: 10pt; text-decoration:underline", 
+        "style"=>"background-color:blue; color: yellow;", "style"="color: #999999">)</simpara>
+
+ <formalpara><title></title><para>
+ The <code>$attributes</code> array has to be sequentially parallel to the <code>$markup</code>
+ array, so that if the above styles were applied to the tags example, the first tag would
+ get the first style, the second tag the second style, etc:
+</para></formalpara>
+ <simpara>
+  <![CDATA[&lt;code style="font-size: 10pt; text-decoration:underline">$markup&lt;/code>]]>
+  <![CDATA[&lt;b style="background-color:blue; color: yellow;">This is BOLD yellow on Blue&lt;/b>]]>
+ </simpara>
+
+ <formalpara><title></title><para>The <code>$markup</code> arrays can be concatenated:
+</para></formalpara>
+ <simpara>
+  $markup =  $parser->XML_PullParser_getCSSSpans(array(. . . .));
+  $markup += $parser->XML_PullParser_getHTMLTags(array(. . . .));
+  $markup += $parser->XML_PullParser_getStyledTags (array(. . . .), array(. . . .));
+
+  $text = $parser->XML_PullParser_getTextMarkedUp($markup);
+ </simpara>
+
+ <formalpara><title></title><para>
+A final point. This manual was written in conformance with the Docbook specification. 
+<code>XML_PullParser_getTextMarkedUp</code>
+has built-in support for the Docbook <emphasis>ulink</emphasis> element
+and will automatically  convert a <emphasis>ulink</emphasis>
+to an HTML <emphasis>A</emphasis> tag:
+</para></formalpara>
+<simpara>
+  <![CDATA[&lt;ulink url="http://XML_PullParse.org/manual.html">Manual&lt;/ulink>]]>
+   <![CDATA[&lt;A href="http://XML_PullParse.org/manual.html">>Manual&lt;/A>]]>
+</simpara>
+
+
+ <formalpara><title></title><para></para></formalpara>
+  <blockquote role="blank_box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+        <member>1. See 
+        <ulink url="XML_PullParserCoding_3.xml#selectors_2">Instantiating the XML_PullParser Object</ulink>
+       </member>
+        <member>2.<code>$current_element</code> or <code>$converted_token</code></member>
+        <member></member>
+    </simplelist>
+  </blockquote> 
+  <simpara role="hr"></simpara>
+   <formalpara><title></title><para>
+   <ulink type="prev" url="XML_PullParserCodingStrategies_5.xml">Token Returning Functions</ulink>
+   <ulink type="next" url="XML_PullParser_AttributeAccessors.xml">Attribute Accessors</ulink>
+</para></formalpara>    
+
+
+   <formalpara><title></title><para></para></formalpara> <formalpara><title></title><para></para></formalpara>
+
+</article>
+
+

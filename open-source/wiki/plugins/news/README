@@ -1,0 +1,79 @@
+Dokuwiki Plugin for creating external newsfeeds.
+
+This plugin will generate a news feed that can be read in a standard news reader (See below for how to generate
+the feed from the plugin markup.) 
+
+-------------------
+Syntax Markup
+
+There are two types of markup.  At the top of a page that holds new items, you must place one of the following:
+
+~~NEWSFEED~~
+~~NEWSFEED:<n>~~
+
+First form: ~~NEWSFEED~~
+If you use the first form, then you bracket your news items with the following markup:
+<news: item_title>
+blah blah
+</news>
+
+<news: another_item>
+blah blah
+</news>
+
+The news reader will use your title for the item. You can omit the title:
+
+<news>
+blah blah
+</news>
+
+In this case the title will default to 'News Item'
+
+Second form: ~~NEWSFEED:<n>~~
+In this form, the news items are generated from material which is preceded by Dokuwiki header markup, and the headers
+become the titles of the news items.  The <n> designates the number of equal signs that mark up your headers.  The plugin will
+create news items from all headers greater than or equal to n.    For instance:
+		~~NEWSFEED:3~~
+will create items from all headers with with three or more equal signs:
+      
+      === header 1 ===	  
+	  ==== header 2 ====
+
+This page is particularly useful if you have a page which is dedicated to news items.  	  
+
+---------------------
+Generating the feed
+Each of the following methods generates an xml news feed in your top level dokuwiki directory.   The news feed file is
+named news_feed.xml.
+
+The main file for generating news feeds is newsfeed.php, which  is found in news/scripts.
+
+1. place newsfeed.php in your top level dokiuwiki directory and use as your feed url:
+            http:/my_web_site.org/my_dokuwiki/newsfeed.php			
+   This method adheres to the ttl (time-to-live) configuration setting (see Options below) and creates a new xml file
+   only after the ttl has expired.   Until the expiry time, it reads and outputs the previously created news_feed.xml.
+  
+  However, you can  force a new feed to be created by method 2 or 3.     
+  
+2. place newsfeed.php in lib/exe and generate the feed from the command line:
+            php newsfeed.php
+			
+3.  open the news admin panel and click on the generate button.			
+			
+If you use method  2 or 3 and do not implement method 1,  then your url must be:
+           http:/my_web_site.org/my_dokuwiki/news_feed.xml
+		   
+		   
+
+---------------
+Configuration Options:
+1. ttl: Number of minutes before a new feed will be automatically generated
+2. title: Feed Title
+3. desc: Feed Description.
+
+---------------------
+
+
+
+
+

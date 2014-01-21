@@ -1,0 +1,22 @@
+The plugin requires the sqlite plugin.  
+
+It also requires an intial git, the path to which is set in in the Dokuwiki
+Configuration Manager 
+
+It has an administrative panel which enables the user to create databases of
+commits from gits specified in the configuration manager and in a config file
+named default.local.ini, located in the conf directory. This file contains an
+explanation of how to set up the configuration. The gits must be fully readable
+by the web server, including their .git directories.
+
+
+The databases created by this plugin can be queried from the admin panel and
+from a syntax plugin. The HOW-TO is described on the DOkuwiki site for this
+plugin: http://www.dokuwiki.org/plugin:dwcommits 
+
+Please read the documentation in the admin panel or on the plugin web site
+concerning web server access.
+
+The initial impetus behind this plugin is to help determine recent changes to
+Dokuwiki which might impact on plugin authors.
+

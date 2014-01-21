@@ -1,0 +1,264 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Strategies 3: $which and XML_PullParser_getSequence</subtitle> 
+      &version;
+
+      <author>
+         <surname>Turner</surname>
+
+         <firstname>Myron</firstname>
+
+      </author>
+   </articleinfo>
+
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+ 
+  <formalpara><title></title><para>
+  <token>array  XML_PullParser_getSequence  ([array $el = ""], [mixed $args = ""])</token>
+  </para></formalpara>
+  <formalpara><title></title><para>
+  <code>XML_PullParser_getSequence</code> is designed to work with the functions that
+  use the <code>$which</code> parameter.  It takes two optional parameters. 
+  </para></formalpara>
+  
+ <formalpara><title></title><para>
+  <anchor id ="getSequence" />
+
+  The first parameter must be a tokenized array, which is
+  an array returned by  <code>XML_PullParser_getToken,</code>
+  <code>XML_PullParser_getElement,</code> <code>XML_PullParser_getChild,</code>
+  or one of several other token-returning functions.<superscript>1</superscript>
+  If this parameter is absent, then the function will first look for the <code>$current_element</code>
+  and if that hasn't been set then it will use the current token. One or both of these
+  will have been
+  <ulink url = "XML_PullParserCoding_3.xml#selectors_2">preset internally.</ulink><superscript>2</superscript>
+  </para></formalpara>
+
+
+  <formalpara><title></title><para>
+   The second parameter is a list of elements for inclusion in the returned sequence array.
+   It is either a variable length list of names or an array of names.  These will all be strings.
+   If this parameter is absent then all the elements found in the first parameter 
+   (or the internal default array) are included in the returned array.
+  </para></formalpara>
+  
+  <formalpara><title></title><para>
+   The return value is a numerically indexed array whose elements are associate arrays which
+   store the names of the selected elements and their positions in the document. See the
+   <ulink url= "../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_getSequence">
+   documentation</ulink> for this method.  
+  </para></formalpara>
+
+  <formalpara><title></title><para>
+    This method silently resets the <code>$current_element</code> to the tokenized array from which 
+    creates its sequencing array.  You can set it back to its original value by saving the 
+    <code>$current_element</code> and calling <code>XML_PullParser_resetCurrentElement()</code> with the
+    saved value.  The original value of the <code>$current_element</code> is also saved internally by
+    <code>XML_PullParser_getSequence</code> in <code>$_save_current_element,</code> so that the
+    following call will also do the reset:   
+   <token>$parser->XML_PullParser_resetCurrentElement($parser->_save_current_element)</token>
+  </para></formalpara>
+
+  <formalpara><title></title><para>
+  </para></formalpara>
+
+<formalpara><title></title><para>
+Following are a number of examples of how to use <code>XML_PullParser_getSequence</code>.
+The first of these illustrates its use in conjunction with <code>XML_PullParser_getElement</code>.<superscript>3</superscript>
+(We are still using the <ulink type ="anchor" url="XML_PullParserCoding_1.xml#example_1">DNS</ulink> 
+example.)
+</para></formalpara>
+
+ <blockquote><title role="code">Listing 10</title>
+ <anchor id="listing_10" />
+ <programlisting>
+ 1.    $tags = array("entry");
+ 2.   $child_tags = array("server","ipaddress", "domain");
+ 3.
+ 4.   $parser = new XML_PullParser_doc($doc,$tags,$child_tags);     
+ 5.
+ 6.   while($token = $parser->XML_PullParser_getToken())
+ 7.   { 
+ 8.     $parser->XML_PullParser_getElement('server');    
+ 9.     $seq =  $parser->XML_PullParser_getSequence();
+10.
+11.     for($i=0; $i &lt; count($seq); $i++) {
+12.          list($server, $which) = each($seq[$i]);  
+13.
+14.          $name = $parser->XML_PullParser_getText($server,$which);
+15.          echo "Name: $name\n";
+16.
+17.          $ip = $parser->XML_PullParser_getAttributes($server,$which);         
+18.          echo "\tIP: " . $parser->XML_PullParser_getAttrVal('ip', $ip) . "\n";
+19.      }
+10.        
+21.    }
+
+/*
+ Result
+        Name:  example_1.com
+                IP: 192.168.10.1
+        Name:  example_2.com
+                IP: 192.168.10.2
+        Name:  example_3.com
+                IP: 192.168.10.3
+*/
+
+ </programlisting>
+ </blockquote>
+
+  <formalpara><title></title><para>   
+    Line 8 stores the three <emphasis>server</emphasis> elements in the <code>$current_element,</code>
+    and line 9 creates the sequence array, which we then loop through. Each element in the
+    array is in turn an associative array of the form:  <token>Element_Name => $which</token>
+    In the present case, the first element would be "SERVER" => 1, the second "SERVER" => 2, etc.  In line 14
+    the element name and its <emphasis>which</emphasis> value are passed into 
+    <code>XML_PullParser_getText</code> and in line 17 they are passed into 
+    <code>XML_PullParser_getAttributes.</code>  Therefore, the two functions know the name
+    of the element to address--<emphasis>server</emphasis>-- and which element in the sequence of
+    <emphasis>server</emphasis> elements.
+</para></formalpara>
+
+  <formalpara><title></title><para>   
+   To treat all of the elements in <emphasis>Entry,</emphasis> we would not call <code>XML_PullParser_getElement.</code>
+   In that case, if <code>XML_PullParser_getSequence</code> is not passed the array parameter, it returns
+   a sequencing array based on  <ulink url ="#getSequence">the current token.</ulink>
+   <emphasis>Listing 11</emphasis> shows how this might be implemented using a <code>switch</code> statement.
+  </para></formalpara>
+ <blockquote><title role="code">Listing 11</title>
+ <anchor id="listing_11" />
+ <programlisting>
+ 1.    while($token = $parser->XML_PullParser_getToken())
+ 2.    { 
+ 3.
+ 4.      $seq =  $parser->XML_PullParser_getSequence();
+ 5.
+ 6.       for($i=0; $i &lt; count($seq); $i++) {  
+ 7.          list($element, $which) = each($seq[$i]);  
+ 8.
+ 9.          switch($element) {
+12.            case 'IPADDRESS':
+13.                echo "$element: $which\n";
+14.                echo $parser->XML_PullParser_getText($element,$which) . "\n";
+15.                break;
+16.            case 'SERVER':
+17.                echo "$element: $which\n";
+18.                echo $parser->XML_PullParser_getText($element,$which) . "\n";
+19.                $ip = $parser->XML_PullParser_getAttributes($element,$which);         
+20.                echo "\tIP: " . $parser->XML_PullParser_getAttrVal('ip', $ip) . "\n";
+21.                break;
+22.            case 'DOMAIN':
+23.                echo "$element: $which\n";
+24.                echo $parser->XML_PullParser_getText($element,$which) . "\n";
+25.                break;
+26.            case 'ALIAS':
+27.                echo "$element: $which\n";
+28.                echo $parser->XML_PullParser_getText($element,$which) . "\n";
+29.                break;
+30.            default:
+31.                echo "default: $element: $which\n";
+32.                
+33.         }
+34.      }
+35.        
+35.   }
+
+/* Result
+    default: ENTRY: 1
+    IPADDRESS: 1
+     172.20.19.6
+    DOMAIN: 1
+     example.com
+    SERVER: 1
+     example_1.com
+            IP: 192.168.10.1
+    SERVER: 2
+     example_2.com
+            IP: 192.168.10.2
+    SERVER: 3
+     example_3.com
+            IP: 192.168.10.3
+    ALIAS: 1
+     www.example.com
+*/
+
+ </programlisting>
+ </blockquote>
+
+
+  <formalpara><title></title><para>
+  It is worth noting here that the <code>switch</code> statement use upper case for each of the <code>case</code>
+  statements.  The PHP XML facility defaults to upper case for all element and attribute names.  This can 
+  be changed in <classname>XML_PullParser</classname> by calling the package level function
+  <ulink url="../doc/XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_caseSensitive">XML_PullParser_caseSensitive</ulink> with a value of
+  <emphasis>true.</emphasis><superscript>4</superscript>
+  </para></formalpara>
+
+
+  <formalpara><title></title><para>  </para></formalpara>
+
+  <blockquote role="blank_box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+        <member>
+         1. See <ulink url="XML_PullParserCodingStrategies_5.xml">Tokenizing Functions</ulink>
+        </member>
+        <member>
+         2. The array parameter is required only if the second parameter is absent.
+        </member>
+        <member>
+        3. A typical procedure would be to call <code>XML_PullParser_getElement</code> to select
+        the elements of interest and then to call this function without any parameters. 
+       </member>
+        <member>
+        4. It's possible to test for case using the class method
+        <ulink url = "../doc/XML_PullParser/XML_PullParser.html#XML_PullParser_isCaseFolded"
+              >XML_PullParser_isCaseFolded</ulink>
+        </member>
+    </simplelist>
+  </blockquote> 
+ <formalpara><title></title><para></para></formalpara>
+
+  <blockquote role="box"><title>Commentary</title>
+    <simplelist type='vert' columns='1'>
+        <member>
+         If <code>XML_PullParser_getElement</code> has been called and one wishes to treat the entire
+        <emphasis>Entry</emphasis> structure, then pass <code>XML_PullParser_getSequence</code> the token
+        returned from <code>XML_PullParser_getToken.</code> Or, make the
+       <ulink url = "XML_PullParserCoding_3.xml#selectors_2">current token</ulink>
+        the <code>$current_element</code>
+        by calling: <code>XML_PullParser_resetCurrentElement($token).</code> 
+        </member>
+       <member> In the case of a complex database with mulitple repeated element names
+        (like the DNS whois database), it is possible to gobble up the entire entry, as
+        in <emphasis>Listing 11</emphasis>, 
+        and then to successively shift the focus of interest by calling <code>XML_PullParser_getElement</code>
+        with the appropriate element name,
+        and then to use the result from <code>XML_PullParser_getSequence</code> to sequence through
+        the multiples of that element. 
+       </member>
+
+        <member> It's instructive to note that the result in <emphasis>Listing 11</emphasis> occurs
+        in document order, beginning with <emphasis>Entry</emphasis> and ending with <emphasis>Alias.</emphasis> 
+        </member>
+    </simplelist>
+  </blockquote> 
+  <simpara role="hr"></simpara>
+  <formalpara><title></title><para><ulink type="prev" url="XML_PullParserCodingStrategies_2.xml">Strategies 2: the 'which' parameter</ulink>
+  <ulink type="next" url="XML_PullParserCodingStrategies_4.xml">Strategies 4: Nested Selecting</ulink></para></formalpara>    
+
+  <formalpara><title></title><para></para></formalpara><formalpara><title></title><para></para></formalpara>
+
+</article>
+
+

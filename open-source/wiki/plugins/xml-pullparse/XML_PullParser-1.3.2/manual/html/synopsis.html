@@ -1,0 +1,125 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Synopsis</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para">
+What follows is a brief Synopsis of some of the main features of  <span class='classname'>XML_PullParser.</span>
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+            require_once "XML_PullParser.inc";
+            $tags=array("Element_1", "Element_2", . ."Element_n");
+            $child_tags=array("childElement_1", "childElement_2", . ."childElement_n");
+            $parser = new  XML_PullParser($xml_file, $tags,$child_tags);
+
+</pre></table><p><div class="para">
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+            $parser = new  XML_PullParser_doc($xml_string, $tags,$child_tags);
+</pre></table><p><div class="para"></p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+            while($token=$parser->XML_PullParser_getToken()) {
+                $text = $parser->XML_PullParser_getText('Element_1');
+            }
+</pre></table><p><div class="para"></p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+            while($token=$parser->XML_PullParser_getToken()) {
+                $parser->XML_PullParser_getElement('childElement_1');
+                $text = $parser->XML_PullParser_getText('childElement_1');
+            }
+
+</pre></table><p><div class="para"></p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+    while($token = $parser->XML_PullParser_getToken())
+     {
+         $parser->XML_PullParser_getElement('childElement_1');
+         $which=1;
+         while($text = $parser->XML_PullParser_getText('childElement_1', $which)) {
+            $which++;
+        }
+    }
+</pre></table><p><div class="para"></p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+  while($token = $parser->XML_PullParser_getToken())
+  {
+   $parser->XML_PullParser_getElement('childElement_1');
+   $which=1;
+   while($attr_array=$parser->XML_PullParser_getAttributes('childElement_1',$which)) {
+       $attr_value = $parser->XML_PullParser_getAttrVal('attribute_name', $attr_array);
+       $which++;
+  }
+ }
+</pre></table><p><div class="para"></p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+          while($token = $parser->XML_PullParser_getToken())
+          {
+              $parser->XML_PullParser_getElement('childElement_2');
+              while($element = $parser->XML_PullParser_nextElement())
+              {
+                  $text =  $parser->XML_PullParser_getText($element);
+              }
+          }
+</pre></table><p><div class="para"></p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+          while($token = $parser->XML_PullParser_getToken())
+          {
+              $parser->XML_PullParser_getElement('childElement_2');
+              while($element = $parser->XML_PullParser_nextElement())
+              {
+                  $attr_array = $attr_array = $parser->XML_PullParser_getAttributes($element);
+                  $value = $parser->XML_PullParser_getAttrVal("attribute_name",$attr_array);
+              }
+          }
+</pre></table><p><div class="para"></p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+   while($token = $parser- > XML_PullParser_getToken())
+   {
+     $parser- > XML_PullParser_getElement('childElement_2');
+     $sequence =  $parser- > XML_PullParser_getSequence();
+
+     for($i=0; $i   <  count($sequence); $i++) {
+          list($element, $which) = each($sequence[$i]);
+          $text = $parser- > XML_PullParser_getText($element,$which);
+          $attr_array = $parser- > XML_PullParser_getAttributes($element,$which);
+          $attr_value = $parser- > XML_PullParser_getAttrVal('attribute_name', $attr_array);
+      }
+    }
+</pre></table><p><div class="para"></p></div>
+
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParser_intro_1.html' class='navigation'>Introduction</a></td></table>&nbsp;&nbsp;&nbsp;
+

@@ -1,0 +1,123 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<b>Myron_Turner@shaw.ca</b><br><br>
+<span class='subtitle_2'>Introduction</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para">This is a Class modeled on the PullParser module found in the Perl  <span class='classname'>HTML::Parser</span>
+        distribution. It moves the API from an event-based model to a token-based model. Instead of processing data
+        as it is passed from the parser to callbacks, a script using XML_PullParser requests "tokens"
+        from various "tokenizing" functions, most particularly from  <span class='code'>XML_PullParser_getToken.</span>  and
+         <span class='code'>XML_PullParser_getElement.</span>
+        Tokens are arrays representing XML structures, which become
+        available in the order in which they appear in the document being parsed.
+</p></div>
+
+<p><div class="para">
+    In addtion to the tokenizers, a rich set of accessors are provided to extract data from
+    the elements and attributes bundled in the tokens.
+    There are also techniques and class methods for selecting elements and attributes, and for testing
+ 	for their position and relevancy. Finally, there are
+    package-level functions to set the contexts that affect the operations of the module.
+</p></div>
+
+<p><div class="para">
+	 <span class='classname'>XML_PullParser</span>  is not as clearly a "token" parser as
+	 <span class='classname'>HTML::PullParser</span> . The Perl module focuses on the
+	individual tag as it comes on stream, which makes it suited to large blocks
+	of text with a great many embedded tags, whereas  <span class='classname'>XML_PullParser</span>
+        is oriented towards nested structures, which makes it suited to the kinds of database
+        structures that much XML is used for.  The current DocBook paragraph is a good example
+        of where the Perl module has the advantage:
+</p></div>
+
+<p><div class="block"><center><b>Example 1</b></center>
+<pre>
+&lt;classname&gt;XML_PullParser &lt;/classname&gt; is not as purely a "token" parser as
+&lt;classname&gt;HTML::PullParser &lt;/classname&gt;. The Perl module foucuses on the
+individual tag as it comes on stream, which makes it suited to large blocks
+of text with a great many embedded tags, whereas  &lt;classname&gt;XML_PullParser &lt;/classname&gt;
+is oriented towards nested structures. . .
+</pre></div>
+<p><div class="para">
+	If Perl's  <span class='classname'>HTML::PullParser</span>  were to format  <span class='emphasis'>Example 1</span> ,
+    the  &lt;classname&gt; tags would be announced at the points at which they occur in the stream,
+    and so re-casting  &lt;classname&gt; to bold italics, as here, would be a simple matter of exchanging  &lt;b&gt; &lt;i&gt;
+    for  &lt;classname&gt; whenever the  &lt;classname&gt; tag came on stream.   <span class='classname'>XML_PullParser,</span>
+    on the other hand, would output an entire structure enclosed by either  &lt;blockquote&gt; or  &lt;programlisting&gt;.
+    To convert the classnames to bold, it is then necessary to review this structure and apply a replacement
+    function like  <span class='code'>preg_replace</span>  to each element that calls for re-casting.
+     <span class='classname'>XML_PullParser</span>  has a function which does just this:
+     <span class='code'>XML_PullParser_getTextMarkedUp.</span>
+
+
+
+</p></div>
+
+<p><div class="para">
+    This page is very likely being generated on the fly from the orignal XML, using
+     <span class='code'>XML_PullParser_getTextMarkedUp,</span>  and certainly over the web there's no
+    noticeable performance defecit. Nevertheless, the strength of  <span class='classname'>XML_PullParser,</span>
+    is with structures like like Example 2.
+</p></div>
+
+<p><div class="block"><center><b>Example 2</b></center>
+<pre>
+&lt;ENTRY&gt;
+&lt;ipaddress&gt; 172.20.19.6 &lt;/ipaddress&gt;
+&lt;domain&gt; example.com &lt;/domain&gt;
+&lt;server ip="192.168.10.1"&gt; example_1.com &lt;/server&gt;
+&lt;server ip="192.168.10.2"&gt; example_2.com &lt;/server&gt;
+&lt;server ip="192.168.10.3"&gt; example_3.com &lt;/server&gt;
+&lt;alias&gt; &lt;www.example.com &lt;/alias&gt;
+&lt;/ENTRY&gt;
+
+&lt;ENTRY&gt;
+&lt;ipaddress&gt; 172.20.19.7 &lt;/ipaddress&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;
+&lt;alias&gt; &lt;www.example.org &lt;/alias&gt;
+&lt;/ENTRY&gt;
+
+</pre></div>
+<p><div class="para">
+    In a database-like file with a set of entries like this,  <span class='classname'>XML_PullParser</span>  would
+    loop through the file grabbing up an entire  &lt;ENTRY&gt;  structure with each iteration
+    and provide immediate, direct access to each of its elements.  The next two sections
+    introduce the coding for such tasks and try to give a tase of how  <span class='classname'>XML_PullParser</span>  works.
+</p></div>
+
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='synopsis.html'>Synopsis</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParserCoding_1.html' class='navigation'>Introduction to Coding 1</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+

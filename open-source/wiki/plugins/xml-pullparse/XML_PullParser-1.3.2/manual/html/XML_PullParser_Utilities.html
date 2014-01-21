@@ -1,0 +1,203 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Utilites and Helper Functions</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para">
+</p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+Many of these methods have been discussed elsewhere in the Manual or used in examples.
+Check the Manual  <A href="XML_PullParser_index.html">index</A>
+for the relevant manual sections.  Check the class  <A href="../doc/index.html">documentation</A>
+as well for other details.
+</p></div>
+
+<p><div class="para"></p></div>
+
+<br><span class='emphasis'>Class Utilities</span><br><OL TYPE = '1' START = '1'>
+<LI>bool XML_PullParser_pushbackToken ()
+
+
+<table width=600><td class='list_phrase'>Pushes current token back on the stack.
+</table>
+<LI>array XML_PullParser_clearPbackStack ()
+
+
+<table width=600><td class='list_phrase'>Must be called if  <span class='code'>XML_PullParser_pushbackToken</span>  returns  <span class='emphasis'> false</span>
+</table>
+<LI>void XML_PullParser_free ()
+
+
+<table width=600><td class='list_phrase'>This frees all resources. It should be called if a session is complete and
+            another is going to be started or if the script is not at an end.
+            Not neeeded if script exits at the end of the parsing session.
+</table>
+<LI>array XML_PullParser_getCurrentElement ()
+
+
+<table width=600><td class='list_phrase'>This is a convenience method that returns the  <span class='code'>$current_element.</span>
+</table>
+<LI>array XML_PullParser_resetCurrentElement (array $cur_el)
+
+
+<table width=600><td class='list_phrase'>This method sets as the  <span class='code'>$current_element</span>  any valid
+            tokenized array and returns a copy of the old  <span class='code'>$current_element.</span>
+            It makes it possible to set the  <span class='code'>$current_element</span>  to one
+            needed in a portion of code and then to return it to its prevous
+            value when finished.
+</table>
+<LI>array XML_PullParser_unsetCurrentElement ()
+
+
+<table width=600><td class='list_phrase'>This sets the  <span class='code'>$current_element</span>  to an empty array and returns the
+            a copy the  <span class='code'>$current_element</span>  that has been unset.  Since many
+            methods default to the  <span class='code'>$current_element</span>  or, if that is not set, to the
+            current token, this method is a convenient way to switch back and forth
+            between these two default arrays.
+</table>
+<LI><a name='_isCaseFolded'>
+       boolean XML_PullParser_isCaseFolded ()
+
+
+<table width=600><td class='list_phrase'>Returns  <span class='emphasis'>True</span>  if case-folding is in effect.  With
+            case-folding, all identifiers--element and attribute names--are converted up upper case.  Case-folding
+            is not a function of the underlying expat processer but is a function
+            of the PHP implementation and occurs after the underlying processing has occurred.
+            This means that the XML document itself must be well-formed; it must conform to the XML
+            requirment that all identifiers must be case-sensitive,
+            otherwise expat will report an error.
+</table>
+<LI>string XML_PullParser_setDelimiter (string $delimiter)
+
+
+
+<table width=600><td class='list_phrase'>Sets the delimiter between the concatenated strings returned by
+             <span class='code'>XML_PullParser_getTextStripped</span>  and returns the
+            previous delimiter.  The default delimiter is a single space character
+            (20 hex).
+</table>
+<LI>array  XML_PullParser_deleteBlanks ($token)
+
+
+
+<table width=600><td class='list_phrase'>Removes all blank array elements from $token.
+          Tests all CDATA array elements against the PERL regex '/\w/'
+          and deletes from the token array any CDATA which does not meet this test.
+          This method should not be confused with  <span class='code'>XML_PullParser_excludeBlanks,</span>
+          a package level function which causes blank CDATa elments to be ignored during
+          text processing, but not removed.
+</table>
+</OL>
+<br><span class='emphasis'>Package Level Utilities</span><br><TABLE width="800"><TR><TD class="white_block">The three CDATA functions (4,5,8) apply to  <span class='code'>XML_PullParser_getTextStripped</span>
+    and the text functions which use it( <span class='code'>XML_PullParser_getText</span>  and
+     <span class='code'>XML_PullParser_getTextArray</span> ).  They can be called at any point
+    and will apply to the next call to any of the affected methods.  The other
+    package level functions must be called in advance of the constructor; otherwise
+    they have no effect.</table>
+<A Name='package_level'> <OL TYPE = '1' START = '1'> </a><LI>void   XML_PullParser_caseSensitive  (boolean $bool)
+
+
+<table width=600><td class='list_phrase'>Setting this to  <span class='emphasis'>True</span>  turns off case-folding.
+          See  <A href="../doc/XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_caseSensitive">XML_PullParser_caseSensitive</A>
+          in the class documentation and
+          <a href="#_isCaseFolded">XML_PullParser_isCaseFolded</a> above.
+</table>
+<LI>array  XML_PullParser_declareChildElements  (mixed $tags)
+
+
+<table width=600><td class='list_phrase'>Calling this function with either an array or variable list
+          of child elements declares the  <span class='code'>$child_tags</span>
+          array.  The  <span class='code'>$child_tags</span>  does not then have
+          to be passed in to the constructor.
+</table>
+<LI>array  XML_PullParser_declareElements  (mixed $tags)
+
+
+<table width=600><td class='list_phrase'>Calling this function with either an array or variable list
+          of elements declares the  <span class='code'>$tags</span>
+          array.  The  <span class='code'>$tags</span>  does not then have
+          to be passed in to the constructor.
+</table>
+<LI>void   XML_PullParser_excludeBlanks  (boolean $bool)
+
+
+<table width=600><td class='list_phrase'>Setting this to  <span class='emphasis'>True</span>  causes blank
+          text elements to be skipped.  hese are text elements
+          consisting solely of white space.  This should be set to
+           <span class='emphasis'>True</span>  when  <span class='code'>XML_PullParser_getTextArray</span>
+          is going to be used, because blank text elements can cause misalignment
+          in the returned array.  Compare this function with the class method
+           <A href="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_deleteBlanks">XML_PullParser_deleteBlanks</A>
+          which is also listed in the class utilities above.
+</table>
+<LI>void   XML_PullParser_excludeBlanksStrict  (boolean $bool)
+
+
+<table width=600><td class='list_phrase'>Setting this to  <span class='emphasis'>True</span>  excludes from returned text
+          any text element that does not meet the requirements of the PRE
+          regular expression  <span class='emphasis'>\w</span>  which represents
+          all alphanumeric characters, the underscore, and the hyphen.
+</table>
+<LI>void XML_PullParser_reInitTagArrays()
+
+
+<table width=600><td class='list_phrase'>This function must be called when more than one instance of  <span class='classname'>XML_PullParser</span>
+           is created in the same script.  It resets to the empty array the two global arrays
+           which are used to initialilze the  <span class='code'>$tags</span>  and  <span class='code'>$child_tags</span>
+           arrays.  Unless this function is called, the new instance will still hold array
+           elements from the previous instance.
+</table>
+<LI>void   XML_PullParser_setReadLength  ([integer $num = 2])
+
+
+<table width=600><td class='list_phrase'>This governs the maximum number of bytes read by the parser
+            at each file access.  The default read length is 8KB.
+            This function will reset the read length in 4KB units,
+            so that calling this function with a value of 4 will
+            reset the the read length to 16KB.  Read length can be
+            of critical importance when processing large element
+            strctures.  If the data contained between the Start and End
+            tags of a  <span class='code'>$tag</span>  or  <span class='code'>$child_tag</span>
+            exceeds the read length, parsing will become corrupted.
+</table>
+<LI>void   XML_PullParser_trimCdata  (boolean $bool)
+
+
+<table width=600><td class='list_phrase'>Setting this to  <span class='emphasis'>True</span>  causes all text elements
+          to be passed through the PHP  <span class='code'>trim</span>  function.
+</table>
+</OL>
+<p><div class="para">
+</p></div>
+
+<p><div class="para">
+</p></div>
+
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParser_AttributeAccessors.html'>Attribute Accessors</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParser_NS.html' class='navigation'>Namespace Support</a></td></table>&nbsp;&nbsp;&nbsp;
+

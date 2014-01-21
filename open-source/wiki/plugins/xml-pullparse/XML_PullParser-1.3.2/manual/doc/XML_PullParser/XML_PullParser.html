@@ -1,0 +1,3007 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class XML_PullParser</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class XML_PullParser</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">XML_PullParser is a token-based interface to the PHP expat XML library.</p>
+<p class="description"><p>It moves the the API of the php XML facility from an event-based model to a token-based model.  Instead of procesing data as it is passed from the parser to callbacks, a script using  PullParser requests &quot;tokens&quot; from XML_PullParser_getToken(). Tokens are arrays representing  XML structures, which become available in the order in which they appear in the  document being parsed.</p><p>Methods are provided to get tokens and extract their data.  The API consists of the  methods and functions with the XML_PullParser_ prefix.  Methods beginning with the  underscore are internal.</p><p>All class methods which return tokens return NULL when tokens are not available and  so can be used in while loops:    <pre>          while($token=$parser->XML_PullParser->getToken()){
+          }</pre></p><p>Similarly, all data accessors return either NULL, or the empty string or array when no data   is available.</p><p>Documentation and examples are available in this Class Documentation created using phpDocumentor;   in the manual pages, which were created from XML files using XML_PullParser; and in the sample files,   which are complete PHP files based on the manual code listings.</p></p>
+	<ul class="tags">
+				<li><span class="field">version:</span> 1.3.2</li>
+				<li><span class="field">license:</span> <a href="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</a></li>
+				<li><span class="field">author:</span> Myron Turner &lt;<a href="mailto:Myron_Turner@shaw.ca">Myron_Turner@shaw.ca</a>&gt;</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_XML_PullParser.inc.html">/XML_PullParser.inc</a> (line <span class="field">454</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../XML_PullParser/XML_PullParser_doc.html">XML_PullParser_doc</a></td>
+					<td>
+											
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																																																																																																																																																								<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$accumulator" title="details" class="var-name">$accumulator</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$child_tags" title="details" class="var-name">$child_tags</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$converted_token" title="details" class="var-name">$converted_token</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$current_element" title="details" class="var-name">$current_element</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$current_slice" title="details" class="var-name">$current_slice</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$current_tag_array" title="details" class="var-name">$current_tag_array</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">resource</span>
+					<a href="#$fp" title="details" class="var-name">$fp</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$push_back_stk" title="details" class="var-name">$push_back_stk</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">integer</span>
+					<a href="#$read_length" title="details" class="var-name">$read_length</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$stream" title="details" class="var-name">$stream</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$tags" title="details" class="var-name">$tags</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$top_level_tags" title="details" class="var-name">$top_level_tags</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">resource</span>
+					<a href="#$xml_parser" title="details" class="var-name">$xml_parser</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$XML_PullParser_currentNS" title="details" class="var-name">$XML_PullParser_currentNS</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$_attr_loop_array" title="details" class="var-name">$_attr_loop_array</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">integer</span>
+					<a href="#$_attr_loop_pos" title="details" class="var-name">$_attr_loop_pos</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$_escaped_tags" title="details" class="var-name">$_escaped_tags</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$_in_stream" title="details" class="var-name">$_in_stream</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$_next_element_array" title="details" class="var-name">$_next_element_array</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$_save_current_element" title="details" class="var-name">$_save_current_element</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$_strippedCdataDelimiter" title="details" class="var-name">$_strippedCdataDelimiter</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														
+				<div class="method-definition">
+											<span class="method-result">XML_PullParser</span>
+										<a href="#XML_PullParser" title="details" class="method-name">XML_PullParser</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$file</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$tags</span> = <span class="var-default">Null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$child_tags</span> = <span class="var-default">Null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_childXCL" title="details" class="method-name">XML_PullParser_childXCL</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$parent</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#XML_PullParser_clearEscapedTokens" title="details" class="method-name">XML_PullParser_clearEscapedTokens</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_clearPbackStack" title="details" class="method-name">XML_PullParser_clearPbackStack</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_deleteBlanks" title="details" class="method-name">XML_PullParser_deleteBlanks</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$token</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#XML_PullParser_free" title="details" class="method-name">XML_PullParser_free</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getAttributes" title="details" class="method-name">XML_PullParser_getAttributes</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$which</span> = <span class="var-default">1</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#XML_PullParser_getAttrVal" title="details" class="method-name">XML_PullParser_getAttrVal</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$attr_array</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getAttrValues" title="details" class="method-name">XML_PullParser_getAttrValues</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$ar</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#XML_PullParser_getAttr_NS" title="details" class="method-name">XML_PullParser_getAttr_NS</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$attr_array</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getChild" title="details" class="method-name">XML_PullParser_getChild</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$child</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$which</span> = <span class="var-default">1</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getChildren" title="details" class="method-name">XML_PullParser_getChildren</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$child</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getChildrenFromName" title="details" class="method-name">XML_PullParser_getChildrenFromName</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$el</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getCSSSpans" title="details" class="method-name">XML_PullParser_getCSSSpans</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$markup</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getCurrentElement" title="details" class="method-name">XML_PullParser_getCurrentElement</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getElement" title="details" class="method-name">XML_PullParser_getElement</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$el</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#XML_PullParser_getElementName" title="details" class="method-name">XML_PullParser_getElementName</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getEscapedToken" title="details" class="method-name">XML_PullParser_getEscapedToken</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getHTMLTags" title="details" class="method-name">XML_PullParser_getHTMLTags</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$markup</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#XML_PullParser_getNS_AttrName" title="details" class="method-name">XML_PullParser_getNS_AttrName</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$str</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#XML_PullParser_getNS_URI" title="details" class="method-name">XML_PullParser_getNS_URI</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$str</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">Null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getSequence" title="details" class="method-name">XML_PullParser_getSequence</a>
+											([<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getStyledSpans" title="details" class="method-name">XML_PullParser_getStyledSpans</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$markup</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$attributes</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getStyledTags" title="details" class="method-name">XML_PullParser_getStyledTags</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$markup</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$attributes</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#XML_PullParser_getText" title="details" class="method-name">XML_PullParser_getText</a>
+											([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$which</span> = <span class="var-default">0</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$xcl</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">arrray</span>
+										<a href="#XML_PullParser_getTextArray" title="details" class="method-name">XML_PullParser_getTextArray</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#XML_PullParser_getTextMarkedUp" title="details" class="method-name">XML_PullParser_getTextMarkedUp</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$mark_up</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#XML_PullParser_getTextStripped" title="details" class="method-name">XML_PullParser_getTextStripped</a>
+											([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_getToken" title="details" class="method-name">XML_PullParser_getToken</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#XML_PullParser_isCaseEnfolded" title="details" class="method-name">XML_PullParser_isCaseEnfolded</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#XML_PullParser_isCaseFolded" title="details" class="method-name">XML_PullParser_isCaseFolded</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#XML_PullParser_isChildOf" title="details" class="method-name">XML_PullParser_isChildOf</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#XML_PullParser_isTypeOf" title="details" class="method-name">XML_PullParser_isTypeOf</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$el</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_nextAttr" title="details" class="method-name">XML_PullParser_nextAttr</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_nextElement" title="details" class="method-name">XML_PullParser_nextElement</a>
+											([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$xcl</span> = <span class="var-default">true</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#XML_PullParser_pushbackToken" title="details" class="method-name">XML_PullParser_pushbackToken</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#XML_PullParser_resetAttrLoopPtr" title="details" class="method-name">XML_PullParser_resetAttrLoopPtr</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_resetCurrentElement" title="details" class="method-name">XML_PullParser_resetCurrentElement</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$cur_el</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_setAttrLoop" title="details" class="method-name">XML_PullParser_setAttrLoop</a>
+											([<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$assignText</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_setAttrLoop_cdata" title="details" class="method-name">XML_PullParser_setAttrLoop_cdata</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_setAttrLoop_elcd" title="details" class="method-name">XML_PullParser_setAttrLoop_elcd</a>
+											([<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#XML_PullParser_setCurrentNS" title="details" class="method-name">XML_PullParser_setCurrentNS</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$ns</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#XML_PullParser_setDelimiter" title="details" class="method-name">XML_PullParser_setDelimiter</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$delimiter</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_tokenFromChildren" title="details" class="method-name">XML_PullParser_tokenFromChildren</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$child</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#XML_PullParser_unsetCurrentElement" title="details" class="method-name">XML_PullParser_unsetCurrentElement</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#XML_PullParser_unsetCurrentNS" title="details" class="method-name">XML_PullParser_unsetCurrentNS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_aligned" title="details" class="method-name">_aligned</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$token</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_characterData" title="details" class="method-name">_characterData</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$parser</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#_convertToken" title="details" class="method-name">_convertToken</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$token</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#_createParser" title="details" class="method-name">_createParser</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$file</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_endElement" title="details" class="method-name">_endElement</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$parser</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$name</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_externalEntityParser" title="details" class="method-name">_externalEntityParser</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$parser</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$openEntityNames</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$base</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$systemId</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$publicId</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_getCurrentPosition" title="details" class="method-name">_getCurrentPosition</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_getCurrentSlice" title="details" class="method-name">_getCurrentSlice</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_getCurrentTagArray" title="details" class="method-name">_getCurrentTagArray</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#_getTokenRaw" title="details" class="method-name">_getTokenRaw</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#_is_current_NS" title="details" class="method-name">_is_current_NS</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$ns_array</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_markUnmarkedStartTags" title="details" class="method-name">_markUnmarkedStartTags</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$el</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_nullify" title="details" class="method-name">_nullify</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$temp</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$pos</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_processToken" title="details" class="method-name">_processToken</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_readData" title="details" class="method-name">_readData</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_startElement" title="details" class="method-name">_startElement</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$parser</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$attrs</span> = <span class="var-default">NULL</span>])
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$accumulator" id="$accumulator"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$accumulator</span>
+						(line <span class="line-number">490</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> internal</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$child_tags" id="$child_tags"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$child_tags</span>
+						(line <span class="line-number">484</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> <p>An array of child elements of interest, which is used by the constructor.</p><p>It can be passed into the constructor as an array of names     or set using XML_PullParser_declareChildElements</p></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_declareChildElements">XML_PullParser_declareChildElements()</a></li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$converted_token" id="$converted_token"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$converted_token</span>
+						(line <span class="line-number">569</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> This holds a copy of the token returned by <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getToken">XML_PullParser_getToken</a>.      It is the fall-back for several of the data accessors when no other usable token,      including <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a>, is available for their searches.      It is often referred to in this documentation and in the manual as &quot;current token.&quot;</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$current_element" id="$current_element"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$current_element</span>
+						(line <span class="line-number">558</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> (internal) the default token for various data accessors, generally consisting of elements    declared in the <a href="../XML_PullParser/XML_PullParser.html#var$child_tags">$child_tags</a> array.  It is created by <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getElement">XML_PullParser_getElement</a></li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$current_slice" id="$current_slice"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$current_slice</span>
+						(line <span class="line-number">515</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> internal</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$current_tag_array" id="$current_tag_array"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$current_tag_array</span>
+						(line <span class="line-number">523</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> internal</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$fp" id="$fp"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">resource</span>
+			<span class="var-name">$fp</span>
+						(line <span class="line-number">509</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> file pointer to xml document</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$push_back_stk" id="$push_back_stk"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$push_back_stk</span>
+						(line <span class="line-number">582</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> internal</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$read_length" id="$read_length"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">integer</span>
+			<span class="var-name">$read_length</span>
+						(line <span class="line-number">590</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> sets length of fread buffer</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_setReadLength">XML_PullParser_setReadLength()</a></li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$stream" id="$stream"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$stream</span>
+						(line <span class="line-number">576</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> the data stream</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$tags" id="$tags"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$tags</span>
+						(line <span class="line-number">469</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> The list of tag names of elements on which XML_PullParser will report.  The format of this array is:     <pre>     array ("element_1", "element_2", . . "element_n")</pre>     It can be passed into the constructor or predeclared using XML_PullParser_declareElements.</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_declareElements">XML_PullParser_declareElements()</a></li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$top_level_tags" id="$top_level_tags"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$top_level_tags</span>
+						(line <span class="line-number">497</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> internal</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$xml_parser" id="$xml_parser"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">resource</span>
+			<span class="var-name">$xml_parser</span>
+						(line <span class="line-number">503</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> a resource handle for referencing the XML instance</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$XML_PullParser_currentNS" id="$XML_PullParser_currentNS"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$XML_PullParser_currentNS</span>
+			 = <span class="var-default"> Null</span>			(line <span class="line-number">617</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> holds the current namespace definition       will be a string if only one namespace is declared, an array if more than one</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_attr_loop_array" id="$_attr_loop_array"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$_attr_loop_array</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">665</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Created in XML_PullParser_setAttrLoop   and used as a stack by XML_PullParser_nextAttr   to return the next attribute.</p>
+<p class="description"><p>This stack remains in memory until the next call   to XML_PullParser_setAttrLoop or XML_PullParser_setAttrLoop_elcd</p><p>The stack pointer can be reset to the top of the stack   using XML_PullParser_resetAttrLoopPtr</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser::XML_PullParser_nextAttr()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop_elcd">XML_PullParser::XML_PullParser_setAttrLoop_elcd()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop">XML_PullParser::XML_PullParser_setAttrLoop()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_resetAttrLoopPtr">XML_PullParser::XML_PullParser_resetAttrLoopPtr()</a></li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_attr_loop_pos" id="$_attr_loop_pos"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">integer</span>
+			<span class="var-name">$_attr_loop_pos</span>
+			 = <span class="var-default"> 0</span>			(line <span class="line-number">633</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> pointer into the attribute loop</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_resetAttrLoopPtr">XML_PullParser::XML_PullParser_resetAttrLoopPtr()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser::XML_PullParser_nextAttr()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop">XML_PullParser::XML_PullParser_setAttrLoop()</a></li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_escaped_tags" id="$_escaped_tags"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$_escaped_tags</span>
+						(line <span class="line-number">608</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Elements declared in both the $tags array and the $child $tags array.</p>
+<p class="description"><p>A separate stack is maintained for these   and they are accessed through <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getEscapedToken">XML_PullParser_getEscapedToken</a></p></p>
+	
+	
+		
+		
+
+</div>
+<a name="var$_in_stream" id="$_in_stream"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$_in_stream</span>
+			 = <span class="var-default"> false</span>			(line <span class="line-number">668</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$_next_element_array" id="$_next_element_array"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$_next_element_array</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">648</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">$_next_element_array == $current_element;     the assigment is made in in XML_PullParser_getElement</p>
+<p class="description"><p>It is used by XML_PullParser_nextElement     as a stack for returning the next element;     When the final element is removed the stack is     exhausted</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextElement">XML_PullParser::XML_PullParser_nextElement()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getElement">XML_PullParser::XML_PullParser_getElement()</a></li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_save_current_element" id="$_save_current_element"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$_save_current_element</span>
+						(line <span class="line-number">675</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">used by methods which silently reset the $current_element</p>
+<p class="description"><p>to an alternate token</p></p>
+	
+	
+		
+		
+
+</div>
+<a name="var$_strippedCdataDelimiter" id="$_strippedCdataDelimiter"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$_strippedCdataDelimiter</span>
+			 = <span class="var-default"> ' '</span>			(line <span class="line-number">599</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> sets the delimiter which separates        text elements parsed by XML_PullParser_getTextStripped</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextStripped">XML_PullParser::XML_PullParser_getTextStripped()</a></li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodXML_PullParser" id="XML_PullParser"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor XML_PullParser</span> (line <span class="line-number">3576</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">XML_PullParser</span>
+		<span class="method-name">
+			XML_PullParser
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$file</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$tags</span> = <span class="var-default">Null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$child_tags</span> = <span class="var-default">Null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$file</span><span class="var-description">: path/to/xml-file</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$tags</span><span class="var-description">: array of elements on which to report back via tokens</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$child_tags</span><span class="var-description">: array of child elements on which to report</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_childXCL" id="XML_PullParser_childXCL"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_childXCL</span> (line <span class="line-number">1502</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Excludes specified child elements from parent array and returns   resulting array</p>
+<p class="description"><p>If no elements are specified for exclusion, it excludes all   child elements and returns the parent alone, from which all child elements   have been removed.</p><p>This method assumes that the first element that it encounters   is the parent and all others are its descendent elements. The descendent   elements may themselves have descendent elements.</p><p>If there is more than one top-level element of the   same name as the parent, these are also included in the returned array.   This might be the case, for instance, in a tokenized array returned originally   by <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getElement">XML_PullParser_getElement</a>.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_childXCL
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$parent</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">""</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$parent</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$args</span><span class="var-description">: names of elements to be excluded, can be either array or variable length list of strings</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_clearEscapedTokens" id="XML_PullParser_clearEscapedTokens"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_clearEscapedTokens</span> (line <span class="line-number">1281</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Clear the escaped token stack</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getEscapedToken">XML_PullParser::XML_PullParser_getEscapedToken()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			XML_PullParser_clearEscapedTokens
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_clearPbackStack" id="XML_PullParser_clearPbackStack"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_clearPbackStack</span> (line <span class="line-number">1366</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">return:</span> the current token</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_pushbackToken">XML_PullParser::XML_PullParser_pushbackToken()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_clearPbackStack
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_deleteBlanks" id="XML_PullParser_deleteBlanks"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_deleteBlanks</span> (line <span class="line-number">3465</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Removes all blank CDATA array elements from $token</p>
+<p class="description"><p>Tests all CDATA packets against the PERL regex '/\w/'   and deletes from the token array any CDATA element which   does not meet this test.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_deleteBlanks
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$token</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_free" id="XML_PullParser_free"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_free</span> (line <span class="line-number">3560</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Free the parser object.</p>
+<p class="description"><p>Needed only if restarting the parsing process.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			XML_PullParser_free
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../XML_PullParser/XML_PullParser_doc.html#methodXML_PullParser_free">XML_PullParser_doc::XML_PullParser_free()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodXML_PullParser_getAttributes" id="XML_PullParser_getAttributes"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getAttributes</span> (line <span class="line-number">2048</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an associative array of attribute-name/attribute-value pairs found in the specified element.</p>
+<p class="description"><p>Example:  <pre>  Array
+  (
+      [IP2] => 192.168.0.1
+      [TECH] => tech@example.net
+      [IP3] => 192.168.0.2
+      [IP4] => 192.168.0.3
+  )</pre></p><p>When namespace support is not in effect, it is possible to extract individual   names/values from members of this array, using the standard PHP   constructs, <strong>each</strong> and &lt;/b&gt;foreach&lt;/b&gt;;  or, where $name is known,   it is possible to get the value:  $value = $array[$name].   It is safest to use <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttrVal">XML_PullParser_getAttrVal</a>, which   guarantees the current case folding setting.</p><p>When namespace support is invoked, <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttrVal">XML_PullParser_getAttrVal</a> should always be used,   because attribute names are re-formatted into keys with the namespace URI's.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns an associative array of name/value pairs where the                      keys are the attribute names. If $which is an integer,                      the result is from the <em>$which_th</em> instance of the element $el.                      If $which is set to false then it returns all the attributes                      found in $el and its child elements. In the latter case, if more                      than one attribute has the same name, there will be duplicate keys                      and only the last of the duplicates is returned because of the nature of associative arrays.                      Returns Null if no attributes are found. See <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttrValues">XML_PullParser_getAttrValues</a>                      for a function which guarantees duplicate names.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getAttributes
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$which</span> = <span class="var-default">1</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$name</span><span class="var-description">: name of the element to be searched, can be the name of $el itself.    $name    can also be an array returned from one of the tokenizing functions. e.g. XML_PullParser_getElement,    XML_PullParser_getChild, XML_PullParser_getToken. In this case, the tokenized array will be used for $el    and the name of its topmost element will be used for $name.  This feature has particular functionality    when used in a loop with <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextElement">XML_PullParser_nextElement</a>, enabling the return value from    XML_PullParser_nextElement to be passed into XML_PullParser_getAttributes as $name.</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$which</span><span class="var-description">: (optional) integer or boolean.  If $which is an integer, the function looks    for the $which_th element of $name.    If set to false, $name is ignored, and all attributes in $el are returned.    But $name must still passed in as a Null parameter.   <br /> NOTE: The false option is not suitable for cases where there is more than one attribute of the same name.</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$el</span><span class="var-description">: (optional) the element where $name is found    If $el is Null, the function first tries <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a>, then the current token.  $el is    ignored if $name is an array.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getAttrVal" id="XML_PullParser_getAttrVal"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getAttrVal</span> (line <span class="line-number">2552</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the value of an attribute.</p>
+<p class="description"><p>This method guarantees conformance with the current case-folding setting.</p><p><strong>It should always be used to access attribute values when namespace support is in effect.</strong></p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the requested value for $name or Null if  not found.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			XML_PullParser_getAttrVal
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$attr_array</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$name</span><span class="var-description">: name of the attribute</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$attr_array</span><span class="var-description">: an assocative array of name/value pairs returned by <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttributes">XML_PullParser_getAttributes</a>   or derived from <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser_nextAttr</a> or <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttrValues">XML_PullParser_getAttrValues</a></span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getAttrValues" id="XML_PullParser_getAttrValues"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getAttrValues</span> (line <span class="line-number">2628</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method excavates all the attributes of a specified element.</p>
+<p class="description"><p>It is guaranteed to return all attribute   names and values even in cases where a parent has more than one child of the same name with same-named   attributes.  For instance:   <pre>       &lt;directory>
+           &lt;file name = "tutorial.doc" role = "doc" />
+           &lt;file name = "classes.php" role = "php" />
+           &lt;file name = "constants.inc" role = "php" />
+      &lt;/directory></pre></p><p>The above would return the following array:  <pre>	Array
+	(
+	    [0] => Array
+	        (
+	            [NAME] => tutorial.doc
+	            [ROLE] => doc
+	        )
+
+	    [1] => Array
+	        (
+	            [NAME] => classes.php
+	            [ROLE] => php
+	        )
+
+	    [2] => Array
+	        (
+	            [NAME] => constants.inc
+	            [ROLE] => php
+	        )
+
+	)</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> numerically indexed array of attribute-name/attribute-value pairs.</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop">XML_PullParser::XML_PullParser_setAttrLoop()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getAttrValues
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$ar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$ar</span><span class="var-description">: an associative array holding a single array element in which the key is the name of an           xml child element enclosing any number of attributes and the value is            either the name of the parent element (string) or a tokenized array which is the parent to $name.            e.g.<pre> array($child=>$parent).</pre> $child and $parent can be the same.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getAttr_NS" id="XML_PullParser_getAttr_NS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getAttr_NS</span> (line <span class="line-number">1085</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the value of an attribute if it falls within the current namespace definition</p>
+<p class="description"><p>This method was designed primarily for internal use but may have applicability   in some scripting situations.  Generally, however, <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttrVal">XML_PullParser_getAttrVal</a>   should be used to get attribute values.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the value of the attribute or NULL if the attribute name is not qualified by a namespace</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			XML_PullParser_getAttr_NS
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$attr_array</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$name</span><span class="var-description">: name of the attribute without its namespace qualification</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$attr_array</span><span class="var-description">: an assocative array consisting of the attribute's name   and value, formed as follows:   <pre>         attribute-name=>attribute-value</pre>   <strong>attribute-name</strong> is the name supplied by XML_PullParser_NS, which is an   internally constructed key.  The keys can be derived from the attribute arrays supplied   by <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttributes">XML_PullParser_getAttributes</a>, <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser_nextAttr</a>   and <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttrValues">XML_PullParser_getAttrValues</a></span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getChild" id="XML_PullParser_getChild"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getChild</span> (line <span class="line-number">1420</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieves a child element and its dependents from its parent</p>
+<p class="description"><p>This method extracts individual child elements from either $el or, if      $el is not specified, from the <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a> or, failing that, from the      current token.</p><p>$which specifies which instance of the child element to extract; the instances      are treated as a sequence, in the order of appearance in the element's array,      which follows the order of appearance in the XML document</p><p>if $child is the name of $el and $which == 1, then $el will be returned</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns child array if found, or Null if child not found in $el or False                   if $el was not passed in and no $current_element or current token is found.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getChild
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$child</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$which</span> = <span class="var-default">1</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$child</span><span class="var-description">: name of the element to be extracted</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$which</span><span class="var-description">: (optional) element to be extracted, defaults to 1,the first instance of the child</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$el</span><span class="var-description">: (optional) element from which the child is to be extracted</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getChildren" id="XML_PullParser_getChildren"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getChildren</span> (line <span class="line-number">1605</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method will extract all the children named by $child from $el.  If  $el is not specified, then the $current_element is used.  If the $current_element  is not set, because XML_PullParser_getElement has not been called, then it  searches the current token returned by XML_PullParser_getToken.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns requested array or False if <strong>!$el</strong></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getChildren
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$child</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$child</span><span class="var-description">: name of the child element to be searched for</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$el</span><span class="var-description">: optional array holding the child elements</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getChildrenFromName" id="XML_PullParser_getChildrenFromName"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getChildrenFromName</span> (line <span class="line-number">1657</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Fetches children from parent using a string to specify the parent element.</p>
+<p class="description"><p>See {@linkXML_PullParser_getChildren} for the method which fetches children from a parent specified as array</p><p>This method uses either $current_element or current token as the array from which to   derive the child elements.  If $current_element is not set then the current token is used.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the named children of $el and all their dependents</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getChildren">XML_PullParser::XML_PullParser_getChildren()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getChildrenFromName
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$el</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$name</span><span class="var-description">: name of the children sought</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$el</span><span class="var-description">: name of the parent element where children reside</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getCSSSpans" id="XML_PullParser_getCSSSpans"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getCSSSpans</span> (line <span class="line-number">2804</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This takes an associative array of XML element tags and CSS class names  and converts it to an array structure suitable for use in  XML_PullParser_getTextMarkedUp:</p>
+<p class="description"><p><pre>    array(xml_element =>css_class_name, xml_element =>css_class_name, . . )</pre></p><p>For instance:   <pre>     array("code"=>"code", "emphasis"=>"boldface_italic");</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getStyledSpans">XML_PullParser::XML_PullParser_getStyledSpans()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getHTMLTags">XML_PullParser::XML_PullParser_getHTMLTags()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getCSSSpans
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$markup</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$markup</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getCurrentElement" id="XML_PullParser_getCurrentElement"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getCurrentElement</span> (line <span class="line-number">2532</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">return:</span> <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getCurrentElement
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_getElement" id="XML_PullParser_getElement"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getElement</span> (line <span class="line-number">3137</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Gets tokenized arrays of elements specified in the $child_tags array.</p>
+<p class="description"><p>This method is second only to <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getToken">XML_PullParser_getToken</a> in importance.  XML_PullParser_getToken returns elements specified in the tags array: <a href="../XML_PullParser/XML_PullParser.html#var$tags">XML_PullParser::$tags</a>,  whereas this method returns elements specified in the child tags array: <a href="../XML_PullParser/XML_PullParser.html#var$child_tags">XML_PullParser::$child_tags</a>.  The array it returns consists of all the elements name $el found in  <a href="../XML_PullParser/XML_PullParser.html#var$converted_token">$converted_token</a>  and all of their dependents.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns requested array or False if <strong>!$el</strong></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getElement
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$el</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$el</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getElementName" id="XML_PullParser_getElementName"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getElementName</span> (line <span class="line-number">3227</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">get the name of the element array $el or the element name portion of   the internal string representation of the element</p>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			XML_PullParser_getElementName
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$el</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getEscapedToken" id="XML_PullParser_getEscapedToken"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getEscapedToken</span> (line <span class="line-number">1319</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a single escaped token on each call.</p>
+<p class="description"><p>An escaped token is an element which is declared in both the $tags   array and the $child_tags array. A separate stack is created for these   tokens. Each time XML_PullParser_getEscapedToken returns a token the   token is popped off the stack, until the stack   is exhausted, at which point it returns Null, making this method suitable for use   in a loop.</p><p>The stack is persistent. If it is not exhausted and if the file being   processed is larger than <a href="../XML_PullParser/XML_PullParser.html#var$read_length">$read_length</a>, tokens will be added to   the stack when the next chunk of the file is parsed.</p><p>To clear the stack at any pont call <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_clearEscapedTokens">XML_PullParser_clearEscapedTokens</a></p><p>An escaped token can be accessed by XML_PullParser_getEscapedToken at any time,   as long as it is still on the stack.  It can also be accessed in normal   document order by XML_PullParser_getElement. But escaped tokens are not   returned by XML_PullParser_getToken.  However, if an  escaped element is the child of   the current token, then it can  be accessed in the usual ways, e.g.   <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getChild">XML_PullParser_getChild</a>.</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_clearEscapedTokens">XML_PullParser::XML_PullParser_clearEscapedTokens()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#var$_escaped_tags">XML_PullParser::$_escaped_tags</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getEscapedToken
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_getHTMLTags" id="XML_PullParser_getHTMLTags"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getHTMLTags</span> (line <span class="line-number">2834</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This takes an associative array of XML element tags and HTML tags  and converts it to an array structure suitable for use in  XML_PullParser_getTextMarkedUp:</p>
+<p class="description"><p><pre>    array(xml_element =>html_tag_name, xml_element =>html_tag_name, . . )</pre></p><p>For instance:   <pre>     array("code"=>"code", "emphasis"=>"b", "classname"=>"i");</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getStyledSpans">XML_PullParser::XML_PullParser_getStyledSpans()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getCSSSpans">XML_PullParser::XML_PullParser_getCSSSpans()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getHTMLTags
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$markup</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$markup</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getNS_AttrName" id="XML_PullParser_getNS_AttrName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getNS_AttrName</span> (line <span class="line-number">1008</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Gets unqualified attribute name from the internally created attribute key</p>
+<p class="description"><p>The attribute <strong>key</strong> is created internally for namespace-qualified attributes  from both the attribute name and the namespace</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the attribute name extracted from the key</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			XML_PullParser_getNS_AttrName
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$str</span>)
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_getNS_URI" id="XML_PullParser_getNS_URI"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getNS_URI</span> (line <span class="line-number">964</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Extracts the namespace URI from an internally constructed key for either   attributes or elements</p>
+<p class="description"><p>Element namespaces are held along with attributes in the attribute array assigned to an element:   <pre>  Array
+  (
+     [HTTP://EXAMPLE.COM/DNS.TXT/|IP] => 192.168.10.3
+     [_ns_] => Array
+        (
+            [HTTP://EXAMPLE.COM/DNS.TXT/] => 1
+        )
+  )</pre></p><p>These arrays are returned by <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttributes">XML_PullParser_getAttributes</a> or can be extracted   from the arrays returned by <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttrValues">XML_PullParser_getAttrValues</a> and <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser_nextAttr</a></p><p><ol><li>If the parameter is a string, this method assumes that it is the internal name of an attribute,
+  as in the example above: HTTP://EXAMPLE.COM/DNS.TXT/|IP</li><li>If the parameter is an array and $name is not specified, it assumes that
+   the element's own namespace is being sought.  This is held in '_ns_';</li><li>If the parameter is an array and $name is specified, it looks for
+  the attribute of that $name.</li></ol></p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> namespace URI or NULL if not found</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			XML_PullParser_getNS_URI
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$str</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">Null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$str</span><span class="var-description">: the internally constructed attribute name or an attribute array,</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$name</span><span class="var-description">: optional name of the attribute; this is the unqualified name, i.e. without either   the namespace URI or the namespace prefix</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getSequence" id="XML_PullParser_getSequence"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getSequence</span> (line <span class="line-number">3390</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get listing of all elements in sequence, including those of dependents,   found in the array $el.</p>
+<p class="description"><p>if $el is not supplied, then this function looks for the $current_element   and if that's not found it then uses the current token.</p><p>The list consists of an associative array in which the keys are the   names of the elements and the values the sequence number in the   array being scannned.  For instance, if the $current_element is set to   &quot;SERVER&quot;, then:</p><p><pre>    Array
+   (
+       [0] => Array
+            (
+                [SERVER] => 1
+            )
+
+        [1] => Array
+            (
+                [SERVER] => 2
+            )
+
+        [2] => Array
+            (
+                [SERVER] => 3
+            )
+
+    )</pre></p><p>This array is used to sequence through elements with functions that   take a position number, for instance <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getText">XML_PullParser_getText</a> and   <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getAttributes">XML_PullParser_getAttributes</a>.</p><p>XML_PullParser_getSequence silently resets the $current_element to $el.   To set it back to its original value after the sequence array has finished its work,   call:<br />   $parser-&gt;XML_PullParser_resetCurrentElement($parser-&gt;_save_current_element) <br /></p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getSequence
+		</span>
+					([<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">""</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$el</span><span class="var-description">: (optional) array to parse, required only if $args is not present</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$args</span><span class="var-description">: (optional) variable length list or array of element names to include in returned array;                 those not in list will be ignored.  If this parameter is not passed in, then                 the sequence array will include all the elements in $el or the default array</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getStyledSpans" id="XML_PullParser_getStyledSpans"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getStyledSpans</span> (line <span class="line-number">2740</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds attributes to spans and classes to spans and is used   with XML_PullParser_getTextMarkedUp</p>
+<p class="description"><p>This method takes two parameters, $attributes and $markup.   Both are associative arrays. The $markup array is the same   as the <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getCSSSpans">XML_PullParser_getCSSSpans</a> array:   <pre>    array(xml_element =>css_class_name, xml_element =>css_class_name, . . )</pre>   The $attributes array is an associative array of this format:</p><p><pre>    array(html_attribute =>attribute_value, . . )</pre></p><p>If the first element in the $markup array has the following form:</p><p><pre>  ("emphasis"=>"bold_text")</pre></p><p>and if its counterpart in the $attributes array has this format:</p><p><pre>  ("style"=>"font-size: 10pt")</pre></p><p>The tag would become:</p><p><strong>&lt;span class=&quot;bold_text&quot; style=&quot;font-size: 10pt&quot;&gt;</strong></p><p>The $markup array always defaults to   <pre>       class="markup"</pre></p><p>The attribute/value pair of the $attributes array can be any valid markup.</p><p>The two arrays must be sequentially parallel, so that $markup-1 is   modified by $attributes-1, etc.  There cannot be duplicate keys, since the last   duplicate overwrites the previous.</p><p>It returns an array dedicated for use in <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextMarkedUp">XML_PullParser_getTextMarkedUp</a>;   it can be combined with arrays returned by  <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getStyledTags">XML_PullParser_getStyledTags</a>,   <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getCSSSpans">XML_PullParser_getCSSSpans</a>, and  <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getHTMLTags">XML_PullParser_getHTMLTags</a>.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getStyledSpans
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$markup</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$attributes</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$markup</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$attributes</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getStyledTags" id="XML_PullParser_getStyledTags"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getStyledTags</span> (line <span class="line-number">2768</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This function is almost identical to XML_PullParser_getStyledSpans,   except that it modifies standard HTML tags, so that one could   convert <pre>&lt;b> <b>to</b> &lt;b class="title"></pre></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> an array suitable for use with <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextMarkedUp">XML_PullParser_getTextMarkedUp</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getStyledSpans">XML_PullParser::XML_PullParser_getStyledSpans()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getStyledTags
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$markup</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$attributes</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$markup</span><span class="var-description">: associative array</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$attributes</span><span class="var-description">: associative array</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getText" id="XML_PullParser_getText"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getText</span> (line <span class="line-number">1882</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get character data from the specified element.</p>
+<p class="description"><p>If no parameters are passed to this method, it is assumed that the subject     of the search defaults either to <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a>, or if that has not been set, then     to the current token. All the character data of the of the default array is returned.  This is     in keeping with rule #1 below, where <strong>$which</strong> = 0 and <strong>$el</strong> is an array.  (It is also     implied by rule #5.)</p><p><ol><li>If $el is an array and $which==0, the array is passed to <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextStripped">XML_PullParser_getTextStripped</a>
+               and all character data enclosed by the parent START and END tags is returned;<br />
+               [A.] if the element has child elements with text, that text, too, will be returned.
+                <br />
+               [B.] if there is more than one element of the same name bound into the array,
+                all character data from all elements of the same  name will be returned.
+                <br /><br /></li><li>If $el is an array and $which &gt; 0, the array is passed to <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextArray">XML_PullParser_getTextArray</a>
+                 and the requested string is returned, using $which as an index into the array of strings returned
+                 by <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextArray">XML_PullParser_getTextArray</a>.  This array includes the text of parent and all descendents.
+
+                 To exclude descendents from this array
+                 set <strong>$xcl</strong> to <strong>true.</strong> Then the <em>$which_th</em> string will be selected only
+                 from elements named $el and not from any of its descendents.
+                  <br />
+                 It is often advisable to call <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_excludeBlanks">XML_PullParser_excludeBlanks</a> in advance.
+                 <br /><br /></li><li>If $el is a string and the name of a child element, then either the <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a>,
+               or if that's not set, the current token, is searched and the character data returned
+               depends on the value of $which: <br />
+                [A.] if $which has a value &gt; 0, then the character data from
+                    the <em>$which_th</em> instance of $el is returned but not the character
+                    data of its children;<br />
+                [B.] if $which retains its optional value of zero, then
+                     the character data of all elements named $el is returned
+                     but not the character data of their children<br /><br /></li><li>(Since release 1.2.1) If $el is a string and is the name of the default token, then
+         the behavior is the same as when $el is an array. <br /><br /></li><li>If $el is Null, then the character data of the default token is returned,
+          including that of child elements.<br /><br /></li><li>If $el is an array, or the name of the default token (see point 4 above), then the result
+          can be filtered through XML_PullParser_Childxcl by setting $xcl to TRUE.
+
+        <br /><br /></li><li>Returns NULL or an Empty String if text is not found in $el        <br /><br /></li><li>Returns FALSE if $el does not resolve to an array and neither $current_element
+         nor current token is found</li></ol></p><p>All requests to this function are preprocessed here and ultimately passed on to     <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextStripped">XML_PullParser_getTextStripped</a>, which means that its output is subject to the CDATA modifiers:     <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_excludeBlanks">XML_PullParser_excludeBlanks</a>, <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_trimCdata">XML_PullParser_trimCdata</a>,     and <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_excludeBlanksStrict">XML_PullParser_excludeBlanksStrict</a>.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			XML_PullParser_getText
+		</span>
+					([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>], <span class="var-type">integer</span>&nbsp;<span class="var-name">$which</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$xcl</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$el</span><span class="var-description">: optional name of element or a tokenized array</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$which</span><span class="var-description">: position of child element within the parent (default = 0)</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$xcl</span><span class="var-description">: (default=false) when set to true the array $el or the default token is                        filtered through XML_PullParser_Childxcl()</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getTextArray" id="XML_PullParser_getTextArray"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getTextArray</span> (line <span class="line-number">1770</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Gets an array of strings consisting of the character data specified by the parameter $el,   where $el is either a string naming the element or an array holding the element.</p>
+<p class="description"><p>The return value is a numerically indexed array of strings which reflects the structure of the element   referenced.  If the element specified by $el is, for instance, a structure such as    <pre>          &lt;Movies>
+             &lt;Movie>
+               &lt;Title>Gone With The wind&lt;/Title>
+               &lt;date>1939&lt;/date>
+               &lt;leading_lady>Vivien Leigh&lt;/leading_lady>
+               &lt;leading_man>Clark Gable&lt;/leading_man>
+               &lt;/Movie>
+             &lt;Movie>
+               &lt;Title>How Green Was My Valley&lt;/Title>
+               &lt;date>1941&lt;/date>
+               &lt;leading_lady>Maureen O'Hara&lt;/leading_lady>
+                          .
+             &lt;/Movie>
+               &lt;Title>Jurassic Park&lt;/Title>
+                          .
+                          .
+             &lt;/Movie>
+          &lt;/Movies></pre></p><p>XML_PullParser_getTextArray(&quot;Title&quot;) will return an  array of titles.    <pre>        Array
+          (
+              [0] => Gone With The Wind
+              [1] => How Green Was My Valley
+              [2] => Jurassic Park
+          )</pre></p><p>But XML_PullParser_getTextArray(&quot;Movies&quot;) will return an  array consisting of all the character data   between the &lt;Movies&gt; and &lt;/Movies&gt;:    <pre>        Array
+          (
+              [0] => Gone With The Wind
+              [1] => 1939
+              [2] => Vivien Leigh
+              [3  => Clark Gable
+              [4] => How Green Was My Valley
+              [5] => 1941
+                        .
+                        .
+              [8] => Jurassic Park
+                        .
+                        .
+          )</pre></p><p>Because this method uses XML_PullParser_getTextStripped to retrieve the character data,   all character data is returned, including character data   from dependent child elements.</p><p>It is useful to call <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_excludeBlanks">XML_PullParser_excludeBlanks</a>, otherwise the array returned   will include empty elements where they appear in the XML.</p><p>If $el is a string, it searches the <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a> for the specified element   and failing that the current token.  If $el is an array, the array should be specific to   the text required, i.e. a container consisting of Start and End tags within which   the text data resides.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> list of the texts found in each element, empty array if none are found,                        or FALSE if no containing array is found</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_excludeBlanks">XML_PullParser_excludeBlanks()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextStripped">XML_PullParser::XML_PullParser_getTextStripped()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">arrray</span>
+		<span class="method-name">
+			XML_PullParser_getTextArray
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$el</span><span class="var-description">: the name of the element or an array holding the element</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getTextMarkedUp" id="XML_PullParser_getTextMarkedUp"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getTextMarkedUp</span> (line <span class="line-number">2879</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method will mark up text, essentially for   redisplay as in HTML, using the $mark_up array   for determining which XML elements are to be   marked up and how they are to be marked up.</p>
+<p class="description"><p>The $mark_up array should be created using the   functions provided: <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getHTMLTags">XML_PullParser_getHTMLTags</a>,   <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getCSSSpans">XML_PullParser_getCSSSpans</a>, <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getStyledSpans">XML_PullParser_getStyledSpans</a>,   and <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getStyledTags">XML_PullParser_getStyledTags</a>.</p><p><pre> $mark_up = $parser->XML_PullParser_getCSSSpans(
+         array("code"=>"code", "emphasis"=>"emphasis")
+     );
+ $mark_up += $parser->XML_PullParser_getHTMLTags(array("classname"=>"b"));
+
+ $text = $parser->XML_PullParser_getTextMarkedUp($mark_up);</pre></p><p>NOTE: The tags marked up by this function cannot be empty, i.e. they   must have both an open tag and a closing tag.</p><p>In other respects, this function works essentially the same as   <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextStripped">XML_PullParser_getTextStripped</a> with one difference:   it is not subject to the CDATA modifiers <a href="../XML_PullParser/_XML_PullParser.inc.html#global$XML_PullParser_XCLUDE_BLANKS">$XML_PullParser_XCLUDE_BLANKS</a>,   <a href="../XML_PullParser/_XML_PullParser.inc.html#global$XML_PullParser_XCLUDE_BLANKS_STRICT">$XML_PullParser_XCLUDE_BLANKS_STRICT</a>, <a href="../XML_PullParser/_XML_PullParser.inc.html#global$XML_PullParser_TRIM_CDATA">$XML_PullParser_TRIM_CDATA</a></p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			XML_PullParser_getTextMarkedUp
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$mark_up</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$mark_up</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$el</span><span class="var-description">: see <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextStripped">XML_PullParser_getTextStripped</a></span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getTextStripped" id="XML_PullParser_getTextStripped"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getTextStripped</span> (line <span class="line-number">3034</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method is designed to return all the character data contained within  the START and END tags of an element, regardless of whether or not the texts  are enclosed by child elements.</p>
+<p class="description"><p>Example:    <pre>      &lt;News_item>There was a &lt;b>big&lt;/b> rainstorm last night&lt;/News_item></pre>           This would resolve to:                    There was a big rainstorm last night</p><p>The default delimiter which separates the text from contiguous elements is a  single space. This can be reset in <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setDelimiter">XML_PullParser_setDelimiter</a>, making it possible  to gobble up the text from a known sequence of elements and split out the results.    <pre>                &lt;maintainer>
+                       &lt;user>foo_33&lt;/user>
+                       &lt;name>Joe Foo&lt;/name>
+                       &lt;email>Joe Foo@shaw.ca&lt;/email>
+                       &lt;role>lead&lt;/role>
+                &lt;/maintainer></pre>   <br />   <div class="src-code"><ol><li><div class="src-line"><span class="src-var">$parser</span><span class="src-sym">-&gt;</span><a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setDelimiter">XML_PullParser_setDelimiter</a><span class="src-sym">(</span><span class="src-str">';'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;<span class="src-var">$result&nbsp;</span>=&nbsp;<span class="src-var">$parser</span><span class="src-sym">-&gt;</span><a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextStripped">XML_PullParser_getTextStripped</a><span class="src-sym">(</span><span class="src-var">$maintainer</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;list<span class="src-sym">(</span><span class="src-var">$user</span><span class="src-sym">,&nbsp;</span><span class="src-var">$name</span><span class="src-sym">,</span><span class="src-var">$email</span><span class="src-sym">,&nbsp;</span><span class="src-var">$role</span><span class="src-sym">)&nbsp;</span>=&nbsp;<a href="http://www.php.net/explode">explode</a><span class="src-sym">(</span><span class="src-str">';'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$result</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></div>   <br />   <strong>$result</strong> would be:  <pre><b>              foo_33;Joe Foo;Joe;Foo@shaw.ca;lead</b></pre></p><p>The text returned from this function is also subject to the CDATA modifiers:    <ol><li>If the package level function <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_excludeBlanks">XML_PullParser_excludeBlanks</a> is called with
+   a true value, XML_PullParser_getTextStripped will skip over
+   instances of character data  which contain only new lines, spaces, tabs, and carriage returns.
+   This is aimed at  XML_PullParser_getText and XML_PullParser_getTextArray, where nesting of
+   elements and  text can cause instance numbering and array counts to be misaligned.</li><li>If <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_excludeBlanksStrict">XML_PullParser_excludeBlanksStrict</a> is called with a true value, XML_PullParser_getTextStripped
+   will reject any CDATA packet which does not contain at least one member of the regular
+   expression character class &quot;\w&quot;, which includes [A-Za-z0-9_-]</li><li>If <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_trimCdata">XML_PullParser_trimCdata</a> is called with a true value, all CDATA packets will be trimmed
+   using the PHP trim() function.</li></ol></p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns a string concatenated from all the character data enclosed within the          subject element, including the character data enclosed within          its child elements.  Returns Null if not found. White space counts a CDATA,          and will not yield Null, unless XML_PullParser_trimCdata is called.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			XML_PullParser_getTextStripped
+		</span>
+					([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$el</span><span class="var-description">: (optional) array or string specifying element to be parsed;           if $el is not set then it is assumed that subject of the text request           is the <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a> or, lacking that, the current token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_getToken" id="XML_PullParser_getToken"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_getToken</span> (line <span class="line-number">1201</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">XML_PullParser_getToken initializes and returns the next top level element and all of its children for use    with the class data access methods. The top level elements are those delcared in    the tags array: <a href="../XML_PullParser/XML_PullParser.html#var$tags">XML_PullParser::$tags</a>.</p>
+<p class="description"><p>This  method is the workhorse of XML_PullParser. It is repeatedly called, most typically   in a while loop, to fetch the next token off the token stack.  Each token consists   of an element declared in the tags array and all of its dependent child elements.   The tags array is pre-declared in <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_declareElements">XML_PullParser_declareElements</a> or passed in through   the constructor.</p><p>The companion to this method is <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getElement">XML_PullParser_getElement</a>, which returns elements declared in   in the child tags array: <a href="../XML_PullParser/XML_PullParser.html#var$child_tags">XML_PullParser::$child_tags</a>.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> an array consisting of the next element in the   token stack and all of its dependent children.</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_declareElements">XML_PullParser_declareElements()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_getToken
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_isCaseEnfolded" id="XML_PullParser_isCaseEnfolded"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_isCaseEnfolded</span> (line <span class="line-number">3548</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Legacy method</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_isCaseFolded">XML_PullParser::XML_PullParser_isCaseFolded()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			XML_PullParser_isCaseEnfolded
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_isCaseFolded" id="XML_PullParser_isCaseFolded"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_isCaseFolded</span> (line <span class="line-number">3536</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The PHP XML parser, by default, converts all tag names to upper case, called case-folding.</p>
+<p class="description"><p>This method returns TRUE if case folding is in effect.   To put case sensitivity into effect call package-level <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_caseSensitive">XML_PullParser_caseSensitive</a>.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			XML_PullParser_isCaseFolded
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_isChildOf" id="XML_PullParser_isChildOf"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_isChildOf</span> (line <span class="line-number">3298</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns child array if $name is child of $el,</p>
+<p class="description"><p>Used to determine whether $name is a child of $el. The returned array is equivalent   to TRUE.  If $name is not a child of $el then this method returns NULL.</p><p><pre>   if($parser->XML_PullParser_isChildOf($name,$el) ) {
+        // code here
+   }</pre></p><p>$el can be either the name of an element or an array holding the element; if it is the name   of an element then the $current_element is used and lacking that the current token</p><p>Note: this method will also return an array if $name is the name of $el,</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns the child array or Null if child not found</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			XML_PullParser_isChildOf
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$name</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$el</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_isTypeOf" id="XML_PullParser_isTypeOf"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_isTypeOf</span> (line <span class="line-number">3257</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determine whether element $el is an element of type $name</p>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			XML_PullParser_isTypeOf
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$el</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$el</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_nextAttr" id="XML_PullParser_nextAttr"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_nextAttr</span> (line <span class="line-number">2266</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the next attribute from attribute loop</p>
+<p class="description"><p>The array returned by this method has this structure: <br />    [0]  element name<br />    [1]  associative array of all the attributes in this element;         the names of the attributes are the keys<br />    [2]  the character data enclosed by the element, if the array     is created by XML_PullParser_setAttrLoop_elcd; Or,      the empty string if created by XML_PullParser_setAttrLoop<br /></p><p>Example:<br />   &lt;server ip=&quot;192.168.0.1&quot; tech=&quot;tech@footloose.org&quot;&gt;               ns1.example.net&lt;/server&gt;</p><p>The above yields this array:  <pre>  Array
+  (
+   [0] => SERVER
+   [1] => Array
+       (
+           [IP] => 192.168.0.1
+           [TECH] => tech@example.net
+       )
+   [2] => ns1.example.net  <b>OR</b>  ""
+  )</pre></p><p>Code to use this function:  <pre>    $servers=$parser->XML_PullParser_getElement('server');
+    $attrs = $parser->XML_PullParser_setAttrLoop();
+
+   $n =1;
+    while($at = $parser->XML_PullParser_nextAttr()) {
+       $server_name = $parser->XML_PullParser_getText($servers,$n);
+       $n++;
+       echo "$at[0]: $server_name\n";
+       foreach($at[1] as $attr_name => $attr_value) {
+          echo "$attr_name => $attr_value\n";
+      }
+
+     }</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#var$_attr_loop_pos">XML_PullParser::$_attr_loop_pos</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#var$_attr_loop_array">XML_PullParser::$_attr_loop_array</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_resetAttrLoopPtr">XML_PullParser::XML_PullParser_resetAttrLoopPtr()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop_elcd">XML_PullParser::XML_PullParser_setAttrLoop_elcd()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop">XML_PullParser::XML_PullParser_setAttrLoop()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_nextAttr
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_nextElement" id="XML_PullParser_nextElement"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_nextElement</span> (line <span class="line-number">2171</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Designed to work in loops using the internal array created by XML_PullParser_getElement.</p>
+<p class="description"><p>This function removes each next element from the next element stack,   and returns it until the stack is exhausted.  The stack   is a copy of <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a>.</p><p>This is useful only where there is more than one instance of an element:   <pre>    <DNS>
+    <ENTRY>
+    <ipaddress>172.20.19.6</ipaddress>
+    <domain>example.com</domain>
+    <server ip="192.168.10.1">example_1.com</server>
+    <server ip="192.168.10.2">example_2.com</server>
+    <server ip="192.168.10.3">example_3.com</server>
+    <alias>www.example.com</alias>
+    </ENTRY>
+    </DNS></pre></p><p>Used in this situation, XML_PullParser_nextElement() will return each next server element in document order,   making it possible to get at the text and the attributes.   Note: This method is not used for accessing child elements of the elements saved by XML_PullParser_getElement.   For that we have to use XML_PullParser_getSequence() or XML_PullParser_getChild(),   or else  include the child elements in the child tags array</p><p>The array it returns is a tokenized array that can be passed to the class methods  which accept them.  By default, this array is filtered through  <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_childXCL">XML_PullParser_childXCL</a>, which means that all children of the parent element  are removed. This guarantees that the result returned when requesting text and  attributes is for the element named in the parameter to XML_PullParser_getElement.  But this also means that it is not suitable for use in applications which need to  slurp together text from parent and all its children, as in a marked-up paragraph,  since all the mark-up would be deleted in favor of the parent element.</p><p>The default behavior can be turned off by passing in a False value as a parameter,  in which case the results are not filtered through XML_PullParser_childXCL</p><p>The idiom for  its use is:</p><p><pre>   $parser->XML_PullParser_getElement('element_name');
+    while($next = $parser->XML_PullParser_nextElement()) {
+         $data = $parser->XML_PullParser_getText($next);
+    }</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#var$_next_element_array">XML_PullParser::$_next_element_array</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_nextElement
+		</span>
+					([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$xcl</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$xcl</span><span class="var-description">: defaults to True;  False turns off filtering through XML_PullParser_childXCL</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_pushbackToken" id="XML_PullParser_pushbackToken"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_pushbackToken</span> (line <span class="line-number">1346</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Pushes the current token back on the stack so that it can be re-read</p>
+<p class="description"><p>XML_PullParser_clearPbackStack() should be called if XML_PullParser_pushbackToken()   returns false. XML_PullParser_clearPbackStack() will return the pushed back token   and prevent the possibility of an infinite loop.</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_clearPbackStack">XML_PullParser::XML_PullParser_clearPbackStack()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			XML_PullParser_pushbackToken
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_resetAttrLoopPtr" id="XML_PullParser_resetAttrLoopPtr"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_resetAttrLoopPtr</span> (line <span class="line-number">2496</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Resets attribute loop pointer back to zero, so that the attributes loop   can be re-read, starting at the top</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#var$_attr_loop_pos">XML_PullParser::$_attr_loop_pos</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser::XML_PullParser_nextAttr()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop">XML_PullParser::XML_PullParser_setAttrLoop()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			XML_PullParser_resetAttrLoopPtr
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_resetCurrentElement" id="XML_PullParser_resetCurrentElement"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_resetCurrentElement</span> (line <span class="line-number">2520</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets current element to a new value.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> copy of previous current element</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#var$current_element">XML_PullParser::$current_element</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_resetCurrentElement
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$cur_el</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$cur_el</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_setAttrLoop" id="XML_PullParser_setAttrLoop"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_setAttrLoop</span> (line <span class="line-number">2428</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates an array of all attributes located in $el and its children.</p>
+<p class="description"><p>Use XML_PullParser::XML_PullParser_nextAttr() to get the attributes.</p><p>For fuller description and example of use see <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser_nextAttr</a></p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> accessed through XML_PullParser_nextAttr</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop_elcd">XML_PullParser::XML_PullParser_setAttrLoop_elcd()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#var$_attr_loop_array">XML_PullParser::$_attr_loop_array</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#var$_attr_loop_pos">XML_PullParser::$_attr_loop_pos</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_resetAttrLoopPtr">XML_PullParser::XML_PullParser_resetAttrLoopPtr()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_setAttrLoop
+		</span>
+					([<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$assignText</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$el</span><span class="var-description">: (optional)           if $el is not set then it is assumed that subject of the request           is the <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a> or, lacking that, the current token</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$assignText</span><span class="var-description">: (internal)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_setAttrLoop_cdata" id="XML_PullParser_setAttrLoop_cdata"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_setAttrLoop_cdata</span> (line <span class="line-number">2294</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method does the same thing as XML_PullParser_setAttrLoop_elcd</p>
+<p class="description"><p>The one difference is that this method requires that $el be declared in the $child tags array.    XML_PullParser_setAttrLoop_elcd is an improvement on the code in this method and should be    used unless imcompatibilties between the current and the previous version of    XML_PullParser_setAttrLoop_elcd arise.</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop_elcd">XML_PullParser::XML_PullParser_setAttrLoop_elcd()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_setAttrLoop_cdata
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$el</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_setAttrLoop_elcd" id="XML_PullParser_setAttrLoop_elcd"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_setAttrLoop_elcd</span> (line <span class="line-number">2366</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">XML_PullParser_setAttrLoop_elcd is a wrapper for   XML_PullParser_setAttrLoop.</p>
+<p class="description"><p>This method differs from <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop">XML_PullParser_setAttrLoop</a> in that   it captures the text associated with each element, in addition to   the attribute and element name.  For an illustration of the   array structure that it creates see <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser_nextAttr</a>.</p><p>Like XML_PullParser_setAttrLoop, this method  uses <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser_nextAttr</a>   to loop through the attribute array.  The difference is that in the array   returned by XML_PullParser_nextAttr, the second array element holds   the element's character data instead of the empty string.  For details   see <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser_nextAttr</a>.</p><p>This is an improvement on the old code for this method, which is still available   as <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop_cdata">XML_PullParser_setAttrLoop_cdata</a>.   XML_PullParser_setAttrLoop_cdata should be used only if   incompatibilties between the current and the previous version of   XML_PullParser_setAttrLoop_elcd arise.  In that event, please notify   the developer at Myron_Turner_(at)_Shaw_(dot)_ca.</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_resetAttrLoopPtr">XML_PullParser::XML_PullParser_resetAttrLoopPtr()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_setAttrLoop">XML_PullParser::XML_PullParser_setAttrLoop()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextAttr">XML_PullParser::XML_PullParser_nextAttr()</a></li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#var$current_element">XML_PullParser::$current_element</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_setAttrLoop_elcd
+		</span>
+					([<span class="var-type">array</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$el</span><span class="var-description">: optional tokenized array</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_setCurrentNS" id="XML_PullParser_setCurrentNS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_setCurrentNS</span> (line <span class="line-number">879</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates the current namespace definition</p>
+<p class="description"><p>It takes a single parameter,  a string consisting of one or more  namespace URI's.  They must be exactly as definied in the XML document. If  there is a trailing forward slash in the URI, then this must be included.  If more than one namespace is passed in, they must separated by the vertical  bar:  <pre>    $parser->XML_PullParser_setCurrentNS("http://room535.org/movies/title/|"
+      . "http://room535.org/movies/mov/|http://room535.org/movies/star/");</pre></p><p>This method will return FALSE if namespace support has not been invoked    in advance using <a href="../XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_NamespaceSupport">XML_PullParser_NamespaceSupport</a> and will not set the namespace definition;    otherwise it sets the new namespace definition and returns the previously set definition,    which is suitable for passing back into the method;    if there is no previous namespace definition, it sets the definition to <strong>$ns</strong> and returns True.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			XML_PullParser_setCurrentNS
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$ns</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$ns</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_setDelimiter" id="XML_PullParser_setDelimiter"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_setDelimiter</span> (line <span class="line-number">3115</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets the delimiter for XML_PullParser_getTextStripped and returns the old delimiter</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> old $delimiter</li>
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextStripped">XML_PullParser::XML_PullParser_getTextStripped()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			XML_PullParser_setDelimiter
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$delimiter</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$delimiter</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXML_PullParser_tokenFromChildren" id="XML_PullParser_tokenFromChildren"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_tokenFromChildren</span> (line <span class="line-number">3501</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method converts the array returned by XML_PullParser_getChildren into   a valid tokenized array</p>
+<p class="description"><p>It takes either one or two parameters.   <ol><li>Two Parameters:  the name of a child element and a tokenized array.<br />
+    In this case it extracts the children from the token using XML_PullParser_getChildren and then converts the
+    resulting array to a valid token</li><li>One Parameter: an array that has already been processed by XML_PullParser_getChildren.<br />
+   In this case, it converts this array to a valid token</li></ol></p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_tokenFromChildren
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$child</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$el</span> = <span class="var-default">""</span>])
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_unsetCurrentElement" id="XML_PullParser_unsetCurrentElement"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_unsetCurrentElement</span> (line <span class="line-number">2506</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Unsets current element and returns its value;</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> <a href="../XML_PullParser/XML_PullParser.html#var$current_element">$current_element</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			XML_PullParser_unsetCurrentElement
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodXML_PullParser_unsetCurrentNS" id="XML_PullParser_unsetCurrentNS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">XML_PullParser_unsetCurrentNS</span> (line <span class="line-number">919</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Unsets the current namespace definition</p>
+<p class="description"><p>When namespace support is in effect and the current namespace definition   is unset, XML_PullParser behaves as though the XML document had no namespaces.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> previously set namespace definition</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			XML_PullParser_unsetCurrentNS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_aligned" id="_aligned"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_aligned</span> (line <span class="line-number">1162</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_aligned
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$token</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_characterData" id="_characterData"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_characterData</span> (line <span class="line-number">680</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">PHP XML Callback:  Internal</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_characterData
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$parser</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$parser</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$data</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_convertToken" id="_convertToken"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_convertToken</span> (line <span class="line-number">1136</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Converts token returned by _getTokenRaw to a form compatible with   the tokens returned by {@linkXML_PullParser_getElement}</p>
+<p class="description"><p>This method is essentially internal and is called by <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getToken">XML_PullParser_getToken</a>.</p><p>Unless the raw token is converted, the PullParser data accesors are not available:   XML_PullParser_getAttributes,  XML_PullParser_getText,   XML_PullParser_getTextStripped, XML_PullParser_getChild,  XML_PullParser_getChildren</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			_convertToken
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$token</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_createParser" id="_createParser"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_createParser</span> (line <span class="line-number">794</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initialize the XML Parser:  Internal</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> (resource: xml parser handle, resource: file handle)</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			_createParser
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$file</span>)
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../XML_PullParser/XML_PullParser_doc.html#method_createParser">XML_PullParser_doc::_createParser()</a>
+								: Creates a parser object to read the document as a single string
+							</li>
+				</ul>
+	</div>
+<a name="method_endElement" id="_endElement"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_endElement</span> (line <span class="line-number">739</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">PHP XML Callback:  Internal</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_endElement
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$parser</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$name</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$parser</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_externalEntityParser" id="_externalEntityParser"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_externalEntityParser</span> (line <span class="line-number">764</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_externalEntityParser
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$parser</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$openEntityNames</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$base</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$systemId</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$publicId</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$parser</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$openEntityNames</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$base</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$systemId</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$publicId</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_getCurrentPosition" id="_getCurrentPosition"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_getCurrentPosition</span> (line <span class="line-number">1113</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_getCurrentPosition
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_getCurrentSlice" id="_getCurrentSlice"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_getCurrentSlice</span> (line <span class="line-number">3329</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_getCurrentSlice
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_getCurrentTagArray" id="_getCurrentTagArray"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_getCurrentTagArray</span> (line <span class="line-number">3523</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_getCurrentTagArray
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_getTokenRaw" id="_getTokenRaw"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_getTokenRaw</span> (line <span class="line-number">1228</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the next available raw token and initializes a number of internal data structures.</p>
+<p class="description"><p>Its return value cannot be used with the PullParser data access functions.</p><p>For full functionality, use PullParser::XML_PullParser_getToken.</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getToken">XML_PullParser::XML_PullParser_getToken()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			_getTokenRaw
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_is_current_NS" id="_is_current_NS"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_is_current_NS</span> (line <span class="line-number">1039</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This is used to test whether an element or an attribute falls within the current   namespace definition.</p>
+<p class="description"><p>This is mainly for internal use, particularly insofar as it is applied to elements.   But it can be used by the programmer to determine whether an attribute   resides within the current namespace definition.  This can be done first by   extracting the namespace URI from the attribute's name, using <a href="../XML_PullParser/XML_PullParser.html#methodXML_PullParser_getNS_URI">XML_PullParser_getNS_URI</a>,   and then passing into _is_current_NS() the URI and the attribute's value   as key=&gt;value array:   <pre>     $name = XML_PullParser_getNS_URI($name);
+     if(_is_current_NS(array($name=>$value)) ) {
+     }</pre></p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			_is_current_NS
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$ns_array</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$ns_array</span><span class="var-description">: this is a single element array of the type key=&gt;value,         where the key is the name space string and the value either an attribute value or TRUE</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_markUnmarkedStartTags" id="_markUnmarkedStartTags"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_markUnmarkedStartTags</span> (line <span class="line-number">1378</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_markUnmarkedStartTags
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$el</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$el</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_nullify" id="_nullify"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_nullify</span> (line <span class="line-number">1575</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Helper function to XML_PullParser_childXCL</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_nullify
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$temp</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$pos</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$temp</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$pos</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_processToken" id="_processToken"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_processToken</span> (line <span class="line-number">3170</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">An internal function used to initialize a number of internal structures.</p>
+<p class="description"><p>It is called by default by XML_PullParser_getToken.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_processToken
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_readData" id="_readData"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_readData</span> (line <span class="line-number">820</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get next chunk of data from XML Parser:  Internal</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_readData
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../XML_PullParser/XML_PullParser_doc.html#method_readData">XML_PullParser_doc::_readData()</a>
+								: Reads and parses the submitted document as a string
+							</li>
+				</ul>
+	</div>
+<a name="method_startElement" id="_startElement"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_startElement</span> (line <span class="line-number">691</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">PHP XML Callback:  Internal</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_startElement
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$parser</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$attrs</span> = <span class="var-default">NULL</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$parser</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$name</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$attrs</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 07 Dec 2006 12:08:03 -0500 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC6</a>
+	</p>
+	</div></body>
+</html>

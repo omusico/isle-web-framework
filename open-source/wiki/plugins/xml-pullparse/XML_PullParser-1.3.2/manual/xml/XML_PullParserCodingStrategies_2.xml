@@ -1,0 +1,137 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Coding Strategies 2: the 'which' parameter</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+         <firstname>Myron</firstname>       
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+
+  <formalpara><title></title><para>
+  Several functions take a <code>$which</code> parameter. In this section we'll look at two
+  of these which often work in tandem:   
+    
+    <token>array  XML_PullParser_getAttributes  (mixed $name, [mixed $which = 1], [array $el = ""])</token>
+    <token>string  XML_PullParser_getText  ([mixed $el = ""], [integer $which = 0], [boolean $xcl = false])</token>
+
+  As we said in the section on <ulink url="XML_PullParserCoding_3.xml#selectors">instantiation</ulink>,
+   the <code>$child_tags</code> and the <code>$tags</code> arrays in conjunction with
+  <code>XML_PullParser_getToken</code> and <code>XML_PullParser_getElement</code>
+  act as selectors.  The <code>$which</code> parameter refines the selection.
+  Where a token contains more than one element of the same name, <code>$which</code>
+  specifies which of them is the subject of the query. The elements are stored in the token arrays in document
+  order, beginning at a <code>$which</code> value of 1.
+  </para></formalpara>
+
+  <simpara>
+   <emphasis>Note: </emphasis>The <code>$which</code> value is a selector and shouldn't be confused 
+   with array indexes, which start at zero.
+  </simpara>
+
+
+  <formalpara><title></title><para>
+  In the <ulink type ="anchor" url="XML_PullParserCoding_1.xml#example_1">DNS</ulink>
+  Example that we've been working with, there are three <emphasis>server</emphasis> elements:
+</para></formalpara>
+
+ <blockquote>
+ <programlisting>
+
+	&lt;server ip="192.168.10.1"&gt;example_1.com&lt;/server&gt;
+	&lt;server ip="192.168.10.2"&gt;example_2.com&lt;/server&gt;
+	&lt;server ip="192.168.10.3"&gt;example_3.com&lt;/server&gt;
+
+ </programlisting>
+ </blockquote>
+ <formalpara><title></title><para>  The following code will get both the names and the ip addresses of the three servers: </para></formalpara>
+
+ <blockquote><title role="code">Listing 9</title>
+ <anchor id="listing_9" />
+ <programlisting>
+
+    1.  $tags = array("entry");
+    2.  $child_tags = array("server","ipaddress", "domain");
+
+    3.  $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);     
+
+    4.  while($token = $parser->XML_PullParser_getToken())
+    5.  { 
+    6.      $parser->XML_PullParser_getElement('server');    
+    7.      $which=1;
+    8.      while($server = $parser->XML_PullParser_getText('server',$which)) {
+    9.         $ip = $parser->XML_PullParser_getAttributes('server',$which);
+   10.         echo "Name: $server\n";
+   11.         echo "\tIP: " . $parser->XML_PullParser_getAttrVal('ip', $ip) . "\n";   
+   12.         $which++;
+   13.     }
+   14.  }
+/*
+  Result
+    Name:  example_1.com
+        IP: 192.168.10.1
+    Name:  example_2.com
+        IP: 192.168.10.2
+    Name:  example_3.com
+        IP: 192.168.10.3
+*/
+        
+
+ </programlisting>
+ </blockquote>
+
+  <formalpara><title></title><para>
+  <emphasis>Listing 9</emphasis> assumes that we are going to be interested more than just
+  the servers. So we declare the "entry" element
+  in the <code>$tags</code> array and the other elements of interest in the <code>$child_tags</code>
+  array.  Line 4 gets the "entry" token and then <code>XML_PullParser_getElement</code> (line 6)
+  isolates the token's server elements for processing.  
+  </para></formalpara>
+  <formalpara><title></title><para>
+   Beginning with line 8, the while loop first gets each server's name and then its ipaddress, which
+   is stored as an attribute of <emphasis>server</emphasis>.  The server name is returned as a string and the attribute
+   as an array, which is passed in to the helper function <code>XML_PullParser_getAttributes,</code> 
+   which then returns the attribute value as a string. The <code>$which</code> value is updated with each turn of the loop
+   (line 12).
+  </para></formalpara>
+
+  <blockquote role="box"><title>Note</title>
+    <simplelist type='vert' columns='1'>
+        <member><code>XML_PullParser_getText</code> is a complex function; its return value depends
+        on what is passed in as parameters, including the <code>$xcl</code> parameter, which has not
+        been discussed here.  See the class
+       <ulink url="../doc/XML_PullParser/XML_PullParser.html#XML_PullParser_getText">documentation</ulink>
+       and the
+      <ulink url="XML_PullParser_TextAccessors.xml#get_Text">TextAccesors</ulink>
+      section of this manual.  
+        </member>
+    </simplelist>
+  </blockquote> 
+
+  <formalpara><title></title><para></para></formalpara>
+  <simpara role="hr"></simpara>
+  <formalpara><title></title><para>
+   <ulink type ="prev" url="XML_PullParserCodingStrategies_1.xml">Introduction to Coding Strategies</ulink>
+   <ulink type ="next" url="XML_PullParserCodingStrategies_3.xml">Strategies 3: XML_PullParser_getSequence
+    </ulink>
+  </para></formalpara>    
+
+  <formalpara><title></title><para></para></formalpara><formalpara><title></title><para></para></formalpara>
+
+</article>
+
+

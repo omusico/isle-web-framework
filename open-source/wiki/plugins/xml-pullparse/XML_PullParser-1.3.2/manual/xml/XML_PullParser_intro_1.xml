@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Introduction</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+
+         <firstname>Myron</firstname>
+
+         <email>Myron_Turner@shaw.ca</email>
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+ 
+   <formalpara><title></title><para>This is a Class modeled on the PullParser module found in the Perl <classname>HTML::Parser</classname>
+        distribution. It moves the API from an event-based model to a token-based model. Instead of processing data
+        as it is passed from the parser to callbacks, a script using XML_PullParser requests "tokens"
+        from various "tokenizing" functions, most particularly from <code>XML_PullParser_getToken.</code> and
+        <code>XML_PullParser_getElement.</code>
+        Tokens are arrays representing XML structures, which become
+        available in the order in which they appear in the document being parsed.
+      </para></formalpara>
+
+   <formalpara><title></title><para>
+    In addtion to the tokenizers, a rich set of accessors are provided to extract data from 
+    the elements and attributes bundled in the tokens.
+    There are also techniques and class methods for selecting elements and attributes, and for testing
+ 	for their position and relevancy. Finally, there are
+    package-level functions to set the contexts that affect the operations of the module.
+</para></formalpara>
+		
+   <formalpara><title></title><para>
+	<classname>XML_PullParser</classname> is not as clearly a "token" parser as
+	<classname>HTML::PullParser</classname>. The Perl module focuses on the
+	individual tag as it comes on stream, which makes it suited to large blocks
+	of text with a great many embedded tags, whereas <classname>XML_PullParser</classname>
+        is oriented towards nested structures, which makes it suited to the kinds of database 
+        structures that much XML is used for.  The current DocBook paragraph is a good example
+        of where the Perl module has the advantage:
+ </para></formalpara>
+ <blockquote><title>Example 1</title>
+ <programlisting>
+  	&lt;classname >XML_PullParser&lt;/classname > is not as purely a "token" parser as
+ 	&lt;classname >HTML::PullParser&lt;/classname >. The Perl module foucuses on the
+	individual tag as it comes on stream, which makes it suited to large blocks
+	of text with a great many embedded tags, whereas &lt;classname >XML_PullParser&lt;/classname >
+        is oriented towards nested structures. . .
+</programlisting>
+</blockquote>
+  <formalpara><title></title><para>
+	If Perl's <classname>HTML::PullParser</classname> were to format <emphasis>Example 1</emphasis>,
+    the &lt;classname > tags would be announced at the points at which they occur in the stream,
+    and so re-casting &lt;classname > to bold italics, as here, would be a simple matter of exchanging &lt;b >&lt;i >
+    for &lt;classname > whenever the &lt;classname > tag came on stream.  <classname>XML_PullParser,</classname>
+    on the other hand, would output an entire structure enclosed by either &lt;blockquote > or &lt;programlisting >.
+    To convert the classnames to bold, it is then necessary to review this structure and apply a replacement
+    function like <code>preg_replace</code> to each element that calls for re-casting.  
+    <classname>XML_PullParser</classname> has a function which does just this:
+    <code>XML_PullParser_getTextMarkedUp.</code>  
+    
+
+
+   </para></formalpara>
+   <formalpara><title></title><para>
+    This page is very likely being generated on the fly from the orignal XML, using
+    <code>XML_PullParser_getTextMarkedUp,</code> and certainly over the web there's no
+    noticeable performance defecit. Nevertheless, the strength of <classname>XML_PullParser,</classname>
+    is with structures like like Example 2.
+  </para></formalpara>
+
+	<blockquote><title>Example 2</title>
+	<programlisting>
+	&lt;ENTRY&gt;
+	&lt;ipaddress&gt;172.20.19.6&lt;/ipaddress&gt;
+	&lt;domain&gt;example.com&lt;/domain&gt;
+	&lt;server ip="192.168.10.1"&gt;example_1.com&lt;/server&gt;
+	&lt;server ip="192.168.10.2"&gt;example_2.com&lt;/server&gt;
+	&lt;server ip="192.168.10.3"&gt;example_3.com&lt;/server&gt;
+	&lt;alias&gt;&lt;www.example.com&lt;/alias&gt;
+	&lt;/ENTRY&gt;
+  
+    &lt;ENTRY&gt;
+	&lt;ipaddress&gt;172.20.19.7&lt;/ipaddress&gt;
+        .      
+        .  
+	&lt;alias&gt;&lt;www.example.org&lt;/alias&gt;
+	&lt;/ENTRY&gt;
+
+	</programlisting>
+	</blockquote>
+
+	<formalpara><title></title><para>
+    In a database-like file with a set of entries like this, <classname>XML_PullParser</classname> would
+    loop through the file grabbing up an entire &lt;ENTRY&gt; structure with each iteration
+    and provide immediate, direct access to each of its elements.  The next two sections
+    introduce the coding for such tasks and try to give a tase of how <classname>XML_PullParser</classname> works.
+    </para></formalpara>   
+    <simpara role="hr"></simpara>
+    <formalpara><title></title><para>
+    <ulink type="prev" url="synopsis.xml">Synopsis</ulink>
+    <ulink type="next" url="XML_PullParserCoding_1.xml">Introduction to Coding 1</ulink>
+   </para></formalpara>    
+
+    <formalpara><title></title><para></para></formalpara>
+    <formalpara><title></title><para></para></formalpara>
+</article>
+
+

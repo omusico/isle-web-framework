@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle></subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+         <firstname>Myron</firstname>
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+ 
+ 
+<formalpara><title></title><para>
+</para></formalpara>
+
+ <blockquote><title>Example 1</title>
+ <programlisting>
+ </programlisting>
+ </blockquote>
+
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+  <blockquote role="box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+        <member></member>
+        <member></member>
+    </simplelist>
+  </blockquote> 
+  <simpara role="hr"></simpara>
+  <para><ulink url="XML_PullParser_intro_2.xml">Next</ulink></para>    
+
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+</article>
+
+

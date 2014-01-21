@@ -1,0 +1,169 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Instantiating the XML_PullParser Object</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+   There are two implementations of  <span class='classname'>XML_PullParser</span> , one for use with files, the other
+   for use with documents presented to the constructor as strings:
+     <h4  style="left:20px"> resource XML_PullParser(string $filename, [array $tags], [array $child_tags]); </h4>
+     <h4  style="left:20px"> resource XML_PullParser_doc(string $doc, [array $tags], [array $child_tags]); </h4>
+
+  Both implementations expect two arrays,  <span class='code'>$tags</span>  and  <span class='code'>$child_tags,</span>  which may either be
+  passed into the constructor or predeclared using two utility functions:
+
+     <h4  style="left:20px">array XML_PullParser_declareElements(mixed $tags)</h4>
+     <h4  style="left:20px">array XML_PullParser_declareChildElements(mixed $tags)</h4>
+
+  Keeping to the  <A href="XML_PullParserCoding_1.html#example_1">DNS</A>
+ example, we would have something like this:
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;">Listing 5</span></b></center>
+<pre>
+        1.  $tags = array("entry");
+        2.  $child_tags = array("ipaddress","server", "domain", "alias");
+        3.  $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+
+</pre></div>
+<p><div class="para"><A Name='selectors'></a>
+
+  It's important to understand the relationship of the  <span class='code'>$tags</span>  array to the
+   <span class='code'>$child_tags</span>  array.  Both act as selectors, identifying elements of interest.
+  The elements selected by the  <span class='code'>$tags</span>  array are returned by  <span class='code'>XML_PullParser_getToken,</span>
+  while those selected by the  <span class='code'>$child_tags</span>  array are returned by
+   <span class='code'>XML_PullParser_getElement</span> .  The tokens returned by these functions are arrays
+  mapped to the structure of each selected element--this includes all children, character data
+  and attributes.  The order in which elements are declared in the  <span class='code'>$tags</span>  and
+   <span class='code'>$child_tags</span>  arrays have no bearing on the order in which the tokens are returned:
+  as explained below, tokens are returned in document order.
+
+</p></div>
+
+<p><div class="para">
+  Generally   speaking, the  <span class='code'>$tags</span>  are the parent elements and the  <span class='code'>$child_tags</span>
+  are their children.   That's the case in the  <span class='emphasis'>DNS</span>  example, where
+   <span class='code'>entry</span>  is the parent to all of the other elements.  But this doesn't prevent the
+   <span class='code'>$child_tags</span>  from themselves having children.
+</p></div>
+
+<p><div class="para"><A Name='tags_rule'></a>
+
+   The most important consideration is that a child element and its parent
+   cannot both be declared in the  <span class='code'>$tags</span>  array.  More precisely, this
+   prohibition applies to a parent and any of its descendents, i.e. its children's children.
+   Such a declaration causes the parsing process to become corrupted. The same
+   prohibition does not apply to the  <span class='code'>$child_tags</span> , which allows for the
+   declaration of both parents and children.
+</p></div>
+
+<p><div class="para"><A Name='selectors_2'></a>
+
+  When  <span class='code'>XML_PullParser_getToken</span>  is called, the resulting token is stored internally in the array
+   <A href="../doc/XML_PullParser/XML_PullParser.html#var$converted_token">$converted_token.</A> <span class='super'>1</span>
+  It's the value of this array that is returned by  <span class='code'>XML_PullParser_getToken.</span>
+  When  <span class='code'>XML_PullParser_getElement</span>  is called, it draws on the same raw data structure out of which
+  the  <span class='code'>$converted_token</span>  is constructed and stores the result internally in the array
+   <A href="../doc/XML_PullParser/XML_PullParser.html#var$current_element">$current_element.</A>
+  It's the value of this array that is returned by  <span class='code'>XML_PullParser_getElement.</span>
+  When  <span class='code'>XML_PullParser_getElement</span>  is called it's passed a single parameter, the  <span class='code'>$name</span>
+  of an element.  The array it returns  consists of all the elements of  <span class='code'>$name</span>
+  found in  <span class='code'>$converted_token.</span>
+  The element specified by $name has to have been declared in the  <span class='code'>$child_tags</span>  array. <span class='super'>2</span>
+</p></div>
+
+<p><div class="para">
+ A call to  <span class='code'>XML_PullParser_getToken</span>  is the prerequisite for all the other
+ tokenizing functions, including  <span class='code'>XML_PullParser_getElement.</span>
+ The reason for this is simple: the raw data structure from which these other arrays are constructed,
+ either directly or indirectly,  does
+ not come into existence until  <span class='code'>XML_PullParser_getToken</span>  is called.  This data
+ structure reflects the document order of elements.  Therefore,
+  <span class='code'>XML_PullParser_getToken</span>  returns its tokens in document order, and independently
+ of the order in which the tokens are declared in the  <span class='code'>$tags</span>  array.
+
+
+
+
+</p></div>
+
+<p><div class="para">
+   A final observation.  The  <span class='code'>$child_tags</span>  array, while required, can be empty.
+   The  <span class='code'>$tags</span>  array is always required.
+   There are, in fact,  many cases where it might make sense not to pass in any child tags.
+   In the case of the  <span class='emphasis'>DNS</span>
+   structure, if we were interested only in making a list of the IP addresses we could do the following:
+</p></div>
+
+<A Name='listing_6'><p><div class="block"><A Name="listing_6"></A><center><b><span class="code_title" style="font-style:italic;">Listing 6</span></b></center>
+<pre>
+        1.   $child_tags = array();
+        2.   $tags = array("ipaddress");
+        3.   $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+        4.
+        5.   while($token = $parser->XML_PullParser_getToken())
+        6.   {
+        7.       echo "IP address: " . $parser->XML_PullParser_getText('ipaddress') ."\n";
+        8.   }
+
+
+</pre></div>
+<p><div class="para">
+  Line 1 initializes an empty  <span class='code'>$child_tags</span>  array, while on line 2  <span class='emphasis'>ipaddress</span>
+  is assigned to the  <span class='code'>$tags</span>  array.  Both are passed into the constructor (line 3).
+  This same strategy would hold if we had a database of movies and just wanted a list of titles, etc.
+</p></div>
+
+<A Name='notes'>
+<!--   REPLACEMENT MADE -->
+<table border=1 bgcolor='#ffffff' width = 750 cellpadding ='6'>
+<tr><th align='left' class='white_block'>Notes<tr><td class='white_block'>1. Throughout the documentation, the term "current token" is used.  This refers
+        to the  <span class='code'>$converted_token,</span>  as described above.</td>
+<tr><td class='white_block'>2. In many functions which need a tokenized array to search for element data,
+        the array parameter will be optional; if it's absent, the function will
+        first look in the  <span class='code'>$current_element</span>  and if that's not found, it will
+        use the  <span class='code'>$converted_token.</span>
+         The structure of both these arrays is illustrated in
+         <A href="appendix_1.html">Appendix 1</A></td>
+</table>
+<p><div class="para">
+</p></div>
+
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParserCoding_2.html'>Introduction to Coding 2</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParserCodingStrategies_1.html' class='navigation'>Introduction to Coding Strategies</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+

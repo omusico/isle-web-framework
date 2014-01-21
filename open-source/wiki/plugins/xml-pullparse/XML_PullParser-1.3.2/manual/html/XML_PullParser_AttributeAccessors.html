@@ -1,0 +1,302 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Attribute Accessors</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para">
+</p></div>
+
+<p><div class="para">
+  There are four attribute accessors in  <span class='classname'>XML_PullParser:</span>
+</p></div>
+
+<p><div class="para">
+</p></div>
+
+<OL TYPE = '1' START = '1'>
+<LI>array XML_PullParser_getAttributes (mixed $name, [mixed $which = 1], [array $el = ""])
+<LI>string XML_PullParser_getAttrVal (string $name, array $attr_array)
+<LI>array XML_PullParser_getAttrValues (array $ar)
+<LI>array XML_PullParser_nextAttr ()
+</OL>
+<p><div class="para"><br><span class='emphasis'>1. XML_PullParser_getAttributes</span><br>
+<!--   REPLACEMENT MADE -->
+
+ <span class='emphasis'>2. XML_PullParser_getAttrVal</span> <br />
+These two companion methods have been treated elsewhere in the manual.  See
+ <A href="XML_PullParserCoding_2.html">Introduction to Coding 2: Adding Attributes</A>
+and
+ <A href="XML_PullParserCodingStrategies_2.html">Coding Strategies 2: the 'which' parameter.</A>
+They have also been used in many example listings throughout the manual. <span class='super'>1</span>
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>3. XML_PullParser_getAttrValues</span><br>
+The method takes as a parameter an associative array consisting of a single array element
+of the following form:
+ <h4  style="left:70px"> array("element_name"=>$parent) OR array("element_name"=>"parent")</h4>
+
+The key, which is a string, is the name of one or more child elements that hold the attributes being sought.
+The value is the parent to these elements, and is either a tokenized array or a string that names
+the parent.  An example will make all this a lot clearer.
+
+</p></div>
+
+<p><div class="block"><center><b>Example 1</b></center>
+<pre>
+&lt;ENTRY>
+&lt;ipaddress>172.20.19.6  &lt;/ipaddress>
+&lt;domain> example.com  &lt;/domain>
+&lt;server ip="192.168.10.1" registrant="example.com"> example_1.com  &lt;/server>
+&lt;server ip="192.168.10.2"> example_2.com  &lt;/server>
+&lt;server ip="192.168.10.3"> example_3.com  &lt;/server>
+&lt;alias> www.example.com  &lt;/alias>
+&lt;/ENTRY>
+
+</pre></div>
+<p><div class="para">
+Let's assume the following method call:
+    <h4  style="left:10px">$attr_array = $parser->XML_PullParser_getAttrValues(array("server"=>"Entry"));</h4>
+The resulting  <span class='code'>$attr_array</span>  would be as follows:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+Array
+(
+    [0] => Array
+        (
+            [IP] => 192.168.10.1
+            [REGISTRANT] => example.com
+        )
+
+    [1] => Array
+        (
+            [IP] => 192.168.10.2
+        )
+
+    [2] => Array
+        (
+            [IP] => 192.168.10.3
+        )
+
+)
+</pre></table><p><div class="para">
+Each array element of  <span class='code'>$attr_array</span>  holds the attribute date for one of the  <span class='emphasis'>server</span>
+elements.  Accesing these elements is a simple matter of looping through the array, as in the following code listing:
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;">Listing 19</span></b></center>
+<pre>
+ 1.   $parser = new XML_PullParser_doc($doc,array("Entry"),array());
+ 2.   while($token = $parser->XML_PullParser_getToken()) {
+ 3.    //    $attributes = $parser->XML_PullParser_getAttrValues(array("server"=>"Entry"));
+ 4.        $attributes = $parser->XML_PullParser_getAttrValues(array("server"=>$token));
+ 5.        foreach($attributes as $attr) {
+ 6.            foreach($attr as $attr_name => $attr_value) {
+ 7.                echo "$attr_name => $attr_value\n";
+ 8.            }
+ 9.          echo "\n";
+10.        }
+11.    }
+
+/*
+  Result
+        IP => 192.168.10.1
+        REGISTRANT => example.com
+
+        IP => 192.168.10.2
+
+        IP => 192.168.10.3
+*/
+
+</pre></div>
+<p><div class="para">
+Instead of using the double string parameter (line 3), we use the alternate parameter type:
+array("server"=>$token).  The result shows that all the attributes have been found and that
+where there's more than one attribute in a  <span class='emphasis'>server</span>  element, the
+attributes for that element,  <span class='emphasis'>IP</span>  and  <span class='emphasis'>REGSISTRANT,</span>  are kept together,
+making it possible to identify the element which has two attributes.
+
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>4. XML_PullParser_nextAttr</span><br>
+This method returns the attribute(s) from the next element on the attribute loop stack, which is created
+using one of the following two methods:
+ <h4  style="left:20px">array   XML_PullParser_setAttrLoop ([array $el = ""], [boolean $assignText = false])</h4>
+ <h4  style="left:20px">array   XML_PullParser_setAttrLoop_elcd() ([array $el = ""])</h4>
+Both of these take as a parameter an optional tokenized array.  If this parameter is not passed in,
+then they will use the  <span class='code'>$current_element</span>  or, if that's not available, the current
+token.  The second parameter to  <span class='code'>XML_PullParser_setAttrLoop</span>  is for internal use only.
+Calls to  <span class='code'>XML_PullParser_setAttrLoop_elcd</span>  are passed on to  <span class='code'>XML_PullParser_setAttrLoop</span>
+after pre-processing, and the boolean  <span class='code'>$assignText</span>  signals this fact.
+</p></div>
+
+<p><div class="para">
+ <span class='code'>XML_PullParser_setAttrLoop</span>  captures the name of the element and its attributes.
+ <span class='code'>XML_PullParser_setAttrLoop_elcd</span>  captures, in addition to name and attributes, any character data assigned to the
+element, hence the suffix  <span class='emphasis'>_elcd.</span>   Both of these methods create
+the same data structure, except that in the case of  <span class='code'>XML_PullParser_setAttrLoop,</span>
+the field holding the element's character data is set to the empty string.  A data unit based
+on the first  <span class='emphasis'>server</span>  element in  <span class='emphasis'>Example 1</span>  above
+would be the following array:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+ Array
+  (
+   [0] => SERVER
+   [1] => Array
+       (
+           [IP] => 192.168.0.1
+           [REGISTRANT] => example.com
+       )
+   [2] => example_1.com  OR  ""
+  )
+</pre></table><p><div class="para">
+The complete data structure is a numerically indexed array of these arrays, and so technically they can be
+accessed in a loop that peels off one of these data units with each iteration.  In effect, that's what
+ <span class='code'>XML_PullParser_nextAttr</span>  does: it returns the next data unit and updates an internal index.
+When it comes to the end of the array, it returns a  <span class='emphasis'>False</span>  value and so when
+used in a loop that tests for this event, the loop comes to an end.  The internal index can be reset
+to zero by calling:
+ <h4  style="left:195px">void   XML_PullParser_resetAttrLoopPtr ()</h4>
+Perhaps the most distinct advantage of using  <span class='code'>XML_PullParser_nextAttr</span>  is that it does
+keep its own internal index. Therefore, it is always guaranteed to return the next data unit from the array.
+This could be useful when it is not being used in a loop and in situations where it is
+inconvenient to keep track of the current index in one's own code.  Following is a sample listing that
+uses  <span class='emphasis'>Example 1</span>  above.
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;">Listing 20</span></b></center>
+<pre>
+ 1.   $parser = new XML_PullParser_doc($doc,$tags,$child_tags);
+ 2.
+ 3.   while($token = $parser->XML_PullParser_getToken())
+ 4.    {
+ 5.       $parser->XML_PullParser_getElement('server');
+ 6.       $parser->XML_PullParser_setAttrLoop();
+ 7.
+ 8.       while($attr = $parser->XML_PullParser_nextAttr()) {
+ 9.           foreach($attr[1] as $attr_name => $attr_value) {
+10.                echo "$attr[0]: $attr_name => $attr_value\n";
+11.            }
+12.        echo "\n";
+13.        }
+14.    }
+
+/*
+    Result
+        SERVER: IP => 192.168.10.1
+        SERVER: REGISTRANT => example.com
+
+        SERVER: IP => 192.168.10.2
+
+        SERVER: IP => 192.168.10.3
+*/
+</pre></div>
+<p><div class="para">
+Line 5 calls  <span class='code'>XML_PullParser_getElement</span>  requesting the  <span class='emphasis'>server</span>
+elements.  When  <span class='code'>XML_PullParser_setAttrLoop</span>  is called
+it finds the  <span class='code'>$current_element</span> , in which  <span class='code'>XML_PullParser_getElement</span>  has stored
+the servers, and uses that for its search.  Had it not found the  <span class='code'>$current_element,</span>
+it would have used the current token.  The result would have been the same, because none of the
+other elements have attributes.  But let's assume the  <span class='emphasis'>ipaddress</span>  element
+had this form:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+          < ipaddress type="primary">172.20.19.6  < /ipaddress>
+</pre></table><p><div class="para">
+In this case, if ther current token were ued, there would be an additional data unit in the
+array and the Result would reflect this:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>Array
+        (
+            [0] => IPADDRESS
+            [1] => Array
+                (
+                    [TYPE] => primary
+                )
+
+            [2] =>
+        )
+
+/*
+  Result
+        IPADDRESS: TYPE => primary
+
+        SERVER: IP => 192.168.10.1
+        SERVER: REGISTRANT => example.com
+
+        SERVER: IP => 192.168.10.2
+
+        SERVER: IP => 192.168.10.3
+*/
+</pre></table><p><div class="para">
+Finally, had we called  <span class='code'>XML_PullParser_setAttrLoop_elcd</span>  in line 6, our Result would
+have looked like this, where the data in square brackets is the text which was found in
+each of the elements:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+        IPADDRESS [172.20.19.6]: TYPE => primary
+
+        SERVER [example_1.com]: IP => 192.168.10.1
+        SERVER [example_1.com]: REGISTRANT => example.com
+
+        SERVER [example_2.com]: IP => 192.168.10.2
+
+        SERVER [example_3.com]: IP => 192.168.10.3
+</pre></table><p><div class="para">
+These methods should prove useful for excavating attributes and locating element data that is identified
+by attributes with particular name and values.
+
+</p></div>
+
+<p><div class="para">
+</p></div>
+
+
+<!--   REPLACEMENT MADE -->
+<table border=1 bgcolor='#ffffff' width = 750 cellpadding ='6'>
+<tr><th align='left' class='white_block'>Notes<tr><td class='white_block'>1. See code listings:  <A href="XML_PullParserCoding_2.html#listing_3">3,</A>
+ <A href="XML_PullParserCoding_2.html#listing_4">4,</A>
+ <A href="XML_PullParserCodingStrategies_2.html#listing_9">9,</A>
+ <A href="XML_PullParserCodingStrategies_3.html#listing_10">10,</A>
+ <A href="XML_PullParserCodingStrategies_3.html#listing_11">11,</A>
+ <A href="XML_PullParserCodingStrategies_4.html#listing_12">12,</A>
+and  <A href="XML_PullParserCodingStrategies_4.html#listing_13">13</A></td>
+<tr><td class='white_block'></td>
+</table>
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParser_TextAccessors.html'>Text Accessors</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParser_Utilities.html' class='navigation'>Utlities and Helper Functions</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+

@@ -1,0 +1,444 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Error Reporting</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+         <firstname>Myron</firstname>
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+
+
+<formalpara><title></title><para>
+When an <classname>XML_PullParser</classname> method returns <emphasis>False,</emphasis> it signals
+an error.<superscript>1</superscript> <classname>XML_PullParser_Errors</classname> is the class that identifies
+and tracks the errors. Tracking comes into play because <classname>XML_PullParser</classname>
+methods often call other <classname>XML_PullParser</classname> methods.  In other words, the original source
+of an error may not be in the method called by the user's code but in another that this method calls.  
+</para></formalpara>
+
+<formalpara><title></title><para>
+The basic error messages include an error string which describes the error, any context-specific
+error strings, and the line number and function where the error occurred. When error tracking is
+invoked, the error trace includes the basic error information plus the
+defined name of the error and the error number. </para></formalpara>
+
+<formalpara><title></title><para>
+The user interface to this class is through a set of package level
+functions. Following are the defined errors and the package level variables and functions which are
+used for error reporting. 
+</para></formalpara>
+
+
+
+ <formalpara role="list"><title><emphasis>Defined Error Constants and their Associated Messages Strings </emphasis></title>
+   <para>
+   <simplelist type='vert' columns='1'>
+   <member>
+        XML_PullParser_ERROR_SYSTEM
+        <phrase>
+            Uknown System Error
+        </phrase>
+   </member>
+   <member>
+       XML_PullParser_ERROR_MISMATCHED_TAGS
+        <phrase>
+        Mismatched tags: child element declared in $tags array or read buffer too small
+        </phrase>
+   </member>
+
+   <member>
+        XML_PullParser_ERROR_NO_DATA        
+         <phrase>
+          No Data Available
+         </phrase>
+   </member>
+   <member>
+        XML_PullParser_ERROR_NO_DEFAULT_TOKEN
+         <phrase>
+  		  Default token missing: no current token or $current_element found
+         </phrase>
+   </member>
+   <member>
+        XML_PullParser_ERROR_NO_TOKEN
+         <phrase>
+  		  No Token Available
+         </phrase>
+   </member>
+   <member>
+        XML_PullParser_ERROR_BAD_PARAM
+         <phrase>
+  		  Missing or Wrong Parameter      
+         </phrase>            
+   </member>
+   <member>
+       XML_PullParser_ERROR_BAD_INTERNAL_ARRAY
+         <phrase>
+          Required Internal Array Missing, Corrupt, or Empty 
+         </phrase>
+   </member>
+   <member>
+       XML_PullParser_ERROR_USER_DEFINED
+         <phrase>
+          User defined error
+         </phrase>
+   </member>
+   <member>
+       XML_PullParser_ERROR_NS_SUPPORT
+         <phrase>
+          NamespaceSupport has not been invoked
+         </phrase>
+   </member>
+
+    </simplelist>
+    </para></formalpara>
+    
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+<formalpara  role="list"><title><emphasis>Package Level Variables</emphasis></title><para>
+   <simplelist type='vert' columns='1'>
+   <member>
+        $XML_PullParser_ERROR_DEF
+        <phrase>
+          An array that holds that string names of the defined error constants, so that
+          $XML_PullParser_ERROR_DEF[0] returns "XML_PullParser_ERROR_SYSTEM"          
+        </phrase>
+   </member>
+   <member>
+       $XML_PullParser_ERROR
+        <phrase>
+         An array of the error strings produced by each defined error, such that
+         $XML_PullParser_ERROR[DEFINED_ERROR_CONSTANT] or $XML_PullParser_ERROR[$error_number]
+         will return the appropriate error string. 
+        </phrase>
+   </member>
+   <member>
+    $XML_PullParser_Errors_lastError
+        <phrase>
+         This holds the entire contents of the last error, including the defined error string, 
+         any context-specific string, and the line number and function where the error occurred.
+        </phrase>
+   </member>
+   <member>
+    $XML_PullParser_Errors_errorStack
+       <phrase>
+         This is an array of references to XML_PullParser_Errors objects. The are pushed onto the
+         array as the errors occur, so that $XML_PullParser_Errors_errorStack[0] is the oldest
+         error.  This stack is used by <code>XML_PullParser_Errors_Trace</code> to produce its
+         trace.
+       </phrase>
+   </member>
+   <member> 
+      $XML_PullParser_Errors_lastErrNum
+        <phrase>
+         The error number of the last error.
+        </phrase>
+   </member>
+
+    </simplelist>
+</para></formalpara>
+
+
+<formalpara role="list"><title><emphasis>Package Level Functions</emphasis></title>
+<para>
+<classname>XML_PullParser_Errors</classname> is accessed through a set of package level
+functions.  These include two functions which enable the user to define and access errors in the
+user's own scripts.
+
+   <simplelist type='vert' columns='1'>
+   <member>
+        void XML_PullParser_Errors_errMsg ()
+        <phrase>
+          Returns the current error message.  This includes the defined error string plus any
+          context-specific message.  
+        </phrase>
+   </member>
+   <member>
+       void XML_PullParser_Errors_Num ()
+        <phrase>
+          Returns the current Error number.  This will be one of the defined constants.
+          Its string name can be obtained from <code>$XML_PullParser_ERROR_DEF</code>
+          using the error number returned from this function.
+           
+        </phrase>
+   </member>
+
+   <member>
+        void XML_PullParser_Errors_Ref ()
+         <phrase>
+          Returns an XML_PullParser_Errors object popped from an internal stack which holds all errors 
+          up to and including the last (i.e. current) error.  It is used by <code>XML_PullParser_Errors_Trace</code>
+          to output the trace. Once the trace is done the stack is empty.  This means that if you
+          pop an error off this stack yourself, then the trace will not inlcude the popped error.
+         </phrase>
+   </member>
+   <member>
+        void XML_PullParser_Errors_Trace ()
+         <phrase>
+            Prints out a trace of errors up to and including the current error.
+         </phrase>
+   </member>
+   <member>
+        XML_PullParser_Errors XML_PullParser_Errors_userDefined (string $msg)
+         <phrase>
+         This function takes a string <code>$msg</code> and returns an
+         <classname>XML_PullParser_Errors</classname> object.  Once
+         the error is created is is treated exactly as an <classname>XML_PullParser_Errors</classname>
+         which is created by <classname>XML_PullParser</classname>.  It will be placed
+         on the trace stack and returned in any trace carried out by <code>XML_PullParser_Errors_Trace.</code>
+         </phrase>
+   </member>
+   <member>
+         string XML_PullParser_Errors_getUserDefined (mixed $obj)
+         <phrase>
+          This function takes the <classname>XML_PullParser_Errors</classname> object which is returned
+          by <code>XML_PullParser_Errors_userDefined</code> and returns the error message
+          constructed for the error.  
+         </phrase>
+   </member>
+
+    </simplelist>
+    </para></formalpara>
+
+<formalpara><title></title><para>
+  Now we can look at an example of how to use the error checking interface.  Admittedly, this first example is a bit
+  artificial.  That is, it calls <code>XML_PullParser_getElement</code> without having first
+  called <code>XML_PullParser_getToken,</code> which is the basis for all the other calls.
+
+ </para></formalpara>
+
+ <blockquote><title role="code">Listing 21</title>
+ <programlisting>
+ 1.    $tags = array("Entry");
+ 2.    $child_tags = array("server");
+ 3.    $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+ 4.     
+ 5.    $parser->XML_PullParser_getElement("server");
+ 6.  
+ 7.    while($next = $parser->XML_PullParser_nextElement()) {
+ 8.         $data = $parser->XML_PullParser_getText($next);
+ 9.         echo $data ."\n";  
+10.    }
+11.    if($next === FALSE) {
+12.       echo XML_PullParser_Errors_errMsg() . "\n";
+13.       echo "\n";
+14.       echo XML_PullParser_Errors_Trace() . "\n";
+15.    }
+
+ </programlisting>
+ </blockquote>
+
+<formalpara><title></title><para>
+  The result of this is as follows, where the first error message comes from
+  <code>XML_PullParser_Errors_errMsg</code> and the remainder from the trace
+  function:
+ </para></formalpara>
+
+
+
+<simpara>
+No token returned: XML_PullParser_nextElement requires a prior call 
+                                                            to XML_PullParser_getElement
+Line: 1714, function: XML_PullParser_nextElement
+
+
+------Error Trace------------
+ERROR:  No token returned: XML_PullParser_nextElement requires a prior call
+                                                                to XML_PullParser_getElement
+Line: 1714, function: XML_PullParser_nextElement
+Error Number: 4  (XML_PullParser_ERROR_NO_TOKEN)
+
+ERROR:  Required Internal Array Missing, Corrupt, or Empty:
+        XML_PullParser_getToken must be called before XML_PullParser_getElement
+Line: 2582, function: XML_PullParser_getElement
+Error Number: 6  (XML_PullParser_ERROR_BAD_INTERNAL_ARRAY)
+
+-----End Trace:-------------
+
+</simpara>
+
+<formalpara><title></title><para>
+  The errors in the trace are reported in reverse order, that is, the most recent error is reported
+  first and the oldest error is reported last.  Let's look at a more 
+  realistic bug, which might be something like the following:
+ </para></formalpara>
+
+
+
+
+
+ <blockquote><title role="code">Listing 22</title>
+ <programlisting>
+ 
+ 
+ 1.    $tags = array("DNS");
+ 2.    $child_tags = array("Entry");
+ 3.    $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);     
+ 4.
+ 5.     while($token = $parser->XML_PullParser_getToken()) 
+ 6.     {
+ 7.         $entry = $parser->XML_PullParser_getElement("entry");      
+ 8.         $child = $parser->XML_PullParser_getChild("server",2,$entry);     
+ 9.         $child = $parser->XML_PullParser_getText("server",2,$entry);     
+10.         echo "Server: $child\n";
+11.         $attr_array = $parser->XML_PullParser_getAttributes("server", 2, $child);
+12.         if($attr_array) {
+13.         foreach($attr_array as $n => $v) {
+14.                echo "$n -- $v\n";
+15.          }
+16.        }
+17.         elseif($attr_array === FALSE) {
+18.           echo XML_PullParser_Errors_Trace() . "\n";
+19.           exit;
+20.        }    
+21.    }
+
+</programlisting>
+ </blockquote>
+
+<formalpara><title></title><para>
+  Here we have one of those little bugs that can creep into one's code.  In line 11, the
+  third parameter to <code>XML_PullParser_getAttributes</code> should be <code>$entry,</code>
+  as it is in lines 8 and 9.  The output from this script is as follows:
+ </para></formalpara>
+<simpara>
+
+Server: example_2.com
+
+------Error Trace------------
+ERROR:  Missing or Wrong Parameter: Array parameter "example_2.com" is not a token
+Line: 1641, function: XML_PullParser_getAttributes
+Error Number: 5  (XML_PullParser_ERROR_BAD_PARAM)
+
+-----End Trace:-------------
+
+</simpara>
+
+<formalpara><title></title><para>
+We can see what has happened.  The third parameter, which should be a tokenized array, is the
+string "example_2.com". This is the server address from the second server element--which is what is
+printed by <code>$echo</code> in line 10:
+</para></formalpara>
+ 
+<simpara>
+Server:  example_2.com
+</simpara>
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+<formalpara><title></title><para>
+It's important to remember that when testing for  <code>False,</code> it is necessary to use "===" and not "==".
+The latter will test as true for empty arrays, empty strings and <code>Null</code>, as well as for <code>False.</code>
+<classname>XML_PullParser</classname> routinely returns empty arrays, empty strings and Null
+when no data is available or data has been exhausted.  They are not indicators of an Error.
+</para></formalpara>
+
+<formalpara><title><emphasis>User Defined Errors</emphasis></title><para>
+For the sake of illustration, let's add a user defined error at line 18 of <emphasis>Listing 22</emphasis>.
+
+</para></formalpara>
+
+<simpara>
+
+17.    elseif($attr_array === FALSE) {
+18.        $err = XML_PullParser_Errors_userDefined("Bad Attributes array");
+19.        echo XML_PullParser_Errors_getUserDefined($err) . "\n";
+20.        echo XML_PullParser_Errors_Trace() . "\n";
+21.        exit;
+22.    }    
+
+</simpara>
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+<formalpara><title></title><para>
+The result would now look as follows:
+</para></formalpara>
+
+<simpara>
+
+User defined error: Bad Attributes array
+Line: 18, Top Level
+
+------Error Trace------------
+ERROR:  User defined error: Bad Attributes array
+Line: 26, Top Level
+Error Number: 7  (XML_PullParser_ERROR_USER_DEFINED)
+
+ERROR:  Missing or Wrong Parameter: Array parameter "example_2.com" is not a token
+Line: 1641, function: XML_PullParser_getAttributes
+Error Number: 5  (XML_PullParser_ERROR_BAD_PARAM)
+
+-----End Trace:-------------
+</simpara>
+
+
+<formalpara><title></title><para>
+The error message indicates the line number<superscript>2</superscript> in the user script at which the 
+error was reported, as well as the error message.  It also reports that the error occurred at the
+<emphasis>Top Level</emphasis>.  Had this error occurred in a function, then the function would be reported
+in this place, just as it is in the error reported by <classname>XML_PullParser</classname>:
+
+<token>Line: 1641, function: XML_PullParser_getAttributes</token>
+
+Finally, we see that the user defined error message is included in the trace.  It is reported first in the trace,
+because it is the most recent error.
+</para></formalpara>
+
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+  <blockquote role="blank_box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+        <member>1. The one exception to this is <code>XML_PullParser_pushbackToken.</code></member>
+        <member>2. The line number, which here is 18, would of course be the actual line number 
+        in the user script.
+       </member>
+    </simplelist>
+  </blockquote> 
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+  <simpara role="hr"></simpara>
+
+<formalpara><title></title><para>
+<ulink type="prev" url="XML_PullParser_NS_2.xml">Examples: Coding Namespace Support</ulink>
+
+<ulink type="next" url="appendix_1.xml">Appendix</ulink>
+</para></formalpara>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

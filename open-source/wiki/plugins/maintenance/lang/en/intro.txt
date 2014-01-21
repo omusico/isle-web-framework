@@ -1,0 +1,3 @@
+====== Maintenance ======
+
+This page allows you to lock and run maintenance script for the site.

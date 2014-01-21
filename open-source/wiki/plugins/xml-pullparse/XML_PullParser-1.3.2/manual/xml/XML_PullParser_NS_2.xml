@@ -1,0 +1,375 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Examples of Coding Namespace Support for XML_PullParser</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+         <firstname>Myron</firstname>
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+
+<formalpara><title><emphasis>XML_PullParser_setAttrLoop</emphasis></title><para>
+The first example shows how to use the <code>XML_PullParser_setAttrLoop</code> family of methods
+with <code>XML_PullParser_getAttrVal</code>. As a reminder, the format of the array returned by
+<code>XML_PullParser_nextAttr</code> is as follows: 
+</para>
+</formalpara>
+
+
+<formalpara><title></title><para></para></formalpara>
+
+<simpara>
+ Array
+  (
+   [0] => ELEMENT_NAME
+   [1] => ATTRIBUTES_ARRAY
+       (
+           [KEY_1] => VALUE_1
+           [KEY_2] => VALUE_2
+       )
+   [2] => ELEMENT CDATA OR  ""
+  )
+</simpara>
+
+<formalpara><title></title><para>
+For each element found having an attribute, <code>XML_PullParser_setAttrLoop</code>
+creates a three-element indexed array with the following structure.
+</para></formalpara>
+
+<formalpara><title></title><para>
+<![CDATA[
+<TABLE CELLSPACING = "4" width="600" align="center">
+<TR><TD class="navigation">Index&nbsp;0:&nbsp;&nbsp;<TD class="navigation">Name of the element
+
+<TR><TD class="navigation">Index&nbsp;1:&nbsp;&nbsp;<TD class="navigation">an associative array of the attributes found in this
+element
+<TR><TD class="navigation" valign="top">Index&nbsp;2:&nbsp;&nbsp;<TD class="navigation">
+either the character data found in the element or the empty string,
+depending on whether <code>XML_PullParser_setAttrLoop</code> or
+<code>XML_PullParser_setAttrLoop_elcd</code> is used to create the attribute loop
+</table> ]]>
+</para></formalpara>
+
+<formalpara><title></title><para>
+<anchor id="ns_attr" />
+The <emphasis>AttrLoop</emphasis> family of
+methods is used to create arrays of elements that have attributes.  One of the side-effects
+of <classname>XML_PullParser_NS</classname> is that every element now has at least one
+internally coded attribute named <code>_ns_</code> assigned to it which holds to the namespace for that
+elemement.
+The practical effect of this is to open up added possibilities for
+ <code>XML_PullParser_setAttrLoop_elcd</code>, because
+it will now always include
+all the elements found in the target token in its indexed array.
+</para></formalpara>
+<formalpara><title></title><para>
+
+ The target token is (by default) either the <code>$current_element</code> or the current
+ token<superscript>1</superscript>  or an optional tokenize array passed in as
+a parameter. If the target token is the one returned by <code>XML_PullParser_getToken</code>,
+as in <emphasis>movies-8.php</emphasis> listed below, all attributes and character data 
+of potential interest are stored in the attribute loop array.
+Because <classname>XML_PullParser_NS</classname> can be used whether or not there are
+namespaces in a document, it is possible to use this class for any
+document where <code>XML_PullParser_setAttrLoop_elcd</code> would provide a clean
+interface to the document data.
+
+</para></formalpara>
+
+<formalpara><title></title><para></para></formalpara>
+ <blockquote><title role="code">movies-8.php</title>
+ <programlisting>
+
+while($token = $parser->XML_PullParser_getToken()) {
+
+         // since XML_PullParser_getElement has not been called 
+         // XML_PullParser_setAttrLoop_elcd will use $token
+       $attr_vals = $parser->XML_PullParser_setAttrLoop_elcd(); 
+       while($at = $parser->XML_PullParser_nextAttr()) { 
+       if($at[2]) {      
+          echo "$at[0]: $at[2]\n";
+       }
+       foreach($at[1] as $attr_name => $attr_value) {
+           $name = "";
+          if(preg_match('/DAY/i',$attr_name)) {
+            $name = "day";
+          }
+          if(preg_match('/month/i',$attr_name)) {
+            $name = "month";
+         }
+         
+         if($name) {
+            echo "$name:  " . $parser->XML_PullParser_getAttrVal($name, $at[1]) . "\n";
+         }
+         if($at[0] == 'LEADING_MAN') {
+               echo "\n";
+         }
+      }
+      
+     }
+}
+
+/*
+Result
+
+DATE: 1939
+day:  25
+month:  Apr
+LEADING_LADY: Vivien Leigh
+LEADING_MAN: Clark Gable
+
+DATE: 1941
+day:
+month:
+LEADING_LADY: Maureen O'Hara
+LEADING_MAN: Walter Pidgeon
+
+DATE: 1993
+day:  15
+month:  June
+LEADING_LADY: Laura Dern
+
+*/
+ </programlisting>
+ </blockquote>
+
+
+
+
+<formalpara><title><emphasis>XML_PullParser_getAttrValues</emphasis></title>
+<para>
+<code>XML_PullParser_getAttrValues</code> takes one parameter, a one-element associative
+array in which the key is the name of an xml child element enclosing any number
+of attributes and the value is either the name of the parent element (string)
+or a tokenized array which is its parent:
+<![CDATA[ <center> <code><b>array($child=>$parent)</b></code></center>]]>
+Its main use is where there is more than one element of the same name in a
+token. It returns a numerically indexed array of the attributes found in each element:
+
+</para></formalpara>
+<simpara>
+
+	Array
+	(
+	    [0] => Array
+	        (
+	           [KEY_1] => VALUE_1
+	           [KEY_2] => VALUE_2	        
+		)
+
+	    [1] => Array
+	        (
+	           [KEY_1] => VALUE_1A
+	           [KEY_2] => VALUE_2A	        
+
+	        )
+
+	    [2] => Array
+	        (
+	           [KEY_1] => VALUE_1B
+	           [KEY_2] => VALUE_2B	        
+	        )
+
+	)
+</simpara>
+<formalpara><title></title><para>
+Here is a snippet of code which uses <code>XML_PullParser_getAttrValues</code>.
+</para></formalpara>
+
+<simpara>
+       $title = $parser->XML_PullParser_getText('title');
+       echo "Title: $title\n";
+       $attr_vals = $parser->XML_PullParser_getAttrValues(array('date'=>$token));      
+       echo "Month:  " . $parser->XML_PullParser_getAttrVal('month', $attr_vals[0]) . "\n";;
+       echo "Day:  " . $parser->XML_PullParser_getAttrVal('day', $attr_vals[0]) . "\n";;
+
+/*
+Result
+
+Title: Gone With The wind
+Month:  Apr
+Day:  25
+
+*/
+
+</simpara>
+
+
+<formalpara><title><emphasis>Switching Between Namespace Definitions</emphasis></title><para>
+<code>XML_PullParser_setCurrentNS</code> is a class method and can be called at any time
+during the processing of the XML document.  This makes it possible, for instance, to
+change the namespace definition so as to extract only those elements belonging to a particular
+namespace and then to switch back to a previous definition.  (See the earlier
+<ulink url="XML_PullParser_NS.xml#which_param">section</ulink> on namespaces and the 
+<code>$which</code> parameter.)
+
+
+
+
+</para></formalpara>
+
+
+
+<!-- SAMPLE SCRIPT  -->
+
+<formalpara><title><emphasis>Sample Script</emphasis></title><para>
+<anchor id = "movies_7" />
+Below is an example script using <classname>XML_PullParser</classname> with namespace support,
+and the resulting output.  The coding is exactly
+as it would appear if we were using <classname>XML_PullParser</classname> instead of  
+<classname>XML_PullParser_NS</classname>, with only two difference. These are:
+<![CDATA[
+       <OL>
+        <LI>we call <code><b>XML_PullParser_NamespaceSupport(true)</b></code>
+           before calling the constructor:<br>
+
+
+         <LI>we call <code><b>XML_PullParser_setCurrentNS</b></code> in order to set up the namespace definition.
+       </OL>
+]]>
+The XML document is "Movies.xml", which is included in the Listings directory of this distribution
+and reprinted for convenience 
+<ulink url = "#movies_xml">below.</ulink>
+</para></formalpara>
+
+ <blockquote><title role="code">movies-7.php</title>
+ <programlisting>
+
+	$tags = array("Movie");
+	$child_tags = array();
+        
+	XML_PullParser_NamespaceSupport(true);
+	$parser = new XML_PullParser("Movies.xml", $tags,$child_tags);
+    
+	$parser->XML_PullParser_setCurrentNS("http://room535.org/movies/title/|"
+	  . "http://room535.org/movies/mov/|http://room535.org/movies/star/|"
+          . "http://room535.org/movies/dates/");
+
+
+	while($token = $parser->XML_PullParser_getToken()) {
+     
+	       $title = $parser->XML_PullParser_getText('title');       
+	       $leading_man = $parser->XML_PullParser_getText('leading_man');       
+	       $leading_lady = $parser->XML_PullParser_getText('leading_lady');       
+
+	       $year = $parser->XML_PullParser_getText('date');
+
+	       $attr_array = $parser->XML_PullParser_getAttributes('date');         
+	       $month = $parser->XML_PullParser_getAttrVal  ('month',$attr_array);
+	       $day = $parser->XML_PullParser_getAttrVal  ('day',$attr_array);
+
+	       echo "Title: $title\n";
+	       echo "Date: $month $day $year\n";
+	       echo "Leading Lady: $leading_lady\n";
+	       if($leading_man) {
+	        echo "Leading Man: $leading_man\n";
+	       }
+	       echo "\n\n";
+
+	}
+
+	echo "\n&lt;/pre>\n";
+
+
+	/*
+	Result
+
+	Title: Gone With The wind
+	Date: Apr 25 1939
+	Leading Lady: Vivien Leigh
+	Leading Man: Clark Gable
+
+
+	Title: How Green Was My Valley
+	Date:   1941
+	Leading Lady: Maureen O'Hara
+	Leading Man: Walter Pidgeon
+
+
+	Title: Jurassic Park
+	Date: June 15 1993
+	Leading Lady: Laura Dern
+
+	*/
+
+ </programlisting>
+ </blockquote>
+
+<formalpara><title></title><para>
+The default namespace is "http://fedora.gemini.ca/local/".  It has not been included in the namespace
+definition. Consequently, <emphasis>leading_man</emphasis> is not returned for "Jurassic Park" because it does not
+have a namespace assigned to it.  The same is true for <emphasis>month</emphasis> and <emphasis>day</emphasis>
+of "How Green Was My Valley".
+</para></formalpara>
+<formalpara><title></title><para></para></formalpara>
+
+<formalpara><title><emphasis>Movies.xml</emphasis></title><para>
+ <anchor id="movies_xml" />
+Movies.xml is the file which is used for many of the examples in the manual. It
+will be found in the listings directory of this distribution.
+</para></formalpara>
+ <blockquote><title role="code">Movies.xml</title>
+
+ <programlisting>
+
+&lt;Movies
+ xmlns = "http://fedora.gemini.ca/local/"
+ xmlns:mov = "http://room535.org/movies/mov/"
+ xmlns:star = "http://room535.org/movies/star/"
+ xmlns:title = "http://room535.org/movies/title/"
+ xmlns:date = "http://room535.org/movies/dates/"
+>
+ &lt;Movie>
+    &lt;title:Title>Gone With The wind&lt;/title:Title>
+    &lt;date:date date:day="25" date:month="Apr">1939&lt;/date:date>
+    &lt;star:leading_lady>Vivien Leigh&lt;/star:leading_lady>
+    &lt;star:leading_man>Clark Gable&lt;/star:leading_man>
+ &lt;/Movie>
+
+  &lt;mov:Movie>
+    &lt;title:Title>How Green Was My Valley&lt;/title:Title>
+    &lt;date:date day = "2" month="May">1941&lt;/date:date>
+    &lt;star:leading_lady>Maureen O'Hara&lt;/star:leading_lady>
+    &lt;star:leading_man>Walter Pidgeon&lt;/star:leading_man>
+ &lt;/mov:Movie>
+
+ &lt;Movie>
+ &lt;title:Title>Jurassic Park&lt;/title:Title>
+    &lt;date:date date:day="15" date:month="June">1993&lt;/date:date>
+    &lt;star:leading_lady>Laura Dern&lt;/star:leading_lady>
+    &lt;leading_man>Sam Neil&lt;/leading_man>
+ &lt;/Movie>
+&lt;/Movies>
+ </programlisting>
+ </blockquote>
+
+  <simpara role="hr"></simpara>
+
+  <blockquote role="blank_box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+        <member>1. <code>$current_element</code> is created by <code>XML_PullParser_getElement</code>
+and the current token by <code>XML_PullParser_getToken</code>.
+     </member>    
+    </simplelist>
+  </blockquote> 
+
+  <formalpara><title></title><para>
+    <ulink type="prev" url="XML_PullParser_NS.xml">Namespace support for XML_PullParser</ulink>
+    <ulink type="next" url="XML_PullParser_Errors.xml">Errors Module</ulink>
+  </para></formalpara>
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+</article>
+
+

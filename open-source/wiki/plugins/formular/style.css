@@ -1,0 +1,27 @@
+div.dokuwiki label.th,
+div.dokuwiki label.td {
+  float: left;
+  width: 48%;
+  text-align: right;
+}
+
+div.dokuwiki label.th {
+  font-weight: bold;
+}
+
+div.dokuwiki div.form__wide {
+  margin-bottom: 0.5em;
+}
+
+div.dokuwiki div.form__column {
+  margin-left: 50%;
+  text-align: left;
+  margin-bottom: 0.5em;
+}
+
+div.dokuwiki div.form__wide input.edit,
+div.dokuwiki div.form__column input.edit,
+div.dokuwiki div.form__wide textarea.edit,
+div.dokuwiki div.form__column textarea.edit {
+  width: 96%;
+}

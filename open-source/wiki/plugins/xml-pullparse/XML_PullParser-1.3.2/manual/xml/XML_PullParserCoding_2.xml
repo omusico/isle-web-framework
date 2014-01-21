@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Introduction to Coding 2: Adding Attributes</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+         <firstname>Myron</firstname>         
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+ 
+  <formalpara><title></title><para>
+    The previous section dealt with extracting character data from XML tags.  Still
+    using <ulink type ="anchor" url="XML_PullParserCoding_1.xml#example_1">Example 1</ulink> 
+    from that section, we'll look at extracting the <code>ip</code> attributes
+    from the <code>server</code> elements.
+  </para></formalpara>
+
+ <blockquote><title role="code">Listing 3</title>
+ <anchor id="listing_3" />
+ <programlisting>
+  1.   while($token = $parser->XML_PullParser_getToken())
+  2.   {
+  3.       $parser->XML_PullParser_getElement('server');    
+  4.       while($server = $parser->XML_PullParser_nextElement()) 
+  5.       {        
+  6.           $attr_array = $parser->XML_PullParser_getAttributes($server);
+  7.           $ip = $parser->XML_PullParser_getAttrVal("ip",$attr_array);
+  8.           echo "Server IP: $ip\n";  
+  9.       }
+ 10.      echo "\n";
+ 11.   }
+
+/* Result 
+    Server IP: 192.168.0.1
+    Server IP: 192.168.0.2
+    Server IP: 192.168.0.3
+    Server IP: 192.168.0.4
+
+    Server IP: 192.168.0.5
+*/
+ </programlisting>
+ </blockquote>
+
+  <formalpara><title></title><para>    
+    What's new here are lines 6 and 7. <code>XML_PullParser_getAttributes</code> takes a <code>$server</code> object 
+    and returns an associative array of attribute names and values for each server. 
+    This array could be addressed in the  usual manner:
+    <token>$ip = $attr_array['ip'].</token>
+    This is exactly what <code>XML_PullParser_getAttrVal</code> does,
+    with one difference: it converts the index term to upper case if 
+    <ulink url="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_isCaseFolded">case-folding</ulink> 
+    is in effect, which is the default for the <emphasis>PHP XML parser.</emphasis>
+  </para></formalpara>
+  <formalpara><title></title><para> 
+   What follows is a small routine that puts together attribute handling with getting
+   the character data from elements. 
+  </para></formalpara>   
+ <blockquote><title role="code">Listing 4</title>
+ <anchor id="listing_4" />
+ <programlisting>
+ 1.    while($token = $parser->XML_PullParser_getToken())
+ 2.    { 
+ 3.
+ 4.        $parser->XML_PullParser_getElement('server');    
+ 5.
+ 6.        while($server = $parser->XML_PullParser_nextElement()) 
+ 7.        {        
+ 8.            echo "Server Name: " . $parser->XML_PullParser_getText($server) ."\n";  
+ 9.            $attr_array = $parser->XML_PullParser_getAttributes($server);
+10.            $ip = $parser->XML_PullParser_getAttrVal("ip",$attr_array);
+11.            echo "Server IP: $ip\n";              
+12.        }
+13.    }
+
+/* Result 
+
+    Server Name: example_1.com
+    Server IP: 192.168.10.1
+    Server Name: example_2.com
+    Server IP: 192.168.10.2
+    Server Name: example_3.com
+    Server IP: 192.168.10.3
+*/
+ </programlisting>
+ </blockquote>
+<formalpara><title></title><para>
+  Everything here is familiar.  It's <emphasis>Listing 3</emphasis> with the addition of line 8,
+  which calls <code>XML_PullParser_getText</code>, a function introduced in <emphasis>Listing 2</emphasis>
+  of the previous section.
+</para></formalpara>
+<formalpara><title></title><para>
+  The next section will look at at how to create the <classname>XML_PullParser</classname> object.
+</para></formalpara>
+ <simpara role="hr"></simpara>
+  <formalpara><title></title><para>
+   <ulink type ="prev" url="XML_PullParserCoding_1.xml">Introduction to Coding 1</ulink>
+   <ulink type="next" url="XML_PullParserCoding_3.xml">Instantiating the XML_PullParser Class</ulink>
+  </para></formalpara>    
+
+  <formalpara><title></title><para></para></formalpara><formalpara><title></title><para></para></formalpara>
+
+</article>
+
+

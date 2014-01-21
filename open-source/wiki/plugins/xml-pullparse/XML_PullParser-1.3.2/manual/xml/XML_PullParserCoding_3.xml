@@ -1,0 +1,170 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Instantiating the XML_PullParser Object</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+
+         <firstname>Myron</firstname>
+
+         <!-- email>Myron_Turner@shaw.ca</email -->
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+ 
+  <formalpara><title></title><para>
+   There are two implementations of <classname>XML_PullParser</classname>, one for use with files, the other
+   for use with documents presented to the constructor as strings: 
+    <token> resource XML_PullParser(string $filename, [array $tags], [array $child_tags]); </token>
+    <token> resource XML_PullParser_doc(string $doc, [array $tags], [array $child_tags]); </token>
+       
+  Both implementations expect two arrays, <code>$tags</code> and <code>$child_tags,</code> which may either be
+  passed into the constructor or predeclared using two utility functions:
+
+    <token>array XML_PullParser_declareElements(mixed $tags)</token> 
+    <token>array XML_PullParser_declareChildElements(mixed $tags)</token>
+  
+  Keeping to the <ulink type ="anchor" url="XML_PullParserCoding_1.xml#example_1">DNS</ulink>
+ example, we would have something like this: 
+  </para></formalpara>
+
+ <blockquote><title role="code">Listing 5</title>
+ <programlisting>
+        1.  $tags = array("entry");
+        2.  $child_tags = array("ipaddress","server", "domain", "alias");
+        3.  $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+
+ </programlisting>
+ </blockquote>
+
+  <formalpara><title></title><para>
+  <anchor id="selectors" /> 
+  It's important to understand the relationship of the <code>$tags</code> array to the 
+  <code>$child_tags</code> array.  Both act as selectors, identifying elements of interest. 
+  The elements selected by the <code>$tags</code> array are returned by <code>XML_PullParser_getToken,</code>
+  while those selected by the <code>$child_tags</code> array are returned by
+  <code>XML_PullParser_getElement</code>.  The tokens returned by these functions are arrays
+  mapped to the structure of each selected element--this includes all children, character data
+  and attributes.  The order in which elements are declared in the <code>$tags</code> and
+  <code>$child_tags</code> arrays have no bearing on the order in which the tokens are returned:
+  as explained below, tokens are returned in document order.
+ 
+ </para></formalpara>
+
+<formalpara><title></title><para>
+  Generally   speaking, the <code>$tags</code> are the parent elements and the <code>$child_tags</code> 
+  are their children.   That's the case in the <emphasis>DNS</emphasis> example, where
+  <code>entry</code> is the parent to all of the other elements.  But this doesn't prevent the
+  <code>$child_tags</code> from themselves having children.
+</para></formalpara>
+ <formalpara><title></title><para>
+   <anchor id="tags_rule" />
+   The most important consideration is that a child element and its parent
+   cannot both be declared in the <code>$tags</code> array.  More precisely, this 
+   prohibition applies to a parent and any of its descendents, i.e. its children's children.  
+   Such a declaration causes the parsing process to become corrupted. The same 
+   prohibition does not apply to the <code>$child_tags</code>, which allows for the
+   declaration of both parents and children. 
+ </para></formalpara>
+ <formalpara><title></title><para>
+ <anchor id="selectors_2" /> 
+  When <code>XML_PullParser_getToken</code> is called, the resulting token is stored internally in the array
+  <ulink url="../doc/XML_PullParser/XML_PullParser.html#var$converted_token">$converted_token.</ulink><superscript>1</superscript>
+  It's the value of this array that is returned by <code>XML_PullParser_getToken.</code>
+  When <code>XML_PullParser_getElement</code> is called, it draws on the same raw data structure out of which
+  the <code>$converted_token</code> is constructed and stores the result internally in the array
+  <ulink url="../doc/XML_PullParser/XML_PullParser.html#var$current_element">$current_element.</ulink>
+  It's the value of this array that is returned by <code>XML_PullParser_getElement.</code> 
+  When <code>XML_PullParser_getElement</code> is called it's passed a single parameter, the <code>$name</code>
+  of an element.  The array it returns  consists of all the elements of <code>$name</code> 
+  found in <code>$converted_token.</code> 
+  The element specified by $name has to have been declared in the <code>$child_tags</code> array.<superscript>2</superscript> 
+</para></formalpara>
+
+ <formalpara><title></title><para>
+ A call to <code>XML_PullParser_getToken</code> is the prerequisite for all the other
+ tokenizing functions, including <code>XML_PullParser_getElement.</code> 
+ The reason for this is simple: the raw data structure from which these other arrays are constructed,
+ either directly or indirectly,  does
+ not come into existence until <code>XML_PullParser_getToken</code> is called.  This data
+ structure reflects the document order of elements.  Therefore,
+ <code>XML_PullParser_getToken</code> returns its tokens in document order, and independently
+ of the order in which the tokens are declared in the <code>$tags</code> array.
+
+
+
+
+ </para></formalpara>
+ <formalpara><title></title><para>
+   A final observation.  The <code>$child_tags</code> array, while required, can be empty.
+   The <code>$tags</code> array is always required.  
+   There are, in fact,  many cases where it might make sense not to pass in any child tags.
+   In the case of the <emphasis>DNS</emphasis> 
+   structure, if we were interested only in making a list of the IP addresses we could do the following:
+ </para></formalpara>
+
+ <blockquote><title role="code">Listing 6</title>
+ <anchor id="listing_6"/>   
+ <programlisting>
+        1.   $child_tags = array();
+        2.   $tags = array("ipaddress");
+        3.   $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+        4.
+        5.   while($token = $parser->XML_PullParser_getToken())
+        6.   { 
+        7.       echo "IP address: " . $parser->XML_PullParser_getText('ipaddress') ."\n";  
+        8.   }
+       
+
+ </programlisting>
+ </blockquote>
+
+  <formalpara><title></title><para>
+  Line 1 initializes an empty <code>$child_tags</code> array, while on line 2 <emphasis>ipaddress</emphasis>
+  is assigned to the <code>$tags</code> array.  Both are passed into the constructor (line 3).
+  This same strategy would hold if we had a database of movies and just wanted a list of titles, etc.
+  </para></formalpara>
+
+
+  <blockquote role="blank_box"><title>Notes</title>
+  <anchor id="notes" />
+    <simplelist type='vert' columns='1'>
+       <member>1. Throughout the documentation, the term "current token" is used.  This refers
+        to the <code>$converted_token,</code> as described above.</member> 
+        <member>2. In many functions which need a tokenized array to search for element data,
+        the array parameter will be optional; if it's absent, the function will
+        first look in the <code>$current_element</code> and if that's not found, it will
+        use the <code>$converted_token.</code>
+         The structure of both these arrays is illustrated in
+        <ulink url="appendix_1.xml">Appendix 1</ulink>      
+      </member>
+    </simplelist>
+  </blockquote> 
+ 
+  <formalpara><title></title><para>
+  </para></formalpara>
+ <simpara role="hr"></simpara>
+  <formalpara><title></title><para>
+  <ulink type ="prev" url="XML_PullParserCoding_2.xml">Introduction to Coding 2</ulink>
+  <ulink type="next" url="XML_PullParserCodingStrategies_1.xml">Introduction to Coding Strategies</ulink>
+ </para></formalpara>    
+
+  <formalpara><title></title><para></para></formalpara><formalpara><title></title><para></para></formalpara>
+
+  <formalpara><title></title><para></para></formalpara>
+
+</article>
+
+

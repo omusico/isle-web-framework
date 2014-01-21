@@ -1,0 +1,579 @@
+<!DOCTYPE article PUBLIC "-//Norman Walsh//DTD DocBk XML V3.1.4//EN"
+"http://fedora.gemini.ca/XML/docbook-4.3/docbookx.dtd">
+<article>
+  <title role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Index of Functions and Terms</subtitle> 
+      <releaseinfo>version 1.0</releaseinfo>
+      <author><surname>Turner</surname><firstname>Myron</firstname></author>
+   </articleinfo> 
+  <formalpara><title></title><para></para></formalpara>
+  <index>
+   <title></title>
+
+
+<indexdiv><title>Index of Defined Constants</title>
+
+<indexentry>
+  <primaryie><varname>XML_PullParser_ERROR_BAD_INTERNAL_ARRAY</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>XML_PullParser_ERROR_BAD_PARAM</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>XML_PullParser_ERROR_DEF</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>XML_PullParser_ERROR_MISMATCHED_TAGS</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>XML_PullParser_ERROR_NO_DATA</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>XML_PullParser_ERROR_NO_DEFAULT_TOKEN</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>XML_PullParser_ERROR_NO_TOKEN</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>XML_PullParser_ERROR_NS_SUPPORT</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>XML_PullParser_ERROR_SYSTEM</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>XML_PullParser_ERROR_USER_DEFINED</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+</indexdiv>
+
+<formalpara><title></title><para><![CDATA[ <BR /> ]]></para></formalpara>
+<indexdiv><title>Method and Function Index</title>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_Disable_NS_Prefixes</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_Errors</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_Errors_INI</function>,
+  
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_Errors_Num</function>,
+  
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_Errors_Trace</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_Errors_errMsg</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_Errors_getUserDefined</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_Errors_userDefined</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_NS</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS_2.xml'>XML_PullParser_NS_2.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_NS_doc</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_NamespaceSupport</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS_2.xml'>XML_PullParser_NS_2.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_caseSensitive</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_3.xml'>XML_PullParserCodingStrategies_3.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_childXCL</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_4.xml'>XML_PullParserCodingStrategies_4.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_clearEscapedTokens</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_clearPbackStack</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_declareChildElements</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCoding_3.xml'>XML_PullParserCoding_3.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_declareElements</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCoding_3.xml'>XML_PullParserCoding_3.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_deleteBlanks</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_doc</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCoding_3.xml'>XML_PullParserCoding_3.xml</ulink>,
+	<ulink type = 'index' url = 'synopsis.xml'>synopsis.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_excludeBlanks</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_excludeBlanksStrict</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_free</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getAttrVal</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCoding_2.xml'>XML_PullParserCoding_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>,
+	<ulink type = 'index' url = 'synopsis.xml'>synopsis.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS_2.xml'>XML_PullParser_NS_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_AttributeAccessors.xml'>XML_PullParser_AttributeAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getAttrValues</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS_2.xml'>XML_PullParser_NS_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_AttributeAccessors.xml'>XML_PullParser_AttributeAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getAttr_NS</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getAttributes</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCoding_2.xml'>XML_PullParserCoding_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>,
+	<ulink type = 'index' url = 'synopsis.xml'>synopsis.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_2.xml'>XML_PullParserCodingStrategies_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_AttributeAccessors.xml'>XML_PullParser_AttributeAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_3.xml'>XML_PullParserCodingStrategies_3.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getCSSSpans</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getChild</function>,
+  	<ulink type = 'index' url = 'appendix_1.xml'>appendix_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_3.xml'>XML_PullParserCodingStrategies_3.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getChildren</function>,
+  	<ulink type = 'index' url = 'appendix_1.xml'>appendix_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getChildrenFromName</function>,
+  	<ulink type = 'index' url = 'appendix_1.xml'>appendix_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getCurrentElement</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getElement</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_4.xml'>XML_PullParserCodingStrategies_4.xml</ulink>,
+	<ulink type = 'index' url = 'appendix_1.xml'>appendix_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_intro_1.xml'>XML_PullParser_intro_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCoding_3.xml'>XML_PullParserCoding_3.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCoding_1.xml'>XML_PullParserCoding_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>,
+	<ulink type = 'index' url = 'synopsis.xml'>synopsis.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_2.xml'>XML_PullParserCodingStrategies_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_AttributeAccessors.xml'>XML_PullParser_AttributeAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_3.xml'>XML_PullParserCodingStrategies_3.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getEscapedToken</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getHTMLTags</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getNS_AttrName</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getNS_URI</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getSequence</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_4.xml'>XML_PullParserCodingStrategies_4.xml</ulink>,
+	<ulink type = 'index' url = 'synopsis.xml'>synopsis.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_2.xml'>XML_PullParserCodingStrategies_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_3.xml'>XML_PullParserCodingStrategies_3.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getStyledSpans</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getStyledTags</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getText</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_4.xml'>XML_PullParserCodingStrategies_4.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCoding_2.xml'>XML_PullParserCoding_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCoding_1.xml'>XML_PullParserCoding_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_1.xml'>XML_PullParserCodingStrategies_1.xml</ulink>,
+	<ulink type = 'index' url = 'synopsis.xml'>synopsis.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS_2.xml'>XML_PullParser_NS_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_2.xml'>XML_PullParserCodingStrategies_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_3.xml'>XML_PullParserCodingStrategies_3.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getTextArray</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getTextMarkedUp</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_intro_1.xml'>XML_PullParser_intro_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getTextStripped</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_getToken</function>,
+  	<ulink type = 'index' url = 'appendix_1.xml'>appendix_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_intro_1.xml'>XML_PullParser_intro_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCoding_3.xml'>XML_PullParserCoding_3.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCoding_1.xml'>XML_PullParserCoding_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_1.xml'>XML_PullParserCodingStrategies_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>,
+	<ulink type = 'index' url = 'synopsis.xml'>synopsis.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS_2.xml'>XML_PullParser_NS_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_2.xml'>XML_PullParserCodingStrategies_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_3.xml'>XML_PullParserCodingStrategies_3.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_isCaseFolded</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_isTypeOf</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_1.xml'>XML_PullParserCodingStrategies_1.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_nextAttr</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS_2.xml'>XML_PullParser_NS_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_AttributeAccessors.xml'>XML_PullParser_AttributeAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_nextElement</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCoding_1.xml'>XML_PullParserCoding_1.xml</ulink>,
+	<ulink type = 'index' url = 'synopsis.xml'>synopsis.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_pushbackToken</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_reInitTagArrays</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_resetAttrLoopPtr</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_AttributeAccessors.xml'>XML_PullParser_AttributeAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_resetCurrentElement</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_3.xml'>XML_PullParserCodingStrategies_3.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_setAttrLoop</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS_2.xml'>XML_PullParser_NS_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_AttributeAccessors.xml'>XML_PullParser_AttributeAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_setAttrLoop_elcd</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS_2.xml'>XML_PullParser_NS_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_AttributeAccessors.xml'>XML_PullParser_AttributeAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_setCurrentNS</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_NS_2.xml'>XML_PullParser_NS_2.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_setDelimiter</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_setReadLength</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_trimCdata</function>,
+  	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_4.xml'>XML_PullParserCodingStrategies_4.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_unsetCurrentElement</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_Utilities.xml'>XML_PullParser_Utilities.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><function>XML_PullParser_unsetCurrentNS</function>,
+  	<ulink type = 'index' url = 'XML_PullParser_NS.xml'>XML_PullParser_NS.xml</ulink>
+ </primaryie>
+</indexentry>
+
+</indexdiv>
+
+<formalpara><title></title><para><![CDATA[ <BR /> ]]></para></formalpara>
+
+<indexdiv><title>Index of Variables and Terms</title>
+
+<indexentry>
+  <primaryie><varname>$child_tags</varname>,
+  	<ulink type = 'index' url = 'XML_PullParserCoding_3.xml'>XML_PullParserCoding_3.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>$tags</varname>,
+  	<ulink type = 'index' url = 'XML_PullParserCoding_2.xml'>XML_PullParserCoding_2.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_intro_1.xml'>XML_PullParser_intro_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCoding_3.xml'>XML_PullParserCoding_3.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_1.xml'>XML_PullParserCodingStrategies_1.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>current token</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_AttributeAccessors.xml'>XML_PullParser_AttributeAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>delimiter</varname>,
+  	<ulink type = 'index' url = 'XML_PullParser_TextAccessors.xml'>XML_PullParser_TextAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>sequencing</varname>,
+  	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_4.xml'>XML_PullParserCodingStrategies_4.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_3.xml'>XML_PullParserCodingStrategies_3.xml</ulink>
+ </primaryie>
+</indexentry>
+
+<indexentry>
+  <primaryie><varname>tokenizers</varname>,
+  	<ulink type = 'index' url = 'appendix_1.xml'>appendix_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_intro_1.xml'>XML_PullParser_intro_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_1.xml'>XML_PullParserCodingStrategies_1.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_Errors.xml'>XML_PullParser_Errors.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParserCodingStrategies_5.xml'>XML_PullParserCodingStrategies_5.xml</ulink>,
+	<ulink type = 'index' url = 'XML_PullParser_AttributeAccessors.xml'>XML_PullParser_AttributeAccessors.xml</ulink>
+ </primaryie>
+</indexentry>
+
+</indexdiv>
+
+</index>
+</article>

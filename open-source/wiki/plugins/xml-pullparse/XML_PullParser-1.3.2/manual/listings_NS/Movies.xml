@@ -1,0 +1,30 @@
+<Movies
+ xmlns = "http://fedora.gemini.ca/local/"
+ xmlns:mov = "http://room535.org/movies/mov/"
+ xmlns:star = "http://room535.org/movies/star/"
+ xmlns:title = "http://room535.org/movies/title/"
+ xmlns:date = "http://room535.org/movies/dates/"
+>
+ <Movie>
+    <title:Title>Gone With The wind</title:Title>
+    <date:date date:day="25" date:month="Apr">1939</date:date>
+    <star:leading_lady>Vivien Leigh</star:leading_lady>
+    <star:leading_man>Clark Gable</star:leading_man>
+ </Movie>
+
+  <mov:Movie>
+    <title:Title>How Green Was My Valley</title:Title>
+    <date:date day = "2" month="May">1941</date:date>
+    <star:leading_lady>Maureen O'Hara</star:leading_lady>
+    <star:leading_man>Walter Pidgeon</star:leading_man>
+ </mov:Movie>
+
+ <Movie>
+ <title:Title>Jurassic Park</title:Title>
+    <date:date date:day="15" date:month="June">1993</date:date>
+    <star:leading_lady>Laura Dern</star:leading_lady>
+    <leading_man>Sam Neil</leading_man>
+ </Movie>
+</Movies>
+
+

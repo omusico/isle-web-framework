@@ -1,0 +1,8 @@
+base  preregister
+author  Myron Turner
+email  turnermm02@shaw.ca
+date  2013-08-1
+name  preregister
+desc  Additional confirmation layer for new registrations
+url  https://www.dokuwiki.org/plugin:preregister
+

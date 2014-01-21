@@ -1,0 +1,39 @@
+====== TeXit Plugin ======
+TeXit is a DokuWiki plugin that generates a PDF file from the wiki data. It depends on LaTeX which is mandatory to generate the PDF document.
+
+The main goal is have a nice looking printable version of a DokuWiki pages. LaTeX is a good choice.
+===== Quick start =====
+<file><texit info>
+author=MySelf
+title=MyTitle
+</texit>
+</file>
+===== Add some Latex =====
+You can add some LaTeX commands any where in you document like this : 
+<file>
+<texit>
+\newpage
+</texit>
+</file>
+===== Advanced use =====
+You can also use this syntax in your wiki document : 
+<file>
+title=My title
+author=Myself
+subject=subject
+keywords=Me and my life
+recurse=on
+</file>
+^ keyword ^ meaning ^ values ^ default ^
+^title |Add to PDF properties & Latex document title | string | first level one header |
+^subject |Add to PDF properties | string | title is used |
+^author |Add to PDF properties & Latex document | string| no default|
+^keywords |Add to PDF properties | string | no default|
+^date |Latex document | string | generation date |
+^recurse |Add internals links as appendix | on/off/chapter | off |
+^recurse_file |Add internals media non image as appendix | on/off | off |
+^backgroundtext |Add background text on each page | string | DOKU_URL |
+^usetablefigure |Put table in a figure/float | on/off | off |
+^tablerowlength | This values is used to change tables layout | number | 100 |
+^tablemaxrows | This values is used to change tables layout | number | 30 |
+^biggesttableword | Obscur parameter that can change, sometimes, tables layout | number | 15 |

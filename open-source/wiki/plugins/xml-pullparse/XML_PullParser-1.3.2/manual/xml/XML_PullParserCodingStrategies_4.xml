@@ -1,0 +1,274 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Strategies 4: Nested Selecting</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+
+         <firstname>Myron</firstname>
+
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+ 
+  <formalpara><title></title><para>
+  Until now, we have been using a very straight-foward XML
+  <ulink type ="anchor" url="XML_PullParserCoding_1.xml#example_1"> example.</ulink> 
+  But what if the DNS structure looked something like the following? 
+  </para></formalpara>
+
+ <blockquote><title>Example 1</title>
+ <programlisting>
+    &lt;ENTRY> 
+    &lt;ipaddress>172.20.19.6 &lt;/ipaddress> 
+    &lt;domain> example.com &lt;/domain> 
+    &lt;server ip="192.168.10.1">
+    example_1.com 
+    &lt;registrant>mturner.org&lt;/registrant>
+    &lt;/server> 
+    &lt;server ip="192.168.10.2"> example_2.com &lt;/server> 
+    &lt;server ip="192.168.10.3"> example_3.com &lt;/server> 
+    &lt;alias> www.example.com &lt;/alias> 
+    &lt;/ENTRY> 
+
+ </programlisting>
+ </blockquote>
+
+  <formalpara><title></title><para>
+   If we used the code in 
+  <ulink type ="anchor" url="XML_PullParserCodingStrategies_3.xml#listing_10"> Listing 10</ulink> 
+  to parse this structure for server names and ip addresses, we would not get what we want.
+  </para></formalpara>
+
+
+ <blockquote><title role="code"></title>
+ <programlisting>
+
+/*
+ Result
+        Name: example_1.com
+                IP: 192.168.10.1
+        Name: mturner.org
+                IP:
+        Name: example_2.com
+                IP: 192.168.10.2
+        Name: example_3.com
+                IP: 192.168.10.3
+*/
+
+ </programlisting>
+ </blockquote>
+
+  <formalpara><title></title><para>
+  This result is, in fact, technically correct.  It reflects the way in which
+ <code>XML_PullParser_getSequence</code> works:
+  </para></formalpara>
+
+ <blockquote><title role="code"></title>
+ <programlisting>
+    $parser->XML_PullParser_getElement('server');    
+    $seq =  $parser->XML_PullParser_getSequence();
+  </programlisting>
+  </blockquote>
+
+  <formalpara><title></title><para>
+   <code>XML_PullParser_getElement</code> creates a tokenized array of all the <emphasis>server</emphasis> 
+   elements, their children and the attributes of parents and children.<superscript>1</superscript>
+    Among these children
+   is <emphasis>registrant.</emphasis>  So, the sequence array correctly reports back that the second
+   element is the child element <emphasis>registrant</emphasis> and this is fed to 
+   <code>XML_PullParser_getText</code>, which correctly returns "mturner.org" as $name.  And the code
+   also correctly reports back that the IP field is blank, because the <emphasis>registrant</emphasis>
+   element has no <emphasis>ip</emphasis> attribute. 
+  </para></formalpara>
+
+  <formalpara><title></title><para>
+  There are a number of ways to deal with this issue. The most obvious way would be to test for 
+  whether the elements in the sequence are the correct ones, which is a simple matter, since
+  <code>XML_PullParser_getSequence</code> provides the name of each element in its array:
+ </para></formalpara>
+ <blockquote><title role="code"></title>
+ <programlisting>
+                 list($server, $which) = each($seq[$i]);  
+                 if($server != 'SERVER') continue;
+ </programlisting>
+  </blockquote>
+
+ <formalpara><title></title><para>
+ Another solution is <emphasis>Listing 12.</emphasis>
+  </para></formalpara>
+
+
+ <blockquote><title role="code">Listing 12</title>
+ <anchor id="listing_12" />
+ <programlisting>
+         1.    while($token = $parser->XML_PullParser_getToken())
+         2.   { 
+         3.
+         4.     $servers = $parser->XML_PullParser_getElement('server'); 
+         5.     $servers = $parser->XML_PullParser_childXCL($servers);   
+         6.     $seq =  $parser->XML_PullParser_getSequence($servers); 
+         7.
+         8.      for($i=0; $i &lt; count($seq); $i++) {  
+         9.         list($server, $which) = each($seq[$i]);  
+        10. 
+        11.          $name = $parser->XML_PullParser_getText($server,$which);
+        12.          echo "Name: $name \n";
+        13.
+        14.          $ip = $parser->XML_PullParser_getAttributes($server,$which);         
+        15.          echo "\tIP: " . $parser->XML_PullParser_getAttrVal('ip', $ip) . "\n";
+        16.      }        
+        17.    }
+
+/*
+ Result
+    Name:
+    example_1.com
+
+            IP: 192.168.10.1
+    Name:  example_2.com
+            IP: 192.168.10.2
+    Name:  example_3.com
+            IP: 192.168.10.3
+*/
+
+  </programlisting>
+  </blockquote>
+<formalpara><title></title><para>
+<anchor id="childXCL" />
+  <emphasis>Listing 12</emphasis> has excluded the <emphasis>registrant</emphasis> element by the use
+  of this function: 
+    <token>array   XML_PullParser_childXCL  (array $parent, [mixed $args = ""])</token>
+ Its purpose is to exclude specified child elements from a parent.<superscript>2</superscript>
+ When elements are not specified, it removes all child elements, leaving the parent.  It does
+ not affect the current token or <code>$current_element.</code> 
+</para></formalpara>
+<formalpara><title></title><para>
+ In <emphasis>Listing 10</emphasis> it wasn't necessary to pass an array to
+  <code>XML_PullParser_getSequence,</code> because it defaulted
+ to the internal array created by <code>XML_PullParser_getElement</code>.<superscript>1</superscript>
+ In the present case, however, we have to pass in to <code>XML_PullParser_getSequence</code> the stripped
+ down array created by <code>XML_PullParser_childXCL.</code> Its this stripped down array
+ that forms the basis for the sequencing array <code>$seq.</code> 
+</para></formalpara>
+
+<formalpara><title></title><para>
+ In the Result section of <emphasis>Listing 12</emphasis> there's small glitch in the output.  There are
+ extra newlines before an after "example_1.com".  This is in fact a reflection of the 
+ document:
+</para></formalpara>
+<blockquote><title  role="code"></title>
+<programlisting>
+    &lt;server ip="192.168.10.1">
+    example_1.com 
+    &lt;registrant>mturner.org&lt;/registrant>
+    &lt;/server>
+</programlisting> 
+</blockquote>
+
+<formalpara><title></title><para>
+The newlines would disappear from the output if we put the entire unit on one line:
+</para></formalpara>
+
+<blockquote><title  role="code"></title>
+<programlisting>
+    &lt;server ip="192.168.10.1">example_1.com&lt;registrant>mturner.org&lt;/registrant>&lt;/server>
+</programlisting>
+</blockquote>
+<formalpara><title></title><para>
+But since this isn't always possible, one solution is to pass the results from <code>XML_PullParser_getText</code>
+through the PHP <code>trim</code> function.  A second solution is to let <classname>XML_PullParser</classname>
+do this for you by calling this package level function with a parameter of true:
+    <token>void   XML_PullParser_trimCdata  (boolean $bool)</token>
+Because it's not a class method, you can call it in advance of creating the class itself.
+</para></formalpara>
+
+<formalpara><title></title><para>
+Using <code>XML_PullParser_childXCL</code> is one way to deal with the
+problem of the <emphasis>registrant</emphasis>.  Another is to drop 
+<code>XML_PullParser_getSequence</code> altogether and work directly with the parameters to
+<code>XML_PullParser_getText.</code>
+</para></formalpara>
+
+<blockquote><title  role="code">Listing 13</title>
+ <anchor id="listing_13" />
+<programlisting>
+         1.    XML_PullParser_trimCdata(true);
+         2.    while($token = $parser->XML_PullParser_getToken())
+         3.    { 
+         4.      $parser->XML_PullParser_getElement('server');    
+         5.      $n=1;
+         5.      while($server = $parser->XML_PullParser_getText('server',$n)) {
+         7.          $ip = $parser->XML_PullParser_getAttributes('server',$n);
+         8.          echo "Name: $server\n";
+         9.         echo "\tIP: " . $parser->XML_PullParser_getAttrVal('ip', $ip) . "\n";
+        10.
+        11.          $n++;
+        12.      }
+        13.        
+        14.    }
+
+/*
+ Result 
+        Name: example_1.com
+                IP: 192.168.10.1
+        Name:  example_2.com
+                IP: 192.168.10.2
+        Name:  example_3.com
+                IP: 192.168.10.3
+*/
+
+</programlisting>
+</blockquote>
+
+ <formalpara><title></title><para>
+  This was run with <code> XML_PullParser_trimCdata</code> set to true, so the 
+  extra line-feeds have been cleaned up.  More importantly, the solution is itself cleaner,
+  requiring less code.  Whereas the sequencing array includes <emphasis>registrant</emphasis> among
+  its list of elements, requiring us to make an adjustment, here the "server" name is fed directly
+  to both the text and attribute functions.
+ </para></formalpara>
+ <formalpara><title></title><para> 
+  In our example, we are interested in only one
+  element, but in situations where many elements are involved and where there are few <emphasis>registrant</emphasis>
+  type twists, the sequencing array can be an efficient and effective technique.  
+ </para></formalpara>
+<blockquote role="blank_box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+     <member>
+       1. See the earlier discussion of
+        <ulink url="XML_PullParserCoding_3.xml#selectors">XML_PullParser_getElement</ulink>
+        and the class <ulink url="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_childXCL">documentation.</ulink> 
+    </member>
+    </simplelist>
+  </blockquote> 
+
+<blockquote role="blank_box"><title></title>
+    <simplelist type='vert' columns='1'>     
+    <member>2. See the class
+   <ulink url="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_childXCL">documentation.</ulink>    
+    </member>
+    </simplelist>
+  </blockquote> 
+  <simpara role="hr"></simpara>
+  <formalpara><title></title><para>
+ <ulink type="prev" url="XML_PullParserCodingStrategies_3.xml">Strategies 3: XML_PullParser_getSequence</ulink>
+ <ulink type="next" url="XML_PullParserCodingStrategies_5.xml">The Tokenizing Functions</ulink>
+ </para></formalpara>    
+
+  <formalpara><title></title><para></para></formalpara><formalpara><title></title><para></para></formalpara>
+
+</article>
+

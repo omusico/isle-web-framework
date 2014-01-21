@@ -1,0 +1,121 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Introduction to Coding I: CDATA</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para">
+    The aim of this section and the next is to give readers a feel for
+    how  <span class='classname'>XML_PullParser</span>  works. The code listings are fragments
+    and cannot stand alone. Later sections will show the contexts that make
+    them functional.
+
+</p></div>
+
+<A Name='example_1'><p><div class="block"><A Name="example_1"></A><center><b>Example 1</b></center>
+<pre>
+&lt;ENTRY&gt;
+&lt;ipaddress&gt; 172.20.19.6 &lt;/ipaddress&gt;
+&lt;domain&gt; example.com &lt;/domain&gt;
+&lt;server ip="192.168.10.1"&gt; example_1.com &lt;/server&gt;
+&lt;server ip="192.168.10.2"&gt; example_2.com &lt;/server&gt;
+&lt;server ip="192.168.10.3"&gt; example_3.com &lt;/server&gt;
+&lt;alias&gt; &lt;www.example.com &lt;/alias&gt;
+&lt;/ENTRY&gt;
+
+&lt;ENTRY&gt;
+&lt;ipaddress&gt; 172.20.19.7 &lt;/ipaddress&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;
+&lt;alias&gt; &lt;www.example.org &lt;/alias&gt;
+&lt;/ENTRY&gt;
+</pre></div>
+<p><div class="para">
+    There are five pieces of data that can be extracted from  &lt;ENTRY&gt; .  These are ipaddress,
+    domain, server, server ip, and alias. Getting the IP address involves three lines
+    of code.
+</p></div>
+
+<A Name='listing_1'><p><div class="block"><A Name="listing_1"></A><center><b><span class="code_title" style="font-style:italic;">Listing 1</span></b></center>
+<pre>
+	   1.   while($token = $parser->XML_PullParser_getToken())
+	   2.   {
+	   3.       $ipaddress=$parser->XML_PullParser_getElement('ipaddress');
+	   4.       echo "IP Adress: " . $parser->XML_PullParser_getText() ."\n";
+	   5.   }
+
+    /*  Result
+        IP Adress: 172.20.19.6
+        IP Adress: 172.20.19.7
+    */
+	</pre></div>
+<p><div class="para">
+    With each turn of the loop, an ENTRY structure is returned by  <span class='code'>XML_PullParser_getToken,</span>
+    which must always be called before taking any other action:  It gets gets the next token from the
+    token stack and sets up the basis for all the other tokenizing functions.
+</p></div>
+
+<p><div class="para">
+    In line 3 the  <span class='emphasis'>ipaddress</span>  element is declared as the object of whatever happens next.  In this
+    case, it's a call to  <span class='code'>XML_PullParser_getText,</span>  which returns the IP adress as a string.
+    The same coding could be used for both  <span class='emphasis'>domain</span>  and  <span class='emphasis'>alias.</span>
+    Getting the server names requires one additonal line of code.
+</p></div>
+
+<A Name='listing_2'><p><div class="block"><A Name="listing_2"></A><center><b><span class="code_title" style="font-style:italic;">Listing 2</span></b></center>
+<pre>
+       1.   while($token = $parser->XML_PullParser_getToken())
+       2.   {
+       3.       $dns_servers=$parser->XML_PullParser_getElement('server');
+       4.       while($server = $parser->XML_PullParser_nextElement())
+       5.       {
+       6.           echo "Server: " . $parser->XML_PullParser_getText($server) ."\n";
+       7.       }
+       8.   }
+    /*  Result
+        Server: ns1.example.net
+        Server: ns2.example.net
+        Server: ns3.example.net
+    */
+	</pre></div>
+<p><div class="para">Again,  <span class='code'>XML_PullParser_getElement</span>  picks out the element of interest.
+   Line 4 contains the new code,  <span class='code'>XML_PullParser_nextElement</span> , which
+   returns the server elements in the same order in which they appear in the XML document.
+    <span class='code'>XML_PullParser_getText</span>  (line 6) then returns the text from each of the server
+   elements. There are other ways to do this job, and we'll look at them, but this is the
+   most intuitive and elegant.
+</p></div>
+
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParser_intro_1.html'>Introduction</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParserCoding_2.html' class='navigation'>Introduction to Coding 2: Adding Attributes</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+

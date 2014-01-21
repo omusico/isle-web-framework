@@ -1,0 +1,54 @@
+- 2013-01-28
+  * Fixed the display of text generated files.
+- 2013-01-21:
+  * Fixed the link on the target file page to download/display the content of the target file.
+  * The default rule for linking to a media file was broken in the previous version. Now fixed.
+- 2012-11-06:
+  * Fixed crosslinks. It was completely broken before.
+  * Source and target files are uploaded to the media folder, so they can be retreated as a media file. File information are thus available for source and target files in media links.
+  * Fixed the CodeMirror editor for "Adora Belle".
+  * Change the once arcane button name of "Add Use" to "Add dependency".
+  * Adding dependency and removing dependency are now actions, this also cleans up the HTML code that Projects Wiki generates.
+  * Fixed plugin settings. Now auto-checking for updates is truly configurable.
+- 2012-08-13:
+  * Use CodeMirror (http://codemirror.net) as the code editor for projects wiki represented source files and scripts for generated files. Note however this is not compatible with Javascript and CSS compression!
+- 2012-02-14:
+  * Fixed a bug that prevents us entering the media manager. 
+- 2012-02-13:
+  * Make checking for update automatically optional with a configuration option.
+  * Various minor clean ups and bug fixes.
+- 2011-11-30:
+  * A fix for broken media file links to generated files as caused by 2011-11-10 (Angua RC). 
+- 2011-11-24:
+  * A simple fix for 2011-11-10 (Angua RC). 
+- 2011-08-07:
+  * Fixed a typo in action.php that prevents processing the creation of a subproject.
+- 2011-05-17:
+  * Feature: now it is possible to specify which syntax to use for highlighting a source file, or a specific content/recipe block. See the documentation for details.
+  * Bug fix: On the project management page, the remake and delete buttons acted on the current page, not the file next to it.
+- 2011-05-14:
+  * Fixed a bug that prevented the renaming of dependencies.
+  * Fixed a bug that caused fatal error when a page does not have a project-file tag but uses other tags such as use, content, and recipe.
+- 2011-05-11:
+  * More fix to metadata handling. This should solve the problem that the file and wiki page are out of sync bug introduced in 2011-04-29 version.
+- 2011-05-10:
+  * More adaptation to Rincewind RC2: The INFO global variable is gone?
+- 2011-04-29:
+  * Adapting to Rincewind RC1: fixed metadata usage in metadata rendering in syntax plugins. 
+- 2011-04-28:
+  * Fixed a bug that prevent the display of file with missing dependencies. 
+- 2011-03-07:
+  * Fixed the horrendous bug that all the buttons on the manage_files page are still using the old theme of commands.
+  * use the correct php script on rsv.math.uvic.ca to check for new versions.
+
+- 2011-02-25:
+  * Display a notice for the admin when a new version is available.
+  * Managing files in a project are now handled by a "manage_files" action, instead of using the admin menu. This makes users without admin privileges to be able to manage files in a project.
+  * Editing buttons are now shown only if the user has respective permission. 
+  * The project file pages are not cached. This fixes any caching issue it could have been there.
+  * Removed the leading and trailing empty line (one the first line).
+  * Remake, create a file, create a subprojects, rebuild a project, and clean a project are now all events (remake, create, create_subproject, rebuild, clean, respectively)
+  * Fixed an off-by-one bug in adding and removing the use tag.
+
+- 2011-01-28: 
+  * Initial release

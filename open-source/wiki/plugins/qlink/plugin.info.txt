@@ -1,0 +1,7 @@
+base    qlink
+author  Myron Turner
+email  turnermm02@shaw.ca
+date   2013-10-23
+name   qlink
+desc   append '?' to internal link name when it is final character in URL
+url    http://www.mturner.org/devel/

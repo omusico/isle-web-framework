@@ -1,0 +1,152 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Synopsis</subtitle> 
+      <!-- releaseinfo>&version;</releaseinfo -->
+      &version;
+      <author>
+         <surname>Turner</surname>
+
+         <firstname>Myron</firstname>
+
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para>
+What follows is a brief Synopsis of some of the main features of <classname>XML_PullParser.</classname>
+</para></formalpara>
+ 
+<simpara>
+            require_once "XML_PullParser.inc";
+            $tags=array("Element_1", "Element_2", . ."Element_n");
+            $child_tags=array("childElement_1", "childElement_2", . ."childElement_n");
+            $parser = new  XML_PullParser($xml_file, $tags,$child_tags);
+            
+</simpara>
+ 
+<formalpara><title></title><para>
+</para></formalpara>
+<simpara>
+            $parser = new  XML_PullParser_doc($xml_string, $tags,$child_tags);
+</simpara>
+
+<formalpara><title></title><para></para></formalpara>
+
+<simpara>
+            while($token=$parser->XML_PullParser_getToken()) {
+                $text = $parser->XML_PullParser_getText('Element_1');                 
+            }
+</simpara>
+
+<formalpara><title></title><para></para></formalpara>
+
+<simpara>
+            while($token=$parser->XML_PullParser_getToken()) {
+                $parser->XML_PullParser_getElement('childElement_1');
+                $text = $parser->XML_PullParser_getText('childElement_1');                 
+            }
+
+</simpara>
+
+<formalpara><title></title><para></para></formalpara>
+
+<simpara>
+    while($token = $parser->XML_PullParser_getToken())
+     { 
+         $parser->XML_PullParser_getElement('childElement_1');    
+         $which=1;
+         while($text = $parser->XML_PullParser_getText('childElement_1', $which)) {
+            $which++;
+        }
+    }
+</simpara>
+
+<formalpara><title></title><para></para></formalpara>
+
+<simpara>
+  while($token = $parser->XML_PullParser_getToken())
+  { 
+   $parser->XML_PullParser_getElement('childElement_1');    
+   $which=1;
+   while($attr_array=$parser->XML_PullParser_getAttributes('childElement_1',$which)) {            
+       $attr_value = $parser->XML_PullParser_getAttrVal('attribute_name', $attr_array);   
+       $which++;
+  }
+ }
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+
+<simpara>
+          while($token = $parser->XML_PullParser_getToken())
+          { 
+              $parser->XML_PullParser_getElement('childElement_2');    
+              while($element = $parser->XML_PullParser_nextElement()) 
+              {        
+                  $text =  $parser->XML_PullParser_getText($element);
+              }
+          }
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+
+
+<simpara>
+          while($token = $parser->XML_PullParser_getToken())
+          { 
+              $parser->XML_PullParser_getElement('childElement_2');    
+              while($element = $parser->XML_PullParser_nextElement()) 
+              {        
+                  $attr_array = $attr_array = $parser->XML_PullParser_getAttributes($element);
+                  $value = $parser->XML_PullParser_getAttrVal("attribute_name",$attr_array);
+              }
+          }
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+
+<simpara>
+   while($token = $parser-&gt;XML_PullParser_getToken())
+   { 
+     $parser-&gt;XML_PullParser_getElement('childElement_2');    
+     $sequence =  $parser-&gt;XML_PullParser_getSequence();
+
+     for($i=0; $i  &lt; count($sequence); $i++) {
+          list($element, $which) = each($sequence[$i]);  
+          $text = $parser-&gt;XML_PullParser_getText($element,$which);
+          $attr_array = $parser-&gt;XML_PullParser_getAttributes($element,$which);         
+          $attr_value = $parser-&gt;XML_PullParser_getAttrVal('attribute_name', $attr_array);
+      }        
+    }
+</simpara>
+
+
+
+
+<formalpara><title></title><para></para></formalpara>
+
+  <!-- blockquote role="box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+        <member></member>
+        <member></member>
+    </simplelist>
+  </blockquote
+   --> 
+
+  <simpara role="hr"></simpara>
+ 
+
+
+<formalpara><title></title>
+ <para><ulink type="next" url="XML_PullParser_intro_1.xml">Introduction</ulink></para>    
+</formalpara>
+
+</article>
+
+

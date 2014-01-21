@@ -1,0 +1,76 @@
+div.project_file {
+    border-style: solid;
+    border-width: 1px
+}
+
+div.tag_header {
+    background: lightblue;
+    float: left;
+    padding: 3px;    
+}
+
+div.project_file_type {
+    float: left;
+    padding: 3px;
+}
+
+div.project_file_name {
+    padding: 3px;
+    float: left;
+}
+
+div.project_file_project {
+    padding: 3px;
+    float: left;
+}
+
+div.project_file_buttons {
+    font-size: 80%;
+    float: right;
+}
+
+div.project_file_errors {
+    clear: both;
+}
+
+div.project_file_content {
+    clear: both;
+}
+
+div.use {
+    border-style: solid;
+    border-width: 1px;
+}
+
+div.use_use {
+    padding: 3px;
+    float: left;
+}
+
+div.use_buttons {
+    float: right;
+    font-size: 80%;
+}
+
+div.use_content {
+    clear: both;
+}
+
+div.code_block {
+    border-style: solid;
+    border-width: 1px
+}
+
+div.code_block_name {
+    padding: 3px;
+}
+
+div.code_block_buttons {
+    float: right;
+}
+
+@import "codemirror.css";
+.CodeMirror {
+    border-style: solid;
+    border-width: 1px;
+}

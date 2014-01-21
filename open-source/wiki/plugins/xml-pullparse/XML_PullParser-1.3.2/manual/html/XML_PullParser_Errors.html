@@ -1,0 +1,364 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Error Reporting</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para">
+When an  <span class='classname'>XML_PullParser</span>  method returns  <span class='emphasis'>False,</span>  it signals
+an error. <span class='super'>1</span>   <span class='classname'>XML_PullParser_Errors</span>  is the class that identifies
+and tracks the errors. Tracking comes into play because  <span class='classname'>XML_PullParser</span>
+methods often call other  <span class='classname'>XML_PullParser</span>  methods.  In other words, the original source
+of an error may not be in the method called by the user's code but in another that this method calls.
+</p></div>
+
+<p><div class="para">
+The basic error messages include an error string which describes the error, any context-specific
+error strings, and the line number and function where the error occurred. When error tracking is
+invoked, the error trace includes the basic error information plus the
+defined name of the error and the error number.</p></div>
+
+<p><div class="para">
+The user interface to this class is through a set of package level
+functions. Following are the defined errors and the package level variables and functions which are
+used for error reporting.
+</p></div>
+
+<br><span class='emphasis'>Defined Error Constants and their Associated Messages Strings </span><br><OL TYPE = '1' START = '1'>
+<LI>XML_PullParser_ERROR_SYSTEM
+
+
+<table width=600><td class='list_phrase'>Uknown System Error
+</table>
+<LI>XML_PullParser_ERROR_MISMATCHED_TAGS
+
+
+<table width=600><td class='list_phrase'>Mismatched tags: child element declared in $tags array or read buffer too small
+</table>
+<LI>XML_PullParser_ERROR_NO_DATA
+
+
+<table width=600><td class='list_phrase'>No Data Available
+</table>
+<LI>XML_PullParser_ERROR_NO_DEFAULT_TOKEN
+
+
+<table width=600><td class='list_phrase'>Default token missing: no current token or $current_element found
+</table>
+<LI>XML_PullParser_ERROR_NO_TOKEN
+
+
+<table width=600><td class='list_phrase'>No Token Available
+</table>
+<LI>XML_PullParser_ERROR_BAD_PARAM
+
+
+<table width=600><td class='list_phrase'>Missing or Wrong Parameter
+</table>
+<LI>XML_PullParser_ERROR_BAD_INTERNAL_ARRAY
+
+
+<table width=600><td class='list_phrase'>Required Internal Array Missing, Corrupt, or Empty
+</table>
+<LI>XML_PullParser_ERROR_USER_DEFINED
+
+
+<table width=600><td class='list_phrase'>User defined error
+</table>
+<LI>XML_PullParser_ERROR_NS_SUPPORT
+
+
+<table width=600><td class='list_phrase'>NamespaceSupport has not been invoked
+</table>
+</OL>
+<p><div class="para">
+</p></div>
+
+<br><span class='emphasis'>Package Level Variables</span><br><OL TYPE = '1' START = '1'>
+<LI>$XML_PullParser_ERROR_DEF
+
+
+<table width=600><td class='list_phrase'>An array that holds that string names of the defined error constants, so that
+          $XML_PullParser_ERROR_DEF[0] returns "XML_PullParser_ERROR_SYSTEM"
+</table>
+<LI>$XML_PullParser_ERROR
+
+
+<table width=600><td class='list_phrase'>An array of the error strings produced by each defined error, such that
+         $XML_PullParser_ERROR[DEFINED_ERROR_CONSTANT] or $XML_PullParser_ERROR[$error_number]
+         will return the appropriate error string.
+</table>
+<LI>$XML_PullParser_Errors_lastError
+
+
+<table width=600><td class='list_phrase'>This holds the entire contents of the last error, including the defined error string,
+         any context-specific string, and the line number and function where the error occurred.
+</table>
+<LI>$XML_PullParser_Errors_errorStack
+
+
+<table width=600><td class='list_phrase'>This is an array of references to XML_PullParser_Errors objects. The are pushed onto the
+         array as the errors occur, so that $XML_PullParser_Errors_errorStack[0] is the oldest
+         error.  This stack is used by  <span class='code'>XML_PullParser_Errors_Trace</span>  to produce its
+         trace.
+</table>
+<LI>$XML_PullParser_Errors_lastErrNum
+
+
+<table width=600><td class='list_phrase'>The error number of the last error.
+</table>
+</OL>
+<br><span class='emphasis'>Package Level Functions</span><br><TABLE width="800"><TR><TD class="white_block"><span class='classname'>XML_PullParser_Errors</span>  is accessed through a set of package level
+functions.  These include two functions which enable the user to define and access errors in the
+user's own scripts.</table>
+<OL TYPE = '1' START = '1'>
+<LI>void XML_PullParser_Errors_errMsg ()
+
+
+<table width=600><td class='list_phrase'>Returns the current error message.  This includes the defined error string plus any
+          context-specific message.
+</table>
+<LI>void XML_PullParser_Errors_Num ()
+
+
+<table width=600><td class='list_phrase'>Returns the current Error number.  This will be one of the defined constants.
+          Its string name can be obtained from  <span class='code'>$XML_PullParser_ERROR_DEF</span>
+          using the error number returned from this function.
+</table>
+<LI>void XML_PullParser_Errors_Ref ()
+
+
+<table width=600><td class='list_phrase'>Returns an XML_PullParser_Errors object popped from an internal stack which holds all errors
+          up to and including the last (i.e. current) error.  It is used by  <span class='code'>XML_PullParser_Errors_Trace</span>
+          to output the trace. Once the trace is done the stack is empty.  This means that if you
+          pop an error off this stack yourself, then the trace will not inlcude the popped error.
+</table>
+<LI>void XML_PullParser_Errors_Trace ()
+
+
+<table width=600><td class='list_phrase'>Prints out a trace of errors up to and including the current error.
+</table>
+<LI>XML_PullParser_Errors XML_PullParser_Errors_userDefined (string $msg)
+
+
+<table width=600><td class='list_phrase'>This function takes a string  <span class='code'>$msg</span>  and returns an
+          <span class='classname'>XML_PullParser_Errors</span>  object.  Once
+         the error is created is is treated exactly as an  <span class='classname'>XML_PullParser_Errors</span>
+         which is created by  <span class='classname'>XML_PullParser</span> .  It will be placed
+         on the trace stack and returned in any trace carried out by  <span class='code'>XML_PullParser_Errors_Trace.</span>
+</table>
+<LI>string XML_PullParser_Errors_getUserDefined (mixed $obj)
+
+
+<table width=600><td class='list_phrase'>This function takes the  <span class='classname'>XML_PullParser_Errors</span>  object which is returned
+          by  <span class='code'>XML_PullParser_Errors_userDefined</span>  and returns the error message
+          constructed for the error.
+</table>
+</OL>
+<p><div class="para">
+  Now we can look at an example of how to use the error checking interface.  Admittedly, this first example is a bit
+  artificial.  That is, it calls  <span class='code'>XML_PullParser_getElement</span>  without having first
+  called  <span class='code'>XML_PullParser_getToken,</span>  which is the basis for all the other calls.
+
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;">Listing 21</span></b></center>
+<pre>
+ 1.    $tags = array("Entry");
+ 2.    $child_tags = array("server");
+ 3.    $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+ 4.
+ 5.    $parser->XML_PullParser_getElement("server");
+ 6.
+ 7.    while($next = $parser->XML_PullParser_nextElement()) {
+ 8.         $data = $parser->XML_PullParser_getText($next);
+ 9.         echo $data ."\n";
+10.    }
+11.    if($next === FALSE) {
+12.       echo XML_PullParser_Errors_errMsg() . "\n";
+13.       echo "\n";
+14.       echo XML_PullParser_Errors_Trace() . "\n";
+15.    }
+
+</pre></div>
+<p><div class="para">
+  The result of this is as follows, where the first error message comes from
+   <span class='code'>XML_PullParser_Errors_errMsg</span>  and the remainder from the trace
+  function:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+No token returned: XML_PullParser_nextElement requires a prior call
+                                                            to XML_PullParser_getElement
+Line: 1714, function: XML_PullParser_nextElement
+
+
+------Error Trace------------
+ERROR:  No token returned: XML_PullParser_nextElement requires a prior call
+                                                                to XML_PullParser_getElement
+Line: 1714, function: XML_PullParser_nextElement
+Error Number: 4  (XML_PullParser_ERROR_NO_TOKEN)
+
+ERROR:  Required Internal Array Missing, Corrupt, or Empty:
+        XML_PullParser_getToken must be called before XML_PullParser_getElement
+Line: 2582, function: XML_PullParser_getElement
+Error Number: 6  (XML_PullParser_ERROR_BAD_INTERNAL_ARRAY)
+
+-----End Trace:-------------
+
+</pre></table><p><div class="para">
+  The errors in the trace are reported in reverse order, that is, the most recent error is reported
+  first and the oldest error is reported last.  Let's look at a more
+  realistic bug, which might be something like the following:
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;">Listing 22</span></b></center>
+<pre>
+
+
+ 1.    $tags = array("DNS");
+ 2.    $child_tags = array("Entry");
+ 3.    $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+ 4.
+ 5.     while($token = $parser->XML_PullParser_getToken())
+ 6.     {
+ 7.         $entry = $parser->XML_PullParser_getElement("entry");
+ 8.         $child = $parser->XML_PullParser_getChild("server",2,$entry);
+ 9.         $child = $parser->XML_PullParser_getText("server",2,$entry);
+10.         echo "Server: $child\n";
+11.         $attr_array = $parser->XML_PullParser_getAttributes("server", 2, $child);
+12.         if($attr_array) {
+13.         foreach($attr_array as $n => $v) {
+14.                echo "$n -- $v\n";
+15.          }
+16.        }
+17.         elseif($attr_array === FALSE) {
+18.           echo XML_PullParser_Errors_Trace() . "\n";
+19.           exit;
+20.        }
+21.    }
+
+</pre></div>
+<p><div class="para">
+  Here we have one of those little bugs that can creep into one's code.  In line 11, the
+  third parameter to  <span class='code'>XML_PullParser_getAttributes</span>  should be  <span class='code'>$entry,</span>
+  as it is in lines 8 and 9.  The output from this script is as follows:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+
+Server: example_2.com
+
+------Error Trace------------
+ERROR:  Missing or Wrong Parameter: Array parameter "example_2.com" is not a token
+Line: 1641, function: XML_PullParser_getAttributes
+Error Number: 5  (XML_PullParser_ERROR_BAD_PARAM)
+
+-----End Trace:-------------
+
+</pre></table><p><div class="para">
+We can see what has happened.  The third parameter, which should be a tokenized array, is the
+string "example_2.com". This is the server address from the second server element--which is what is
+printed by  <span class='code'>$echo</span>  in line 10:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+Server:  example_2.com
+</pre></table><p><div class="para">
+</p></div>
+
+<p><div class="para">
+It's important to remember that when testing for   <span class='code'>False,</span>  it is necessary to use "===" and not "==".
+The latter will test as true for empty arrays, empty strings and  <span class='code'>Null</span> , as well as for  <span class='code'>False.</span>
+ <span class='classname'>XML_PullParser</span>  routinely returns empty arrays, empty strings and Null
+when no data is available or data has been exhausted.  They are not indicators of an Error.
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>User Defined Errors</span><br>
+For the sake of illustration, let's add a user defined error at line 18 of  <span class='emphasis'>Listing 22</span> .
+
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+
+17.    elseif($attr_array === FALSE) {
+18.        $err = XML_PullParser_Errors_userDefined("Bad Attributes array");
+19.        echo XML_PullParser_Errors_getUserDefined($err) . "\n";
+20.        echo XML_PullParser_Errors_Trace() . "\n";
+21.        exit;
+22.    }
+
+</pre></table><p><div class="para">
+</p></div>
+
+<p><div class="para">
+The result would now look as follows:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+
+User defined error: Bad Attributes array
+Line: 18, Top Level
+
+------Error Trace------------
+ERROR:  User defined error: Bad Attributes array
+Line: 26, Top Level
+Error Number: 7  (XML_PullParser_ERROR_USER_DEFINED)
+
+ERROR:  Missing or Wrong Parameter: Array parameter "example_2.com" is not a token
+Line: 1641, function: XML_PullParser_getAttributes
+Error Number: 5  (XML_PullParser_ERROR_BAD_PARAM)
+
+-----End Trace:-------------
+</pre></table><p><div class="para">
+The error message indicates the line number <span class='super'>2</span>  in the user script at which the
+error was reported, as well as the error message.  It also reports that the error occurred at the
+ <span class='emphasis'>Top Level</span> .  Had this error occurred in a function, then the function would be reported
+in this place, just as it is in the error reported by  <span class='classname'>XML_PullParser</span> :
+
+ <h4  style="left:150px">Line: 1641, function: XML_PullParser_getAttributes</h4>
+
+Finally, we see that the user defined error message is included in the trace.  It is reported first in the trace,
+because it is the most recent error.
+</p></div>
+
+<p><div class="para">
+</p></div>
+
+<table border=1 bgcolor='#ffffff' width = 750 cellpadding ='6'>
+<tr><th align='left' class='white_block'>Notes<tr><td class='white_block'>1. The one exception to this is  <span class='code'>XML_PullParser_pushbackToken.</span></td>
+<tr><td class='white_block'>2. The line number, which here is 18, would of course be the actual line number
+        in the user script.</td>
+</table>
+<p><div class="para">
+</p></div>
+
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParser_NS_2.html'>Examples: Coding Namespace Support</a></td><TD align='right' class='navigation'><b>Next: </b><a href='appendix_1.html' class='navigation'>Appendix</a></td></table>&nbsp;&nbsp;&nbsp;
+

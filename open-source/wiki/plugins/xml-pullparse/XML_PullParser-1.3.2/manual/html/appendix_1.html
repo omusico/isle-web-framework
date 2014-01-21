@@ -1,0 +1,465 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Appendix 1: Tokenized Arrays</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+   What follows are examples of the arrays returned by the  <span class='classname'>XML_PullParser</span>
+   tokenizing functions.  Unless otherwise indicated, they are based on the DNS
+    <A href="XML_PullParserCoding_1.html#example_1">example</A>
+    used in most of the code listings.
+</p></div>
+
+<table border=1 bgcolor='#ffffff' width = 750 cellpadding ='6'>
+<tr><th align='left' class='white_block'>Notes on the structure of these arrays<tr><td class='white_block'>1.  These are "flat" arrays: they are not tree-structured,
+         their members are addressed sequentially.</td>
+<tr><td class='white_block'>2. The  <span class='code'>S__</span>  and  <span class='code'>E__</span>  members of these
+        arrays represent START and END tags.</td>
+<tr><td class='white_block'>3. The  first member following the START tag is a an array of the element's attributes.
+    If there are no attributes the array is empty.  If there are attributes, they take the form of
+    an associative array in which each key term is an attribute's name and its value term is the value
+    of the attribute.</td>
+<tr><td class='white_block'>4. The character data follows the attributes array and it always marked as an associative
+    array with a key named  <span class='code'>cdata.</span>   In large blocks of text marked up for conversion to other
+    formats such (e.g. HTML), each set of mark-up tags has its own cdata section.
+     <A href="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_getTextMarkedUp">XML_PullParser_getTextMarkedUP</A>
+    has the facility to handle mark up for HTML but could presumably be used for other types by subclassing.</td>
+<tr><td class='white_block'>5. Included here among the tokenizers are  <span class='code'>XML_PullParser_getChildren</span>
+    and  <span class='code'>XML_PullParser_getChildrenFromName.</span>   Their return type is not a tokenized array
+    but instead a numerically indexed array of tokens.</td>
+<tr><td class='white_block'></td>
+</table>
+<A Name='getToken'><p><div class="block"><A Name="getToken"></A><center><b><span class="code_title" style="font-style:italic;">XML_PullParser_getToken</span></b></center>
+<pre>
+
+        Array
+        (
+            [0] => S__ENTRY
+            [1] => Array
+                (
+                )
+
+            [2] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [3] => S__IPADDRESS
+            [4] => Array
+                (
+                )
+
+            [5] => Array
+                (
+                    [cdata] => 172.20.19.6
+                )
+
+            [6] => E__IPADDRESS
+            [7] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [8] => S__DOMAIN
+            [9] => Array
+                (
+                )
+
+            [10] => Array
+                (
+                    [cdata] =>  example.com
+                )
+
+            [11] => E__DOMAIN
+            [12] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [13] => S__SERVER
+            [14] => Array
+                (
+                    [IP] => 192.168.10.1
+                )
+
+            [15] => Array
+                (
+                    [cdata] =>  example_1.com
+                )
+
+            [16] => E__SERVER
+            [17] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [18] => S__SERVER
+            [19] => Array
+                (
+                    [IP] => 192.168.10.2
+                )
+
+            [20] => Array
+                (
+                    [cdata] =>  example_2.com
+                )
+
+            [21] => E__SERVER
+            [22] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [23] => S__SERVER
+            [24] => Array
+                (
+                    [IP] => 192.168.10.3
+                )
+
+            [25] => Array
+                (
+                    [cdata] =>  example_3.com
+                )
+
+            [26] => E__SERVER
+            [27] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [28] => S__ALIAS
+            [29] => Array
+                (
+                )
+
+            [30] => Array
+                (
+                    [cdata] =>  www.example.com
+                )
+
+            [31] => E__ALIAS
+            [32] => Array
+                (
+                    [cdata] =>
+
+                )
+
+            [33] => E__ENTRY
+        )
+
+</pre></div>
+<p><div class="para">
+</p></div>
+
+<A Name='getElement'><p><div class="block"><A Name="getElement"></A><center><b><span class="code_title" style="font-style:italic;">XML_PullParser_getElement("server")</span></b></center>
+<pre>
+        Array
+        (
+            [0] => S__SERVER
+            [1] => Array
+                (
+                    [IP] => 192.168.10.1
+                )
+
+            [2] => Array
+                (
+                    [cdata] =>  example_1.com
+                )
+
+            [3] => E__SERVER
+            [4] => S__SERVER
+            [5] => Array
+                (
+                    [IP] => 192.168.10.2
+                )
+
+            [6] => Array
+                (
+                    [cdata] =>  example_2.com
+                )
+
+            [7] => E__SERVER
+            [8] => S__SERVER
+            [9] => Array
+                (
+                    [IP] => 192.168.10.3
+                )
+
+            [10] => Array
+                (
+                    [cdata] =>  example_3.com
+                )
+
+            [11] => E__SERVER
+        )
+</pre></div>
+<p><div class="para">
+</p></div>
+
+<A Name='getChild'><p><div class="block"><A Name="getChild"></A><center><b><span class="code_title" style="font-style:italic;">XML_PullParser_getChild('server',$which,$token)</span></b></center>
+<pre>
+        Array
+        (
+            [0] => S__SERVER
+            [1] => Array
+                (
+                    [IP] => 192.168.10.1
+                )
+
+            [2] => Array
+                (
+                    [cdata] =>  example_1.com
+                )
+
+            [3] => E__SERVER
+        )
+
+</pre></div>
+<table border=1 bgcolor='#eeeeee' width = 750 cellpadding ='6'>
+<tr><th align='left' class='block'>Notes for XML_PullParser_getChild<tr><td class='block'>This function extracts the $which_th element and all its descendents.</td>
+<tr><td class='block'>See the class
+       <A href="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_getChild">documentation</A>
+      for details.</td>
+</table>
+<A Name='getChildren'><p><div class="block"><A Name="getChildren"></A><center><b><span class="code_title" style="font-style:italic;">XML_PullParser_getChildren
+         <span style="color:black">and </span> XML_PullParser_getChildrenFromName</span></b></center>
+<pre>
+        Array
+        (
+            [0] => Array
+                (
+                    [0] => S__SERVER
+                    [1] => Array
+                        (
+                            [IP] => 192.168.10.1
+                        )
+
+                    [2] => Array
+                        (
+                            [cdata] =>  example_1.com
+                        )
+
+                    [3] => E__SERVER
+                )
+
+            [1] => Array
+                (
+                    [0] => S__SERVER
+                    [1] => Array
+                        (
+                            [IP] => 192.168.10.2
+                        )
+
+                    [2] => Array
+                        (
+                            [cdata] =>  example_2.com
+                        )
+
+                    [3] => E__SERVER
+                )
+
+            [2] => Array
+                (
+                    [0] => S__SERVER
+                    [1] => Array
+                        (
+                            [IP] => 192.168.10.3
+                        )
+
+                    [2] => Array
+                        (
+                            [cdata] =>  example_3.com
+                        )
+
+                    [3] => E__SERVER
+                )
+
+        )
+
+</pre></div>
+
+<!--   REPLACEMENT MADE -->
+<table border=1 bgcolor='#eeeeee' width = 750 cellpadding ='6'>
+<tr><th align='left' class='block'>Notes for XML_PullParser_getChildren and XML_PullParser_getChildrenFromName<tr><td class='block'>See the discussion of these
+        <A href="XML_PullParserCodingStrategies_5.html#getChildren">functions</A>  in the section on tokenized arrays.</td>
+</table>
+<p><div class="para">
+</p></div>
+
+<p><div class="para"><A Name='namespace'></a><br><span class='emphasis'>Namespace Support</span><br>
+<!--   REPLACEMENT MADE -->
+
+
+  The following token was returned by  <span class='code'>XML_PullParser_getToken</span>
+  using the  <A href="XML_PullParser_NS_2.html#movies_xml">Movies document.</A>
+  It illustrates how namespaces are coded into each element's attribute array.
+  Every element which has been asigned a namespace has an  <span class='emphasis'>_ns_</span>
+  attribute, which points to a single element associative array.  This makes it possible
+  to use PHP's built-in  <span class='code'>array_key_exists</span>  to test for namespace agreement, which
+  is more precise and more efficient than string comparisons.
+</p></div>
+
+<p><div class="para">
+  In the case of attributes
+  found in the XML document, the namespace URI is prefixed to the attribute name with a verticle
+  bar.  Consequently attributes cannot be accessed by name directly, unless
+  an accomodation is made for the namespace prefix.
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;">A Token Illustrating Namespaces</span></b></center>
+<pre>
+
+Array
+(
+    [0] => S__MOVIE
+    [1] => Array
+        (
+            [_ns_] => Array
+                (
+                    [HTTP://FEDORA.GEMINI.CA/LOCAL/] => 1
+                )
+
+        )
+
+    [2] => Array
+        (
+            [cdata] =>
+
+        )
+
+    [3] => S__TITLE
+    [4] => Array
+        (
+            [_ns_] => Array
+                (
+                    [HTTP://ROOM535.ORG/MOVIES/TITLE/] => 1
+                )
+
+        )
+
+    [5] => Array
+        (
+            [cdata] => Gone With The wind
+        )
+
+    [6] => E__TITLE
+    [7] => Array
+        (
+            [cdata] =>
+
+        )
+
+    [8] => S__DATE
+    [9] => Array
+        (
+            [HTTP://ROOM535.ORG/MOVIES/DATES/|DAY] => 25
+            [HTTP://ROOM535.ORG/MOVIES/DATES/|MONTH] => Apr
+            [_ns_] => Array
+                (
+                    [HTTP://ROOM535.ORG/MOVIES/DATES/] => 1
+                )
+
+        )
+
+    [10] => Array
+        (
+            [cdata] => 1939
+        )
+
+    [11] => E__DATE
+    [12] => Array
+        (
+            [cdata] =>
+
+        )
+
+    [13] => S__LEADING_LADY
+    [14] => Array
+        (
+            [_ns_] => Array
+                (
+                    [HTTP://ROOM535.ORG/MOVIES/STAR/] => 1
+                )
+
+        )
+
+    [15] => Array
+        (
+            [cdata] => Vivien Leigh
+        )
+
+    [16] => E__LEADING_LADY
+    [17] => Array
+        (
+            [cdata] =>
+
+        )
+
+    [18] => S__LEADING_MAN
+    [19] => Array
+        (
+            [_ns_] => Array
+                (
+                    [HTTP://ROOM535.ORG/MOVIES/STAR/] => 1
+                )
+
+        )
+
+    [20] => Array
+        (
+            [cdata] => Clark Gable
+        )
+
+    [21] => E__LEADING_MAN
+    [22] => Array
+        (
+            [cdata] =>
+
+        )
+
+    [23] => E__MOVIE
+)
+
+</pre></div>
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParser_Errors.html'>Errors Module</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParser_index.html' class='navigation'>Index</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+

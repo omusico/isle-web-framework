@@ -1,0 +1,200 @@
+
+Version 1.0.2
+  Mon Jul 10 10:13:37 EDT 2006
+
+    XML_PullParser.inc
+        XML_PullParser_getToken() now returns NULL when no more tokens are available
+    and FALSE when there is a read error. In version 1.0.0 it returned FALSE in both
+    cases and so did not differentiate between an error and a normal condition in
+    which a token is not available.    
+
+    XML_PullParser.inc
+    	Added new method:  array XML_PullParser_deleteBlanks ($token)
+            This deletes all blank CDATa elments from a tokenized array--not to be confused
+            with the package level function XML_PullParser_deleteBlanks, which casues
+            text processing to ignore blanks	
+
+            This new method was sparked by the fact that different versions of the PHP expat
+            parser treat CDATA differently, causing XML_PullParser to end up with
+            tokenized arrays of different size.  This generally is of no concern but in
+            comparing the sizes of arrays returned by different implementations different 
+            sizes are found, causing failure of the PHPUnit test for array sizes returned by 
+            XML_PullParser_getToken().  See below, changes to tests/t1.php 
+
+	
+    tests/php_unit.php,  tests/t1.php,  tests/t2.php,   tests/t3.php
+        fixed output strings so that they print equally well both at command line and in browser
+    tests/t1.php
+        added test_noTokenAvailable() to t1.php, to confirm first fix above to
+        XML_PullParser_getToken() works properly
+
+        added call to XML_PullParser_deleteBlanks() in function: test_getTokenSizeOf()
+
+   documentation
+        All documentation updated to reflect addition of XML_PullParser_deleteBlanks()
+
+
+  Fri Jul 14 09:11:16 PDT 2006
+        Fixed XML_ERROR_JUNK_AFTER_DOC_ELEMENT problem in XML_PullParser_doc by returning false
+        from XML_PullParser_doc::_readData if it is called after stream has already been parsed. 	
+		
+
+   
+     
+Version 1.0.3
+  Mon Jul 17 09:07:21 EDT 2006
+	Fixed bug in XML_PullParser_isChildOf($name,$el="") in first if statement:
+		FROM: $el = $this->XML_PullParser_getChild($el,1,$parent)
+		TO:   $el = $this->XML_PullParser_getChild($name,1,$parent);    
+  Mon Jul 17 11:27:15 EDT 2006
+        Fixed bug in XML_PullParser_getAttrVal($name, $attr_array), which returned
+	NULL if $name was not case-folded 
+
+ Tue Jul 18 07:53:47 EDT 2006
+         Reconstructed Manual indexes to both xml and html which ponted to incorrect
+	 pages due to bug in indexing code	
+
+ Tue Jul 18 08:20:16 EDT 2006
+         XML_PullParser_isChildOf
+         In first major if statement Changed:
+		FROM: if(!$el) return False;  
+		TO:   if(!$el) return Null;  
+         Should return false only if no default token is found, and that is tested for immediately above:
+        	if(!$parent) return false;
+
+
+
+Version 1.0.4
+ Wed Jul 26 16:37:22 EDT 2006
+	In XML_PullParser_getSequence() added the following call:	
+                $this->_save_current_element = $this->XML_PullParser_resetCurrentElement($el);
+        This sets up subsequent calls to XML_PullParser_getChild() by some methods that use the
+        $which parameter and default to either $current_element or the current token. This is particularly
+	important in XML_PullParser_getText(), where a call to XML_PullParser_getChild() 
+        will use $current_element if found, by-passing any token which may be passed into 
+	XML_PullParser_getText().
+
+	Upgraded Manual and Class documentation to reflect the above change, as well as to clarify and extend 
+        a number of descriptions, and to fix some bugs in the descriptons.
+ 
+version 1.2.0
+
+  XML_PullParser 1.2.0 requires php version >= 4.3.  Earlier versions of php do not include debug backtracing,
+  which is required by XML_PullParser's new error tracking module.
+
+  All the changes to this release are reflected in the Manual and the class documentation. In addition,
+  a number of clarifications and corrections have also been made to the class documentation .
+
+  Tue Aug  1 12:04:05 EDT 2006
+        XML_PullParser_setAttrLoop_elcd()
+        This method takes an optional token as its parameter. A  bug prevented any token
+        not declared in the $child_tags array from being recognized in the final output.  All tokens now
+        passed into this function are properly  processed.
+
+	XML_PullParser_setAttrLoop_cdata()
+        This release has retained the old version of XML_PullParser_setAttrLoop_elcd() in this
+        newly added method.  This is exactly the old XML_PullParser_setAttrLoop_elcd() simply renamed.
+        This method should be used only if incompatibilities between the new and old versions of
+        XML_PullParser_setAttrLoop_elcd() arise.
+
+	XML_PullParser_tokenFromChildren()
+	Added this method, which converts the arrays returned byXML_PullParser_getChildren to valid
+	token arrays.  It was required by the new version of XML_PullParser_setAttrLoop_elcd, but it
+        is a convenient method and one which had been in prospect.
+
+  Thu Aug  3 07:58:31 EDT 2006
+	The major change in 1.2.0 is the addition of  error reporting and tracking. This involved
+        the addition of the module XML_PullParser_Errors and the updating of many methods to
+        incorporate the functionality of XML_PullParser_Errors.  The use of the Error tracking facility
+        is explained in the Manual.
+  
+Version 1.2.1
+  Tue Aug  8 22:38:38 EDT 2006
+	Modified XML_PullParser_nextElement () to XML_PullParser_nextElement ($xcl=true)
+	The effect of this is to retain the previous functionality where all returned elements
+        are by default filtered through XML_PullParser_childXCL(array $parent, [mixed $args = ""]).
+        In the modified version, XML_PullParser_nextElement (true) will return a value which
+        is not filtered through XML_PullParser_childXCL.  This means that all descendents of the
+        returned token will be included, whereas when passed thorugh the filter all descendents
+        are removed.
+
+        Add an additional check to XML_PullParser_getElementName($array) to make sure that any
+        values passed to it have been set.  This prevents a PHP notice from being emitted when
+        an unset value is passed in and treated as any array element.
+
+  Sat Aug 12 03:08:43 EDT 2006
+	Added additional functionality to XML_PullParser_getText().  In previous versions of
+	XML_PullParser_getText(), if it was called with a string that was the name of the
+        default token ($current_element or current token), this method returned NULL.  Now it
+        returns text based on whether or not $which is set to zero. If zero, then the return
+        value is a string consisting of all the character data in the default token; otherwise
+        it is the $which_th instance of the array returned by  XML_PullParser_getTextArray().
+        See the class documentation for further details.  
+
+        		
+	XML_PullParser_getTokenFromChildren() now returns NULL if the $child parameter 
+	evaluates to False, which could mean either that the parameter has not been passed
+        in at all, or more likely that $child is an empty array.
+
+version 1.2.2
+
+  Wed Aug 23 12:50:12 EDT 2006
+	
+	Added new package level function XML_PullParser_reInitTagArrays(). 
+        This resets the globabls $_XML_PP_childtagsArray and $_XML_PP_childtagsArray to the empty array.
+ 	These globals are used in creating the $tags and $child_tags_arrays and retain
+        previous values in scripts that create more than one XML_PullParser object.
+        Calling this function between instantiations solves the problem and is required
+        for non-corrupt results.  
+
+  Sat Aug 26 07:03:52 EDT 2006
+	
+	Clarified Class documentation for XML_PullParser_nextElement(), making clear that it is
+        for use where there is more than one element of the same name.  Brought up-to-date
+        and/or clarified misc other Class documentation.
+
+version 1.3.0
+
+  Sat Sep 30 21:58:58 EDT 2006
+
+     Integrated Namespace code from version 1.0.0 of XML_PullParser_NS into XML_PullParser.
+     Added package level function XML_PullParser_NamespaceSupport(), which has to be
+     called with a value of true to get namespace support.  It must be called in advance of
+     creating the XML_PullParser class. 
+
+     Fixed a bug in the version of XML_PullParser_getTextStripped() imported from XML_PullParser_NS 1.0.0, which
+     caused the method to ignore text when namespace support was not invoked.  This was incorporated into
+     XML_PullParser_NS and its version was updated to 1.0.1.
+
+     Converted XML_PullParser_NS.inc and XML_PullParser_NS_doc.inc into stubs which serve as an interface
+     to the integrated XML_PullParser: for backward compatibility with codethat used XML_PullParser_NS.
+     Requiring these files instead of XML_PullParser.inc could be an alternate and possibly more convenient
+     way to invoke namespace support, since the script itself doesn't have to remember to call
+     XML_PullParser_NamespaceSupport().
+        
+  Thu Oct  5 07:19:43 EDT 2006
+     Added class method XML_PullParser_getNS_AttrName(string $str), which extracts 
+     the unqualified attribute name from the internally constructed attribute name,
+     when namespace support is invoked.
+
+    Revised XML_PullParser_setCurrentNS() and XML_PullParser_unsetCurrentNS() so that they return the
+    previous namespace definition in a format suitable for passing back into XML_PullParser_setCurrentNS().
+
+  Fri Oct  6 12:30:57 EDT 2006
+   Added additional tests to the test directory for testing namespace support
+
+version 1.3.1
+  Mon Oct  9 06:24:06 EDT 2006
+   Added package level function void XML_PullParser_Disable_NS_Prefixes (mixed $bool), which controls
+   handling of namespace prefixes when namespace support has not been invoked. 
+
+version 1.3.2
+  Tue Dec  5 19:23:30 EST 2006
+    Improved, clarified, fixed a bug in, and enhanced functionality of XML_PullParser_getText().  It's
+    behavior should now be fully consistent with the descriptions in the manual and class documentation.
+    Added to it a new parameter which enables finer tuning of return value when this function is passed
+    an array or tokenized array to be searched for data. (See class documentation.)
+
+  Wed Dec  6 10:15:15 EST 2006
+    Rewrote documentation for XML_PullParser_isCaseFolded in manual and XML_PullParser_caseSensitive in
+    class documentation.

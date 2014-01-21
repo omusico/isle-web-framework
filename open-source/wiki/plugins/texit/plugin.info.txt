@@ -1,0 +1,7 @@
+base   texit
+author Elie Roux (initial author "Danjer", who since disappeared)
+email  elie.roux@telecom-bretagne.eu  
+date   2013-10-01
+name   TeXit
+desc   PDF renderer for Dokuwiki pages, through TeX
+url    https://github.com/eroux/dokuwiki-plugin-dokutexit

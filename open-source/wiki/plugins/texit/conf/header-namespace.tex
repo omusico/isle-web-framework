@@ -1,0 +1,50 @@
+\documentclass[pagesize,11pt,bibliography=totoc,numbers=noenddot,DIV=10,twoside=semi,headings=small]{scrbook}
+\usepackage{scrpage2}
+\usepackage{ifluatex}
+\usepackage{ifxetex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi>0
+%%
+%% This section is for LuaTeX and XeTeX
+%% Warning: polyglossia works with LuaTeX starting from TL2013
+%%
+  \usepackage{polyglossia}
+  \setmainlanguage{english}
+\else
+%%
+%% next section is for latex and pdflatex:
+%%
+  \usepackage[french]{babel} %% Use your own babel language
+  \usepackage{ucs}
+  \usepackage[utf8x]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{pslatex}
+  \usepackage{wasysym}
+  \usepackage{textcomp}
+\fi
+%%
+%% and this section is common
+%%
+%% uncomment these if you use them
+\usepackage{supertabular}  % very big tables
+\usepackage{pdflscape}     % idem
+\usepackage{moreverb}      % for verbatimtab environment FIXME: is this really necessary?
+% Set your margins here:
+\usepackage[top=3cm,bottom=3cm,left=2.5cm,right=2.5cm]{geometry}
+% If you want to have colored links in your pdf, change the following line:
+\usepackage[unicode, bookmarks, colorlinks=false, pdfborder={0 0 0}]{hyperref}
+\usepackage{graphicx}       % provides image insertion
+\usepackage{tabularx}       % provides table insertion
+\usepackage{color}          % provides color handling
+\usepackage{listings}       % provides syntaxic coloration for code
+\usepackage[normalem]{ulem} % provides underlining (\uline{})
+\usepackage{wrapfig}        % usefull for image
+%% these are to be tuned by namespace, as they'll certainly vary
+\let\dokutitlelevelone\part
+\let\dokutitleleveltwo\chapter
+\let\dokutitleleveltree\section
+\let\dokutitlelevelfour\subsection
+\let\dokutitlelevelfive\subsubsection
+
+\input{commands.tex}
+
+\begin{document}

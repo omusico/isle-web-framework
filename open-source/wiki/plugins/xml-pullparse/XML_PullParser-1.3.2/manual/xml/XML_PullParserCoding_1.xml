@@ -1,0 +1,122 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Introduction to Coding I: CDATA</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+         <firstname>Myron</firstname>
+         <!-- email>Myron_Turner@shaw.ca</email  -->
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+ 
+  <formalpara><title></title><para>
+    The aim of this section and the next is to give readers a feel for
+    how <classname>XML_PullParser</classname> works. The code listings are fragments    
+    and cannot stand alone. Later sections will show the contexts that make
+    them functional.  
+    
+  </para></formalpara>
+
+	<blockquote><title>Example 1</title>
+    <anchor id="example_1"/>    
+	<programlisting>
+	&lt;ENTRY&gt;
+	&lt;ipaddress&gt;172.20.19.6&lt;/ipaddress&gt;
+	&lt;domain&gt;example.com&lt;/domain&gt;
+	&lt;server ip="192.168.10.1"&gt;example_1.com&lt;/server&gt;
+	&lt;server ip="192.168.10.2"&gt;example_2.com&lt;/server&gt;
+	&lt;server ip="192.168.10.3"&gt;example_3.com&lt;/server&gt;
+	&lt;alias&gt;&lt;www.example.com&lt;/alias&gt;
+	&lt;/ENTRY&gt;
+
+    &lt;ENTRY&gt;
+	&lt;ipaddress&gt;172.20.19.7&lt;/ipaddress&gt;
+        .      
+        .  
+	&lt;alias&gt;&lt;www.example.org&lt;/alias&gt;
+	&lt;/ENTRY&gt;
+	</programlisting>
+	</blockquote>
+  <formalpara><title></title><para>
+    There are five pieces of data that can be extracted from &lt;ENTRY&gt;.  These are ipaddress,
+    domain, server, server ip, and alias. Getting the IP address involves three lines
+    of code.
+  </para></formalpara>
+	<blockquote><title role="code">Listing 1</title>
+    <anchor id="listing_1" />
+	<programlisting>
+	   1.   while($token = $parser->XML_PullParser_getToken())
+	   2.   { 
+	   3.       $ipaddress=$parser->XML_PullParser_getElement('ipaddress');       
+	   4.       echo "IP Adress: " . $parser->XML_PullParser_getText() ."\n";
+	   5.   }
+                    
+    /*  Result
+        IP Adress: 172.20.19.6
+        IP Adress: 172.20.19.7
+    */	         
+	</programlisting>
+	</blockquote>
+    
+    <formalpara><title></title><para>
+    With each turn of the loop, an ENTRY structure is returned by <code>XML_PullParser_getToken,</code>  
+    which must always be called before taking any other action:  It gets gets the next token from the
+    token stack and sets up the basis for all the other tokenizing functions.
+    </para></formalpara>
+    <formalpara><title></title><para>
+    In line 3 the <emphasis>ipaddress</emphasis> element is declared as the object of whatever happens next.  In this
+    case, it's a call to <code>XML_PullParser_getText,</code> which returns the IP adress as a string.
+    The same coding could be used for both <emphasis>domain</emphasis> and <emphasis>alias.</emphasis>
+    Getting the server names requires one additonal line of code.
+    </para></formalpara>
+    
+	<blockquote><title role="code">Listing 2</title>
+    <anchor id="listing_2" />
+	<programlisting>
+       1.   while($token = $parser->XML_PullParser_getToken())
+       2.   { 
+       3.       $dns_servers=$parser->XML_PullParser_getElement('server');    
+       4.       while($server = $parser->XML_PullParser_nextElement()) 
+       5.       {        
+       6.           echo "Server: " . $parser->XML_PullParser_getText($server) ."\n";
+       7.       }
+       8.   }
+    /*  Result
+        Server: ns1.example.net
+        Server: ns2.example.net
+        Server: ns3.example.net
+    */	         
+	</programlisting>
+	</blockquote>
+
+  <formalpara><title></title><para>Again, <code>XML_PullParser_getElement</code> picks out the element of interest.
+   Line 4 contains the new code, <code>XML_PullParser_nextElement</code>, which
+   returns the server elements in the same order in which they appear in the XML document.
+   <code>XML_PullParser_getText</code> (line 6) then returns the text from each of the server
+   elements. There are other ways to do this job, and we'll look at them, but this is the
+   most intuitive and elegant.
+  </para></formalpara>
+  <simpara role="hr"></simpara>
+  <formalpara><title></title><para>
+  <ulink type="prev" url="XML_PullParser_intro_1.xml">Introduction</ulink>
+  <ulink type="next" url="XML_PullParserCoding_2.xml">Introduction to Coding 2: Adding Attributes</ulink>
+  </para></formalpara>    
+
+  <formalpara><title></title><para></para></formalpara><formalpara><title></title><para></para></formalpara>
+
+</article>
+
+

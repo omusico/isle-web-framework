@@ -1,0 +1,33 @@
+\definecolor{codegray}{gray}{.95}
+\lstset{language=C,
+	numbers=left,
+	tabsize=2,
+	basicstyle=\scriptsize,
+	stringstyle=\textrm,
+	showstringspaces=false,
+	frame=none,
+	xleftmargin=3pt,
+	backgroundcolor=\color{codegray}}
+
+\let\dokuinternspagedo\relax
+\let\dokuinclude\include
+\let\dokufootnote\footnote
+\let\dokufootmark\footnotemark
+\let\dokubold\textbf
+\let\dokuitalic\textit
+\let\dokumonospace\texttt
+\let\dokuunderline\underline
+\let\dokuoverline\sout
+\let\dokusupscript\textsuperscript
+\let\dokusubscript\textsubscript
+\let\dokulabel\label
+\let\dokuitem\item
+\let\dokuquoting\textbar
+\let\dokutabularwidth\textwidth
+\newcommand{\dokubibliography}{\bibliography{./texit}}
+\newcommand{\dokuhline}{\line(1,0){400}}
+\newcommand{\dokusupertabularheadbreak}{\small\sl continued from previous page}
+\newcommand{\dokusupertabulartailbreak}{\small\sl continued on next page}
+\newcommand{\dokuheadingstyle}[1]{\textbf{#1}}
+\definecolor{dokuheadingcolor}{rgb}{0,0,0.60}
+\newcommand{\dokusmiley}[1]{\includegraphics[height=1em]{#1}}

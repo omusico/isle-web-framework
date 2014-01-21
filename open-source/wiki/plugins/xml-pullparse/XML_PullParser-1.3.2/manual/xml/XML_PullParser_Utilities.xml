@@ -1,0 +1,249 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Utilites and Helper Functions</subtitle> 
+      &version;
+
+      <author>
+         <surname>Turner</surname>
+
+         <firstname>Myron</firstname>
+
+      </author>
+   </articleinfo>
+ 
+ 
+  <formalpara><title></title><para>
+  </para></formalpara>
+
+
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink></simpara>
+
+<formalpara><title></title>
+<para>Many of these methods have been discussed elsewhere in the Manual or used in examples.
+Check the Manual <ulink url="XML_PullParser_index.xml">index</ulink>
+for the relevant manual sections.  Check the class <ulink url="../doc/index.html">documentation</ulink>
+as well for other details.
+</para>
+</formalpara>
+
+
+<formalpara><title></title><para></para></formalpara>
+
+ <formalpara role="list"><title><emphasis>Class Utilities</emphasis></title>
+   <para>
+   <simplelist type='vert' columns='1'>
+   <member>
+        bool XML_PullParser_pushbackToken ()
+        <phrase>
+         Pushes current token back on the stack.   
+        </phrase>
+   </member>
+   <member>
+       array XML_PullParser_clearPbackStack ()
+        <phrase>
+        Must be called if <code>XML_PullParser_pushbackToken</code> returns <emphasis> false</emphasis>
+        </phrase>
+   </member>
+
+   <member>
+        void XML_PullParser_free ()
+         <phrase>
+            This frees all resources. It should be called if a session is complete and
+            another is going to be started or if the script is not at an end.
+            Not neeeded if script exits at the end of the parsing session.           
+         </phrase>
+   </member>
+   <member>
+        array XML_PullParser_getCurrentElement ()
+         <phrase>            
+            This is a convenience method that returns the <code>$current_element.</code>  
+         </phrase>
+   </member>
+   <member>
+        array XML_PullParser_resetCurrentElement (array $cur_el)
+         <phrase>            
+            This method sets as the <code>$current_element</code> any valid
+            tokenized array and returns a copy of the old <code>$current_element.</code>
+            It makes it possible to set the <code>$current_element</code> to one
+            needed in a portion of code and then to return it to its prevous
+            value when finished.      
+         </phrase>
+   </member>
+   <member>
+        array XML_PullParser_unsetCurrentElement ()
+         <phrase>            
+            This sets the <code>$current_element</code> to an empty array and returns the
+            a copy the <code>$current_element</code> that has been unset.  Since many
+            methods default to the <code>$current_element</code> or, if that is not set, to the
+            current token, this method is a convenient way to switch back and forth
+            between these two default arrays.
+         </phrase>            
+   </member>
+   <member>
+   <![CDATA[ <a name='_isCaseFolded'>]]> 
+       boolean XML_PullParser_isCaseFolded ()
+         <phrase>
+            Returns <emphasis>True</emphasis> if case-folding is in effect.  With
+            case-folding, all identifiers--element and attribute names--are converted up upper case.  Case-folding
+            is not a function of the underlying expat processer but is a function
+            of the PHP implementation and occurs after the underlying processing has occurred.
+            This means that the XML document itself must be well-formed; it must conform to the XML
+            requirment that all identifiers must be case-sensitive, 
+            otherwise expat will report an error.
+         </phrase>
+   </member>
+   <member>
+	string XML_PullParser_setDelimiter (string $delimiter)
+         <phrase>
+            Sets the delimiter between the concatenated strings returned by 
+            <code>XML_PullParser_getTextStripped</code> and returns the 
+            previous delimiter.  The default delimiter is a single space character
+            (20 hex).
+         </phrase>
+
+   </member>
+   <member>
+	array  XML_PullParser_deleteBlanks ($token)
+         <phrase>
+          Removes all blank array elements from $token.  
+          Tests all CDATA array elements against the PERL regex '/\w/'
+          and deletes from the token array any CDATA which does not meet this test.
+          This method should not be confused with <code>XML_PullParser_excludeBlanks,</code>
+          a package level function which causes blank CDATa elments to be ignored during
+          text processing, but not removed.
+         </phrase>
+
+   </member>
+
+    </simplelist>
+    </para></formalpara>
+
+
+   <formalpara role="list"><title><emphasis>Package Level Utilities</emphasis></title>
+   <para>
+    The three CDATA functions (4,5,8) apply to <code>XML_PullParser_getTextStripped</code>
+    and the text functions which use it(<code>XML_PullParser_getText</code> and
+    <code>XML_PullParser_getTextArray</code>).  They can be called at any point   
+    and will apply to the next call to any of the affected methods.  The other
+    package level functions must be called in advance of the constructor; otherwise
+    they have no effect.
+    <anchor id="package_level" />
+   <simplelist type='vert' columns='1'>
+   <member>
+        void   XML_PullParser_caseSensitive  (boolean $bool)
+         <phrase>
+         Setting this to <emphasis>True</emphasis> turns off case-folding.
+          See <ulink url = "../doc/XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_caseSensitive">XML_PullParser_caseSensitive</ulink> 
+          in the class documentation and  
+         <![CDATA[<a href="#_isCaseFolded">XML_PullParser_isCaseFolded</a> above.]]>
+         </phrase>
+   </member>
+   <member>
+        array  XML_PullParser_declareChildElements  (mixed $tags)
+         <phrase>
+          Calling this function with either an array or variable list
+          of child elements declares the <code>$child_tags</code>    
+          array.  The <code>$child_tags</code> does not then have
+          to be passed in to the constructor.    
+         </phrase>
+   </member>
+   <member>
+        array  XML_PullParser_declareElements  (mixed $tags)
+         <phrase>
+          Calling this function with either an array or variable list
+          of elements declares the <code>$tags</code>    
+          array.  The <code>$tags</code> does not then have
+          to be passed in to the constructor.    
+         </phrase>
+   </member>
+   <member>
+        void   XML_PullParser_excludeBlanks  (boolean $bool)
+         <phrase>
+          Setting this to <emphasis>True</emphasis> causes blank
+          text elements to be skipped.  hese are text elements
+          consisting solely of white space.  This should be set to
+          <emphasis>True</emphasis> when <code>XML_PullParser_getTextArray</code>
+          is going to be used, because blank text elements can cause misalignment
+          in the returned array.  Compare this function with the class method
+          <ulink url = "../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_deleteBlanks">XML_PullParser_deleteBlanks</ulink>    
+          which is also listed in the class utilities above.  
+         </phrase>
+   </member>
+   <member>
+        void   XML_PullParser_excludeBlanksStrict  (boolean $bool)
+         <phrase>
+          Setting this to <emphasis>True</emphasis> excludes from returned text
+          any text element that does not meet the requirements of the PRE
+          regular expression <emphasis>\w</emphasis> which represents 
+          all alphanumeric characters, the underscore, and the hyphen.
+         </phrase>
+   </member>
+  <member>
+          void XML_PullParser_reInitTagArrays()
+         <phrase>
+           This function must be called when more than one instance of <classname>XML_PullParser</classname>
+           is created in the same script.  It resets to the empty array the two global arrays
+           which are used to initialilze the <code>$tags</code> and <code>$child_tags</code>
+           arrays.  Unless this function is called, the new instance will still hold array
+           elements from the previous instance.
+         </phrase>
+   </member>
+
+   <member>
+        void   XML_PullParser_setReadLength  ([integer $num = 2])
+         <phrase>
+            This governs the maximum number of bytes read by the parser
+            at each file access.  The default read length is 8KB.
+            This function will reset the read length in 4KB units,
+            so that calling this function with a value of 4 will
+            reset the the read length to 16KB.  Read length can be
+            of critical importance when processing large element
+            strctures.  If the data contained between the Start and End
+            tags of a <code>$tag</code> or <code>$child_tag</code>
+            exceeds the read length, parsing will become corrupted.
+         </phrase>
+   </member>
+   <member>
+        void   XML_PullParser_trimCdata  (boolean $bool)
+         <phrase>
+          Setting this to <emphasis>True</emphasis> causes all text elements
+          to be passed through the PHP <code>trim</code> function.  
+         </phrase>
+   </member>
+    </simplelist>
+    </para></formalpara>
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+ <!--
+  blockquote><title>Example 1</title>
+ <programlisting>
+ </programlisting>
+ </blockquote
+-->
+
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+  <simpara role="hr"></simpara>
+
+<formalpara><title></title><para>
+<ulink type="prev" url="XML_PullParser_AttributeAccessors.xml">Attribute Accessors</ulink>
+
+<ulink type="next" url="XML_PullParser_NS.xml">Namespace Support</ulink>
+</para></formalpara>
+
+</article>
+
+

@@ -1,0 +1,133 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+
+
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Introduction to Coding Strategies</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+
+         <firstname>Myron</firstname>
+
+         <!-- email>Myron_Turner@shaw.ca</email  -->
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+<formalpara><title></title><para>
+  The arrays returned by <classname>XML_PullParser's</classname> tokenizing functions are "flat",
+  i.e. while they are multi-dimensional, they are not tree-structured and are addressed
+  sequentially by index number. (See <ulink url="appendix_1.xml">Appendix 1.</ulink>)
+  A token will include the parent and all of its children, if any.  
+  <classname>XML_PullParser</classname> needs ways to separate out or "select"
+  the precise element and its attributes which the code calls for, and it
+  provides both techniques and class methods which will do this.  These techniques and methods are
+  equivalent to <emphasis>selectors</emphasis> in XSL style-sheets.  In this Introduction,
+  we'll look first at an obvious technique and then at a useful class method.  
+</para></formalpara>
+
+  <formalpara><title></title><para>What if in
+  <ulink url="XML_PullParserCoding_3.xml#listing_6">Listing 6</ulink>
+  we wanted to include the domain name in addition to the IP address?  The "domain" element 
+  would then be added to the <code>$tags</code> array.
+ </para></formalpara>
+
+
+ <blockquote><title role="code">Listing 7</title>
+ <programlisting>
+        1.   $child_tags = array();
+        2.   $tags = array("ipaddress", "domain");
+        3.   $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+        4.
+        5.   while($token = $parser->XML_PullParser_getToken())
+        6.   { 
+        7.     if($ip = $parser->XML_PullParser_getText('ipaddress')) {
+        8.       echo "IP address: " . $ip ."\n";  
+        9.    }
+       10.   if($domain = $parser->XML_PullParser_getText('domain')) {
+       11.       echo "Domain Name: " . $domain ."\n\n";  
+       12.    }
+       13.   }
+       
+ /*
+  Result
+        IP address: 172.20.19.6
+        Domain Name:  example.com
+ */
+         </programlisting>
+ </blockquote>
+  <formalpara><title></title><para>
+ 
+  This code takes advantage of a standard protocol  in <emphasis>XML_PullParser,</emphasis> which is to return
+  the <emphasis>Null</emphasis> value or an empty string or array when there is no result.  We test for the return value
+  of <code>XML_PullParser_getText</code> in lines 7 and 10, because the loop executes twice,
+  once for the <emphasis>ipaddress</emphasis> and once for the <emphasis>domain.</emphasis>
+  When the 
+  <ulink url="XML_PullParserCoding_3.xml#notes">current token</ulink>
+  holds the <emphasis>ipaddress</emphasis>, it has no data for the
+  <emphasis>domain</emphasis> and vise versa.  In effect, <emphasis>Listing 7</emphasis> uses a 
+  common programming technique to "select" the appropriate element.
+   
+  </para></formalpara>
+
+  <formalpara><title></title><para>
+   
+  But what if we needed something more precise than testing for the <emphasis>Null</emphasis> value?  
+  The <emphasis>Null</emphasis> return value indicates only that a request for data failed to yield results.  
+  It doesn't indicate whether the failure occurred because the token did not contain
+  the element or whether it held the element but the element did not have any data.
+  In <emphasis>Listing 6</emphasis> we are looking for data held by <emphasis>ipaddress,</emphasis>
+  but the <emphasis>Null</emphasis> return value does not tell us whether the failure to locate this data
+  occurs because there is no <emphasis>ipaddress</emphasis> element in the token or because
+  it was found but was empty of data.
+  </para></formalpara>
+  <formalpara><title></title><para>
+   For this kind of precision we need a way of identifying the element which is being returned by
+  <code>XML_PullParser_getToken.</code> 
+  <ulink url="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_isTypeOf">XML_PullParser_isTypeOf</ulink> is designed to identify the type of an element:
+  <token>bool XML_PullParser_isTypeOf(string $name, array $el)</token>
+  This function returns true if element <code>$el</code> is of type <code>$name.</code> <emphasis>Listing 8</emphasis>
+  rewrites  <emphasis>Listing 7</emphasis> using this function:
+  </para></formalpara>
+
+ <blockquote><title role="code">Listing 8</title>
+ <programlisting>
+        1.   $child_tags = array();
+        2.   $tags = array("ipaddress", "domain");
+        3.   $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+        4.
+        5.   while($token = $parser->XML_PullParser_getToken())
+        6.   { 
+        7.      if ($parser->XML_PullParser_isTypeOf('ipaddress', $token)) {
+        8.          echo "IP address: " . $parser->XML_PullParser_getText('ipaddress') ."\n";  
+        9.      }
+       10.       else {
+       11.          echo "Domain Name: " . $parser->XML_PullParser_getText('domain') ."\n";  
+       12.       }
+       13.   }
+       
+
+ </programlisting>
+ </blockquote>
+  <formalpara><title></title><para></para></formalpara>
+ <simpara role="hr"></simpara>
+  <formalpara><title></title><para>
+   <ulink type ="prev" url="XML_PullParserCoding_3.xml">Instantiating the XML_PullParser Object</ulink>
+   <ulink type ="next" url="XML_PullParserCodingStrategies_2.xml">Strategies 2: the 'which' parameter</ulink>
+   </para></formalpara>    
+
+  <formalpara><title></title><para></para></formalpara><formalpara><title></title><para></para></formalpara>
+
+</article>
+
+

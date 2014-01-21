@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0" packagerversion="1.4.9">
+ <name>XML_PullParser</name>
+ <summary>XML_PullParser is a token-based interface to the PHP expat XML library.</summary>
+ <description>XML_PullParser moves the the API of the PHP expat XML facility from an event-based model to a token-based model. Instead of procesing data as it is passed from the parser to callbacks, a script using PullParser requests &quot;tokens&quot; from XML_PullParser_getToken(). Tokens are arrays representing XML structures, which become available in the order in which they appear in the document being parsed. Functions are provided to get element structures and to extract their data. Documentation and examples are available in the manual pages and sample files.
+ </description>
+ <maintainers>
+  <maintainer>
+   <user>turnermm</user>
+   <name>Myron Turner</name>
+   <email>Myron_Turner@shaw.ca</email>
+   <role>lead</role>
+  </maintainer>
+  </maintainers>
+ <release>
+  <version>1.3.2</version>
+  <date>2006-12-09</date>
+  <license>LPGL</license>
+  <state>stable</state>
+  <notes>
+  </notes>
+  <deps>
+   <dep type="php" rel="ge" version="4.3.0"/>
+  </deps>
+  <provides type="class" name="XML_PullParser" />
+  <provides type="class" name="XML_PullParser_doc" extends="XML_PullParser" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_setCurrentNS" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_unsetCurrentNS" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getNS_URI" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getNS_AttrName" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getAttr_NS" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getToken" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_clearEscapedTokens" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getEscapedToken" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_pushbackToken" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_clearPbackStack" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getChild" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_childXCL" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getChildren" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getChildrenFromName" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getTextArray" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getText" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getAttributes" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_nextElement" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_nextAttr" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_setAttrLoop_cdata" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_setAttrLoop_elcd" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_setAttrLoop" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_resetAttrLoopPtr" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_unsetCurrentElement" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_resetCurrentElement" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getCurrentElement" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getAttrVal" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getAttrValues" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getStyledSpans" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getStyledTags" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getCSSSpans" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getHTMLTags" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getTextMarkedUp" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getTextStripped" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_setDelimiter" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getElement" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getElementName" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_isTypeOf" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_isChildOf" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_getSequence" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_deleteBlanks" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_tokenFromChildren" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_isCaseFolded" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_isCaseEnfolded" />
+  <provides type="function" name="XML_PullParser::XML_PullParser_free" />
+  <provides type="function" name="XML_PullParser_doc::XML_PullParser_free" />
+  <provides type="function" name="XML_PullParser_declareElements" />
+  <provides type="function" name="XML_PullParser_declareChildElements" />
+  <provides type="function" name="XML_PullParser_reInitTagArrays" />
+  <provides type="function" name="XML_PullParser_setReadLength" />
+  <provides type="function" name="XML_PullParser_excludeBlanks" />
+  <provides type="function" name="XML_PullParser_excludeBlanksStrict" />
+  <provides type="function" name="XML_PullParser_trimCdata" />
+  <provides type="function" name="XML_PullParser_caseSensitive" />
+  <provides type="function" name="XML_PullParser_NamespaceSupport" />
+  <provides type="function" name="XML_PullParser_Disable_NS_Prefixes" />
+  <provides type="class" name="XML_PullParser_Errors" />
+  <provides type="function" name="XML_PullParser_Errors::XML_PullParser_Errors_errorStr" />
+  <provides type="function" name="XML_PullParser_Errors::XML_PullParser_Errors_errorNumber" />
+  <provides type="function" name="XML_PullParser_Errors::XML_PullParser_Errors_error" />
+  <provides type="function" name="XML_PullParser_Errors::XML_PullParser_Errors_printError" />
+  <provides type="function" name="XML_PullParser_Errors_userDefined" />
+  <provides type="function" name="XML_PullParser_Errors_getUserDefined" />
+  <provides type="function" name="XML_PullParser_Errors_INI" />
+  <provides type="function" name="XML_PullParser_Errors_errMsg" />
+  <provides type="function" name="XML_PullParser_Errors_Trace" />
+  <provides type="function" name="XML_PullParser_Errors_Ref" />
+  <provides type="function" name="XML_PullParser_Errors_Num" />
+  <provides type="class" name="XML_PullParser_NS" extends="XML_PullParser" />
+  <provides type="class" name="XML_PullParser_NS_doc" extends="XML_PullParser" />
+  <provides type="function" name="XML_PullParser_NS_doc::XML_PullParser_free" />
+  <filelist>
+   <file role="php" baseinstalldir="XML_PullParser" md5sum="ff10869af187a36abc5be06b8f4703b8" name="XML_PullParser.inc"/>
+   <file role="php" baseinstalldir="XML_PullParser" md5sum="0069b2550f9a8111bd852e40a7c4968c" name="XML_PullParser_Errors.inc"/>
+   <file role="php" baseinstalldir="XML_PullParser" md5sum="f619e900be80c0db24532cfdf249f172" name="XML_PullParser_NS.inc"/>
+   <file role="php" baseinstalldir="XML_PullParser" md5sum="b5e0d08a630dd6e6e8787e6b317fcff5" name="XML_PullParser_NS_doc.inc"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="8a0349fbb47f3ada2d95766897c95539" name="README"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="7266a93b753b03bc5f00522e65722b79" name="lgpl.txt"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="f9d7a8ae2b167ada6aadfa68f8bd6092" name="changelog"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="7a4f3d29ad2f2eeae7e9c44dc2efb34f" name="tests/t1.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="3e67f0680c7ae598614def5954d03fe8" name="tests/t2.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="48c88c54758163160285d38e8b4414e3" name="tests/t1-ns.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="54984840e13158be41ac48310ec6d6cd" name="tests/t2-ns.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="42d479505c313ce2548eda43f4e2982a" name="tests/t3.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="f0a3fca39d006257377f83bfce45a3b1" name="tests/t3-ns.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="7b86cbcd6c4bb72ee4e44c125676e1b8" name="tests/t3a-ns.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="d5cedace8604a34000e470e4dbe7199f" name="tests/t4.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="52cdbb59bf42a158668cbeea7e7c29df" name="tests/t4-ns.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="94c5841ac34c11752c799ea7df194cc6" name="tests/t5.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="e3dfedca03c0a343a969399340415beb" name="tests/vehicles.xml"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="329fbf7c4c34b9133e1888c931f07628" name="tests/php_unit.php"/>
+   <file role="test" baseinstalldir="XML_PullParser" md5sum="fd3414541fa8ce6be7dfe267b4a9cb94" name="tests/DNS.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="d53f48b8b7428d94d197ba2252a9cfda" name="manual/html/appendix_1.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="c4b6712afaa257b38ed1814f7243f51a" name="manual/html/contents.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="6679af8709ee3f7ef90de4c0b79fe9d0" name="manual/html/synopsis.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="a1afd7e332b0aa9326255c3a2bc71c11" name="manual/html/Listing_23.phps"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="1b3eca06fd34da182c1876067146f76a" name="manual/html/Listing_24.phps"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="ebad5c6886449f63b479f2d1c74f09d9" name="manual/html/XML_PullParser_AttributeAccessors.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="952ffb64413d0f41ca0145406a670403" name="manual/html/XML_PullParserCoding_1.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="7802f4f30e49ff93bc06bf43a40cfe2b" name="manual/html/XML_PullParserCoding_2.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="436d54b35ef8ca5dedb6b8cd40e1c04e" name="manual/html/XML_PullParserCoding_3.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="130ebe436a9a3678df3cd91a31c9b259" name="manual/html/XML_PullParserCodingStrategies_1.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="bad0f03b50391f2794dbdd2d2e2f9b3e" name="manual/html/XML_PullParserCodingStrategies_2.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="025ab80b3e178958cadfbb5063c81e69" name="manual/html/XML_PullParserCodingStrategies_3.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="e05582af14c832b4db311e18c581361a" name="manual/html/XML_PullParserCodingStrategies_4.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="cc3584965d0f839bf1a023b0448fbadf" name="manual/html/XML_PullParserCodingStrategies_5.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="83882b71ff4dab0271428025ce67422a" name="manual/html/XML_PullParser_contents.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="dbc91940229bb92b08ff615ac6b4fc44" name="manual/html/XML_PullParser_index.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="a128803da07701d82bba80c66711b506" name="manual/html/XML_PullParser_intro_1.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="03b1e802b8b110a075f8cf7ad442b960" name="manual/html/XML_PullParser_TextAccessors.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="fd05e13f27ce80556af4f8bb17e6de77" name="manual/html/XML_PullParser_Utilities.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="70344e05d6dc72e5cfee5e0eb44a953d" name="manual/html/XML_PullParser_Errors.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="0227bef1a273dfb3e0ea5bc4c65dcb07" name="manual/html/XML_PullParser_NS.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="89d90395f60814d2da9213127a06f185" name="manual/html/XML_PullParser_NS_2.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="2ef9a10ef0e020aa3014cd77cccc1102" name="manual/listings/DNS.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="aa0c6372bb3dcc69acfe0c4e7aef69ae" name="manual/listings/Listing_10.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="bd7f347887f0c01232f8e1b38a716589" name="manual/listings/Listing_11.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="ef6d74189fb7e03054a9bf38ee93cc9a" name="manual/listings/Listing_12.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="8b0e8f2516c2bbcf6ec1237806e8b792" name="manual/listings/Listing_13.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="5d1572cd20c5c924554507ed2ea72c80" name="manual/listings/Listing_15.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="72dbcfbebaf087696d9e8775e2ab63d1" name="manual/listings/Listing_16.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="80d5f5279cc5ecca1fb5e56acf04b670" name="manual/listings/Listing_17.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="b45142fa7f1519b63717a034d9c7cec3" name="manual/listings/Listing_18.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="3524429e2c333b1470b6a481b84cbc5e" name="manual/listings/Listing_19.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="d5bdb6585497600bc51f345334daa3eb" name="manual/listings/Listing_1.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="f8250b33e3149739f5faa6daa67d13a9" name="manual/listings/Listing_20.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="3afabb74a2524400b96302c17e5878bd" name="manual/listings/Listing_2.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="08d174eadf486a94f8589bd4167a2a86" name="manual/listings/Listing_3.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="fb39b6ecf7d9eda44ba84c7265c582fb" name="manual/listings/Listing_4.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="0a7b638c278551eb0e8bdb4156fa3f94" name="manual/listings/Listing_6.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="ff9076e7e57dcfa0da8cfa0a7224c2dd" name="manual/listings/Listing_7.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="3bd1a42f1e0b51fff67d45943acff3bb" name="manual/listings/Listing_8.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="eadc838ef02005fc65dcc0a572fbbbb2" name="manual/listings/Listing_22.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="e10b72a76dce62852a09d2af6d7ab5f3" name="manual/listings/Listing_23.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="9abf221aadba349969b29f897b3d240f" name="manual/listings/Listing_24.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="f31063b739cc3a52b934b48c47d1b95d" name="manual/listings/Listing_9.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="37497c438a228aa08e8e676b14e53835" name="manual/listings/List.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="7e1d48d8f9083a3e9a2d8b0a3833c448" name="manual/listings/movies.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="e55217a2176dad9aedb30c9e52995349" name="manual/listings/Movies.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="88d810bcebe69c9e13939fc71e010fbe" name="manual/listings/keymap.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="0630accabadd61a35205ad110859263c" name="manual/listings/php_batch.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="ab91e0e4e6412d9dba0f203af236c9e6" name="manual/listings_NS/Movies.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="3c6c76135e2af4862583ee18ae1ed7e3" name="manual/listings_NS/movies.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="cf400bbf94c2c0286c87266991492e1c" name="manual/listings_NS/movies-2.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="91239ae48e82c79bbb3b5eedcfb99023" name="manual/listings_NS/movies-3.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="daa83472fe4941246f2f2d3715aa6889" name="manual/listings_NS/movies-4.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="ba9f840f3d64b1815240671fd142aa7f" name="manual/listings_NS/movies-6.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="d4cf74a2cbae9b6c2f3da174f70aeb3f" name="manual/listings_NS/movies-7.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="d962bf7c29a0fa205195a9c35818dc40" name="manual/listings_NS/movies-8.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="0630accabadd61a35205ad110859263c" name="manual/listings_NS/php_batch.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="796e56fde8eebe33281be377e5111436" name="manual/xml/appendix_1.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="79d0e4e74e196558024992d18980131a" name="manual/xml/article2html.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="e9a0eeb5c574de729222c9c8f68d45ae" name="manual/xml/article_tpl.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="bf3063dc70ce0caaca2807e3565c70bf" name="manual/xml/contents.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="c4b6712afaa257b38ed1814f7243f51a" name="manual/xml/html_contents.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="af7e804af44350150d87412c4a3eebf1" name="manual/xml/index_xml.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="3234a6aac44a64d80a08041e0e64f28e" name="manual/xml/synopsis.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="a9bcfc552d0aacf1570dc9de3a93723e" name="manual/xml/toc.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="acd35a8b8c6901cf329ed93b987de4c3" name="manual/xml/xml2html.php"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="b9e4bcf735b37861055db39a89b2150d" name="manual/xml/XML_PullParser_AttributeAccessors.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="866971c612c1120ed325cdea611b4d10" name="manual/xml/XML_PullParserCoding_1.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="1d0737c5b52212ff7041c7a054b5767e" name="manual/xml/XML_PullParserCoding_2.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="6c4394e46b96dc06ca160c4f5e6f8b1f" name="manual/xml/XML_PullParserCoding_3.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="384ce3ef31985e98a816b096591338fd" name="manual/xml/XML_PullParserCodingStrategies_1.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="b9adafdb1c1ebb4dc74249a417698d3a" name="manual/xml/XML_PullParserCodingStrategies_2.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="2fb5b6d32a42601d6daaccb97b783422" name="manual/xml/XML_PullParserCodingStrategies_3.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="ef36286c8624cc405be3fa0240b12c97" name="manual/xml/XML_PullParserCodingStrategies_4.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="20caae8d84fe1090b86a742c110756ec" name="manual/xml/XML_PullParserCodingStrategies_5.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="f5933edd8f3984ed55a0da031ab94012" name="manual/xml/XML_PullParser_contents.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="4a05ba83593d52495bef433d611ba165" name="manual/xml/XML_PullParser.inc"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="0069b2550f9a8111bd852e40a7c4968c" name="manual/xml/XML_PullParser_Errors.inc"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="e3fe86e3f398ecd3a9600c739823c5d9" name="manual/xml/XML_PullParser_index.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="a98bc344ed0b8bf9057a2e9adbd3ee7b" name="manual/xml/XML_PullParser_intro_1.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="05cfabf31bb095ae75fd40e705fec052" name="manual/xml/XML_PullParser_TextAccessors.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="f88bf3d160adfcf3451c1870b89cedbf" name="manual/xml/XML_PullParser_Utilities.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="b0bc0bbad0ed36cc5997a7a8f3f00ec1" name="manual/xml/XML_PullParser_NS.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="81ff5ef094a3f5e3b5c5785f27daaa2a" name="manual/xml/XML_PullParser_NS_2.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="d159442cc3345b7d275144fbb95e1f27" name="manual/xml/XML_PullParser_Errors.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="d0bbd50eb376772ff779b7000685d959" name="manual/xml/version.xml"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="11c526c6608a467d1de946f897ea63c7" name="manual/doc/blank.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="15eeb4105ec5d59cf3af8efe7fa1bfc6" name="manual/doc/classtrees_XML_PullParser.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="68f17fe7e4540c2966aba8c0cf3e757b" name="manual/doc/elementindex.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="dbdaa859691dde172fe5251caa25dfbd" name="manual/doc/elementindex_XML_PullParser.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="152e40bd2f79d48a06c4d0c240a13b27" name="manual/doc/errors.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="df535b7efeb18a99357df7eaecf756e7" name="manual/doc/index.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="8299e456b761f12b49b013330bac7a8b" name="manual/doc/li_XML_PullParser.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="19f2472e142286acecaaf1d93a16e387" name="manual/doc/packages.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="ff77d2f08bd6049e4b22ee6165578691" name="manual/doc/elementindex_XML_PullParser_Errors.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="85f3c7842fac597d32d4f17e417f8d7b" name="manual/doc/classtrees_XML_PullParser_Errors.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="ce09dd5b2e5372b71e40f1692c793cb6" name="manual/doc/li_XML_PullParser_Errors.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="1ca83eaabc9761249946f3775aa77d12" name="manual/doc/XML_PullParser/XML_PullParser_doc.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="905ee6a149aa87076255694c1390224d" name="manual/doc/XML_PullParser/XML_PullParser.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="ae4b67a04db64a55a073ff2cfde65ca2" name="manual/doc/XML_PullParser/_XML_PullParser.inc.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="89ee87975c0b10f742328f2b2d44dba8" name="manual/doc/XML_PullParser_Errors/XML_PullParser_Errors.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="2dc9d43badeaf284dd1f6c3b6bbfd09f" name="manual/doc/XML_PullParser_Errors/_XML_PullParser_Errors.inc.html"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="82b91037c1b79bf202aa24f1fdfebc06" name="manual/doc/media/banner.css"/>
+   <file role="doc" baseinstalldir="XML_PullParser" md5sum="55956080aaf1cd34cc3f6008f889759e" name="manual/doc/media/stylesheet.css"/>
+  </filelist>
+ </release>
+</package>

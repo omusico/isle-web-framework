@@ -1,0 +1,263 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Strategies 4: Nested Selecting</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+  Until now, we have been using a very straight-foward XML
+   <A href="XML_PullParserCoding_1.html#example_1"> example.</A>
+  But what if the DNS structure looked something like the following?
+</p></div>
+
+<p><div class="block"><center><b>Example 1</b></center>
+<pre>
+&lt;ENTRY>
+&lt;ipaddress>172.20.19.6  &lt;/ipaddress>
+&lt;domain> example.com  &lt;/domain>
+&lt;server ip="192.168.10.1">
+example_1.com
+&lt;registrant>mturner.org &lt;/registrant>
+&lt;/server>
+&lt;server ip="192.168.10.2"> example_2.com  &lt;/server>
+&lt;server ip="192.168.10.3"> example_3.com  &lt;/server>
+&lt;alias> www.example.com  &lt;/alias>
+&lt;/ENTRY>
+
+</pre></div>
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+   If we used the code in
+   <A href="XML_PullParserCodingStrategies_3.html#listing_10"> Listing 10</A>
+  to parse this structure for server names and ip addresses, we would not get what we want.
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;"></span></b></center>
+<pre>
+
+/*
+ Result
+        Name: example_1.com
+                IP: 192.168.10.1
+        Name: mturner.org
+                IP:
+        Name: example_2.com
+                IP: 192.168.10.2
+        Name: example_3.com
+                IP: 192.168.10.3
+*/
+
+</pre></div>
+<p><div class="para">
+  This result is, in fact, technically correct.  It reflects the way in which
+  <span class='code'>XML_PullParser_getSequence</span>  works:
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;"></span></b></center>
+<pre>
+    $parser->XML_PullParser_getElement('server');
+    $seq =  $parser->XML_PullParser_getSequence();
+</pre></div>
+<p><div class="para">
+    <span class='code'>XML_PullParser_getElement</span>  creates a tokenized array of all the  <span class='emphasis'>server</span>
+   elements, their children and the attributes of parents and children. <span class='super'>1</span>
+    Among these children
+   is  <span class='emphasis'>registrant.</span>   So, the sequence array correctly reports back that the second
+   element is the child element  <span class='emphasis'>registrant</span>  and this is fed to
+    <span class='code'>XML_PullParser_getText</span> , which correctly returns "mturner.org" as $name.  And the code
+   also correctly reports back that the IP field is blank, because the  <span class='emphasis'>registrant</span>
+   element has no  <span class='emphasis'>ip</span>  attribute.
+</p></div>
+
+<p><div class="para">
+  There are a number of ways to deal with this issue. The most obvious way would be to test for
+  whether the elements in the sequence are the correct ones, which is a simple matter, since
+   <span class='code'>XML_PullParser_getSequence</span>  provides the name of each element in its array:
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;"></span></b></center>
+<pre>
+                 list($server, $which) = each($seq[$i]);
+                 if($server != 'SERVER') continue;
+</pre></div>
+<p><div class="para">
+ Another solution is  <span class='emphasis'>Listing 12.</span>
+</p></div>
+
+<A Name='listing_12'><p><div class="block"><A Name="listing_12"></A><center><b><span class="code_title" style="font-style:italic;">Listing 12</span></b></center>
+<pre>
+         1.    while($token = $parser->XML_PullParser_getToken())
+         2.   {
+         3.
+         4.     $servers = $parser->XML_PullParser_getElement('server');
+         5.     $servers = $parser->XML_PullParser_childXCL($servers);
+         6.     $seq =  $parser->XML_PullParser_getSequence($servers);
+         7.
+         8.      for($i=0; $i  &lt; count($seq); $i++) {
+         9.         list($server, $which) = each($seq[$i]);
+        10.
+        11.          $name = $parser->XML_PullParser_getText($server,$which);
+        12.          echo "Name: $name \n";
+        13.
+        14.          $ip = $parser->XML_PullParser_getAttributes($server,$which);
+        15.          echo "\tIP: " . $parser->XML_PullParser_getAttrVal('ip', $ip) . "\n";
+        16.      }
+        17.    }
+
+/*
+ Result
+    Name:
+    example_1.com
+
+            IP: 192.168.10.1
+    Name:  example_2.com
+            IP: 192.168.10.2
+    Name:  example_3.com
+            IP: 192.168.10.3
+*/
+
+</pre></div>
+<p><div class="para"><A Name='childXCL'></a>
+
+   <span class='emphasis'>Listing 12</span>  has excluded the  <span class='emphasis'>registrant</span>  element by the use
+  of this function:
+     <h4  style="left:60px">array   XML_PullParser_childXCL  (array $parent, [mixed $args = ""])</h4>
+ Its purpose is to exclude specified child elements from a parent. <span class='super'>2</span>
+ When elements are not specified, it removes all child elements, leaving the parent.  It does
+ not affect the current token or  <span class='code'>$current_element.</span>
+</p></div>
+
+<p><div class="para">
+ In  <span class='emphasis'>Listing 10</span>  it wasn't necessary to pass an array to
+   <span class='code'>XML_PullParser_getSequence,</span>  because it defaulted
+ to the internal array created by  <span class='code'>XML_PullParser_getElement</span> . <span class='super'>1</span>
+ In the present case, however, we have to pass in to  <span class='code'>XML_PullParser_getSequence</span>  the stripped
+ down array created by  <span class='code'>XML_PullParser_childXCL.</span>  Its this stripped down array
+ that forms the basis for the sequencing array  <span class='code'>$seq.</span>
+</p></div>
+
+<p><div class="para">
+ In the Result section of  <span class='emphasis'>Listing 12</span>  there's small glitch in the output.  There are
+ extra newlines before an after "example_1.com".  This is in fact a reflection of the
+ document:
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;"></span></b></center>
+<pre>
+     &lt;server ip="192.168.10.1">
+    example_1.com
+     &lt;registrant>mturner.org &lt;/registrant>
+     &lt;/server>
+</pre></div>
+<p><div class="para">
+The newlines would disappear from the output if we put the entire unit on one line:
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;"></span></b></center>
+<pre>
+     &lt;server ip="192.168.10.1">example_1.com &lt;registrant>mturner.org &lt;/registrant> &lt;/server>
+</pre></div>
+<p><div class="para">
+But since this isn't always possible, one solution is to pass the results from  <span class='code'>XML_PullParser_getText</span>
+through the PHP  <span class='code'>trim</span>  function.  A second solution is to let  <span class='classname'>XML_PullParser</span>
+do this for you by calling this package level function with a parameter of true:
+     <h4  style="left:160px">void   XML_PullParser_trimCdata  (boolean $bool)</h4>
+Because it's not a class method, you can call it in advance of creating the class itself.
+</p></div>
+
+<p><div class="para">
+Using  <span class='code'>XML_PullParser_childXCL</span>  is one way to deal with the
+problem of the  <span class='emphasis'>registrant</span> .  Another is to drop
+ <span class='code'>XML_PullParser_getSequence</span>  altogether and work directly with the parameters to
+ <span class='code'>XML_PullParser_getText.</span>
+</p></div>
+
+<A Name='listing_13'><p><div class="block"><A Name="listing_13"></A><center><b><span class="code_title" style="font-style:italic;">Listing 13</span></b></center>
+<pre>
+         1.    XML_PullParser_trimCdata(true);
+         2.    while($token = $parser->XML_PullParser_getToken())
+         3.    {
+         4.      $parser->XML_PullParser_getElement('server');
+         5.      $n=1;
+         5.      while($server = $parser->XML_PullParser_getText('server',$n)) {
+         7.          $ip = $parser->XML_PullParser_getAttributes('server',$n);
+         8.          echo "Name: $server\n";
+         9.         echo "\tIP: " . $parser->XML_PullParser_getAttrVal('ip', $ip) . "\n";
+        10.
+        11.          $n++;
+        12.      }
+        13.
+        14.    }
+
+/*
+ Result
+        Name: example_1.com
+                IP: 192.168.10.1
+        Name:  example_2.com
+                IP: 192.168.10.2
+        Name:  example_3.com
+                IP: 192.168.10.3
+*/
+
+</pre></div>
+<p><div class="para">
+  This was run with  <span class='code'> XML_PullParser_trimCdata</span>  set to true, so the
+  extra line-feeds have been cleaned up.  More importantly, the solution is itself cleaner,
+  requiring less code.  Whereas the sequencing array includes  <span class='emphasis'>registrant</span>  among
+  its list of elements, requiring us to make an adjustment, here the "server" name is fed directly
+  to both the text and attribute functions.
+</p></div>
+
+<p><div class="para">
+  In our example, we are interested in only one
+  element, but in situations where many elements are involved and where there are few  <span class='emphasis'>registrant</span>
+  type twists, the sequencing array can be an efficient and effective technique.
+</p></div>
+
+
+<!--   REPLACEMENT MADE -->
+<table border=1 bgcolor='#ffffff' width = 750 cellpadding ='6'>
+<tr><th align='left' class='white_block'>Notes<tr><td class='white_block'>1. See the earlier discussion of
+         <A href="XML_PullParserCoding_3.html#selectors">XML_PullParser_getElement</A>
+        and the class  <A href="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_childXCL">documentation.</A></td>
+</table>
+<table border=1 bgcolor='#ffffff' width = 750 cellpadding ='6'>
+<tr><th align='left' class='white_block'><tr><td class='white_block'>2. See the class
+    <A href="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_childXCL">documentation.</A></td>
+</table>
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParserCodingStrategies_3.html'>Strategies 3: XML_PullParser_getSequence</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParserCodingStrategies_5.html' class='navigation'>The Tokenizing Functions</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+

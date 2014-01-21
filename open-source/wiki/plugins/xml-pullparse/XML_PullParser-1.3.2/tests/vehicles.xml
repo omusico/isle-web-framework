@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+
+<vehicles>
+  <vehicle year="2004" make="Acura" model="3.2TL">
+    <mileage>13495</mileage>
+    <color>green</color>
+    <price>33900</price>
+    <carfax buyback="no" />
+  </vehicle>
+
+  <vehicle year="2005" make="Acura" model="3.2TL">
+    <mileage>07541</mileage>
+    <color>white</color>
+    <price>33900</price>
+    <carfax buyback="yes" />
+  </vehicle>
+
+  <vehicle year="2004" make="Acura" model="3.2TL">
+    <mileage>18753</mileage>
+    <color>white</color>
+    <price>32900</price>
+    <carfax buyback="yes" />
+  </vehicle>
+
+  <vehicle year="2004" make="Acura" model="3.2TL">
+    <mileage>28434</mileage>
+    <color>black</color>
+    <price>31995</price>
+    <carfax buyback="yes" />
+  </vehicle>
+
+  <vehicle year="2004" make="Acura" model="3.2TL">
+    <mileage>22422</mileage>
+    <color>silver</color>
+    <price>31995</price>
+    <carfax buyback="no" />
+  </vehicle>
+
+  <vehicle year="2004" make="Acura" model="3.2TL">
+    <mileage>18350</mileage>
+    <color>silver</color>
+    <price>32995</price>
+    <carfax buyback="no" />
+  </vehicle>
+
+  <vehicle year="2004" make="Acura" model="3.2TL">
+    <mileage>12163</mileage>
+    <color>gold</color>
+    <price>31995</price>
+    <carfax buyback="yes" />
+  </vehicle>
+
+  <vehicle year="2004" make="Acura" model="3.2TL">
+    <mileage>23182</mileage>
+    <color>silver</color>
+    <price>31995</price>
+    <carfax buyback="no" />
+  </vehicle>
+
+  <vehicle year="2003" make="Acura" model="3.2TL">
+    <mileage>37775</mileage>
+    <color>grey</color>
+    <price>22995</price>
+    <carfax buyback="yes" />
+  </vehicle>
+
+  <vehicle year="2003" make="Acura" model="3.2TL">
+    <mileage>34503</mileage>
+    <color>black</color>
+    <price>22995</price>
+    <carfax buyback="yes" />
+  </vehicle>
+  <vehicle year="2003" make="Acura" model="3.2TL">
+    <mileage>42670</mileage>
+    <color>black</color>
+    <price>23995</price>
+    <carfax buyback="no" />
+  </vehicle>
+
+  <vehicle year="2003" make="Acura" model="3.2TL">
+    <mileage>48405</mileage>
+    <color>gold</color>
+    <price>22995</price>
+    <carfax buyback="yes" />
+  </vehicle>
+</vehicles>

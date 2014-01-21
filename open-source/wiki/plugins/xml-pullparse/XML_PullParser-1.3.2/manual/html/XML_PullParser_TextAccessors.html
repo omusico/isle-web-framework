@@ -1,0 +1,478 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Text Accesors</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para">
+  There are four text accessors in  <span class='classname'>XML_PullParser:</span>
+</p></div>
+
+<OL TYPE = '1' START = '1'>
+<LI>string XML_PullParser_getText ([mixed $el = ""], [integer $which = 0])
+<LI>arrray XML_PullParser_getTextArray (mixed $el)
+<LI>string XML_PullParser_getTextMarkedUp (array $mark_up, [mixed $el = ""])
+<LI>string XML_PullParser_getTextStripped ([mixed $el = ""])
+</OL>
+<p><div class="para">
+All the text accessors return either  <span class='code'>Null</span>  or an empty string or array if no data is available.
+All of these methods are well documented in the Class Documentation, which should be consulted in addition
+to this manual.
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>1. XML_PullParser_getTextStripped</span><br>
+
+  <span class='code'>XML_PullParser_getText</span>  and  <span class='code'>XML_PullParser_getTextArray</span>  are front-ends for
+  <span class='code'>XML_PullParser_getTextStripped.</span>   Therefore, an understanding of this method will
+ aid in the understanding of the other two.
+</p></div>
+
+<p><div class="para"><A Name='gTS_param'></a>
+
+  <span class='code'>XML_PullParser_getTextStripped</span>  takes one parameter, which can be either a tokenized array or the name of an element.
+ If a name is passed in, or if no parameter is passed in, then it assumes that the subject of
+ the request is either the  <span class='code'>$current_element</span>  or the current token. <span class='super'>1</span>
+  &nbsp; If a token is passed in then it uses the token.  Its defining characteristic is
+ that is does not observe element boundaries.  It returns a concatenated string made up of all the
+ text found in the token.  This includes the text of all children, and descendent elements.
+ It includes as well all white space separating element from element, and white space includes
+ new-lines.  The default delimiter between the concatenated members of this string is a single
+ space character.  This can be changed using
+    <h4  style="left:115px">string   XML_PullParser_setDelimiter  (string $delimiter)</h4>
+ The returned string is the old delimiter, which can then be reset, if necessary, with
+ a second call to  <span class='code'>XML_PullParser_setDelimiter.</span>
+</p></div>
+
+<TABLE width="800"><TR><TD class="white_block">The text returned by  <span class='code'>XML_PullParser_getTextStripped</span>  is subject to the CDATA modifiers:</table>
+<A Name='cdata_modifiers'> <OL TYPE = '1' START = '1'> </a><LI><span class='code'>void   XML_PullParser_excludeBlanks  (boolean $bool)</span>
+         <BR>Setting this to true will exclude all text lines which consist solely of white space.
+<LI><span class='code'>void   XML_PullParser_excludeBlanksStrict  (boolean $bool)</span>
+        <BR>Setting this to true  will exclude all text lines which do not have alphanumeric characters,
+         <br> hyphen, and underscore, ie. do not satify the the regular expression <span class="code">'/\w+/'</span>
+<LI><span class='code'>void   XML_PullParser_trimCdata  (boolean $bool)</span>
+        <BR>Setting this to true will cause all text extracted from each element to be passed through
+        <br> the PHP trim function.
+</OL>
+<p><div class="para">In the following example the  &lt;emphasis>  element is concatenated with the
+  first  &lt;News_item> element and both with the second  &lt;News_item>; they are separated
+  by the default delimiter, a single space:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+ XML:
+    &lt;News_item>
+           There was a  &lt;emphasis>big&lt;/emphasis>  rainstorm last night.
+    &lt;/News_item>
+    &lt;News_item> It rained cats and dogs &lt;/News_item>
+
+ Result: There was a  <b style="font-size: 13pt;">big</b>  rainstorm last night. It rained cats and dogs!
+</pre></table><p><div class="para">For more examples and further detail see the class
+  <A href="../doc/XML_PullParser/XML_PullParser.html#XML_PullParser_getTextStripped">documentation.</A>
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>2. XML_PullParser_getTextArray</span><br>
+This method is a front-end to  <span class='code'>XML_PullParser_getTextStripped.</span>
+It returns an array of the strings in the element specified in the parameter, which
+is required and which is either a tokenized array or a string and is treated exactly the same
+as the  <A href="#gTS_param">parameter</A>  to  <span class='code'>XML_PullParser_getTextStripped.</span>
+</p></div>
+
+<p><div class="para">
+This method takes advantage of the fact that  <span class='code'>XML_PullParser_getTextStripped</span>  ignores
+element boundaries and returns a concatenated string of texts separated by a pre-set delimiter.
+It changes the delimiter to  <span class='code'>';;'</span>  by calling  <span class='code'> XML_PullParser_setDelimiter(';;');</span>
+then it creates the array by calling explode on the string.  It then resets the delimiter to
+its old value.   Obviously, this means that if a database uses a double semi-colon,
+this method will not work correctly, but it can be easily enough duplicated.
+</p></div>
+
+<p><div class="para">
+Let's assume the following database to demonstrate  <span class='code'>XML_PullParser_getTextArray.</span>
+</p></div>
+
+<p><div class="block"><center><b>Example 1: Movies.xml</b></center>
+<pre>
+&lt;Movies>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;Movie>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Title>Gone With The wind&lt;/Title>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;date>1939&lt;/date>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_lady>Vivien Leigh&lt;/leading_lady>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_man>Clark Gable&lt;/leading_man>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Movie>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;Movie>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Title>How Green Was My Valley&lt;/Title>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;date>1941&lt;/date>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_lady>Maureen O'Hara&lt;/leading_lady>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_man>Walter Pidgeon&lt;/leading_man>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Movie>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;Movie>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Title>Jurassic Park&lt;/Title>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;date>1993&lt;/date>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_lady>Laura Dern&lt;/leading_lady>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;leading_man>Sam Neil&lt;/leading_man>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Movie>
+&lt;/Movies>
+
+</pre></div>
+<p><div class="para">
+To get all the titles from   <I>Movies.xml</I> , all that's necessary is the following call:
+    <h4  style="left:175px">$parser->XML_PullParser_getTextArray("Title")</h4>
+The technique is demonstrated in  <span class='emphasis'>Listing 17:</span>
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;">Listing 17</span></b></center>
+<pre>
+
+1.    $tags = array("Movies");
+2.    $child_tags = array();
+3.
+3.    $parser = new XML_PullParser("Movies.xml", $tags,$child_tags);
+5.
+6.    $token = $parser->XML_PullParser_getToken();
+7.
+8.    $text_array = $parser->XML_PullParser_getTextArray("Title");
+9.    print_r($text_array);
+
+/*
+ Result
+    Array
+    (
+        [0] => Gone With The wind
+        [1] => How Green Was My Valley
+        [2] => Jurassic Park
+    )
+*/
+
+</pre></div>
+<p><div class="para">
+One precautionary note.  Given the current coding, the following call
+will not return the expected result:
+  <h4  style="left:175px">$parser->XML_PullParser_getTextArray("Title")</h4>
+The expected result is:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+
+<PRE>Array
+    (
+        [0] => Gone With The wind
+        [1] => 1939
+        [2] => Vivien Leigh
+        [3] => Clark Gable
+        [4] => How Green Was My Valley
+        [5] => 1941
+        [6] => Maureen O'Hara
+        [7] => Walter Pidgeon
+        [8] => Jurassic Park
+        [9] => 1993
+        [10] => Laura Dern
+        [11] => Sam Neil
+    )
+    </PRE>
+
+</pre></table><p><div class="para">
+But instead we get:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+
+<PRE>Array
+(
+    [0] =>
+
+    [1] =>
+
+    [2] => Gone With The wind
+    [3] =>
+
+    [4] => 1939
+    [5] =>
+
+    [6] => Vivien Leigh
+    [7] =>
+     &bull;
+     &bull;
+     &bull;
+)
+
+</pre></table><p><div class="para">
+The empty array elements represent new-lines, and we can see that's the case since there is no new-line
+between elements [2] and [3] or elements  [4] and [5].  What's required here is a call to
+ <span class='code'>XML_PullParser_excludeBlanksStrict</span>  with a value of  <span class='emphasis'>true.</span>   That
+gets rid of all the blank elements and gives the expected result.
+</p></div>
+
+<p><div class="para"><A Name='get_Text'></a><br><span class='emphasis'>3. XML_PullParser_getText</span><br>
+
+
+All calls to this method are eventually passed on to  <span class='code'>XML_PullParser_getTextStripped.</span>
+ <span class='code'>XML_PullParser_getText</span>  identifies and prepares the element which will be passed in
+to  <span class='code'>XML_PullParser_getTextStripped,</span>  and that method then returns all the text found
+in the element in accordance with the rules that govern its return values.
+
+</p></div>
+
+<p><div class="para">
+ <span class='code'>XML_PullParser_getText</span>  takes three optional parameters,  <span class='code'>$el,</span>
+which is a tokenized element (an array) or its name (a string), a
+ <span class='code'>$which</span>  value, and  the boolean  <span class='code'>$xcl.</span>  In its default state, none of these parameters are passed in and
+it uses either the  <span class='code'>$current_element</span>  or the current token, whichever is currently operative,
+together with a  <span class='code'>$which</span>  value of zero and an  <span class='code'>$xcl</span>  value of FALSE.
+</p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+The following listing demonstrates the use of the defaults;
+it uses the DNS  <A href="XML_PullParserCoding_1.html#example_1">example</A>
+we've worked with throughout.
+</p></div>
+
+<A Name='listing_18'><p><div class="block"><A Name="listing_18"></A><center><b><span class="code_title" style="font-style:italic;">Listing 18</span></b></center>
+<pre>
+ 1.   $tags = array("entry");
+ 2.   $child_tags = array("server","domain");
+ 3.
+ 4.    $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+ 5.
+ 6.    $parser->XML_PullParser_getToken();
+ 7.    echo $parser->XML_PullParser_getText() . "\n";
+ 8.
+ 9.    $el = $parser->XML_PullParser_getElement("server");
+10.    echo $parser->XML_PullParser_getText() . "\n";
+11.
+12.
+13.    $parser->XML_PullParser_getElement("domain");
+14.    echo $parser->XML_PullParser_getText() . "\n";
+
+/*
+Result
+
+     172.20.19.6
+      example.com
+      example_1.com
+      example_2.com
+      example_3.com
+      www.example.com
+
+     example_1.com example_2.com example_3.com
+     example.com
+*/
+
+</pre></div>
+<p><div class="para">
+ Line 6 retrieves the entire  <span class='emphasis'>Entry</span>  element and all of its children, and these
+ are output on line 7, giving us the first block of the Result section.  This consists of everything
+ included in the element and all of the white space, which is why the result appears on separate
+ lines.  Had we called  <span class='code'>XML_PullParser_excludeBlanks(true)</span>  the result would have
+ appeared as a single line of text:
+ <h4  style="left:20px">172.20.19.6 example.com example_1.com example_2.com example_3.com www.example.com
+</h4>
+ The result from the call to  <span class='code'>XML_PullParser_getElement('server')</span>  in line 9 appears
+ on a single line, because  <span class='code'>XML_PullParser_getElement</span>  incorporates into the token
+ only the  <span class='emphasis'>server</span>  elements.  In this case, any whitespace found within the elements
+ themselves would appear in the result but not the whitespace separating element from element.
+ It's the latter, with its new-lines,  which causes the texts derived from the
+  <span class='code'>$converted_token</span>  created by  <span class='code'>XML_PullParser_getToken</span>
+ to be printed on separate lines.
+</p></div>
+
+<p><div class="para">
+  The call to  <span class='code'>XML_PullParser_getElement('domain')</span>  in line 13
+ yields  <h4  style="left:345px">example.com</h4>
+ because there is only one  <span class='emphasis'>domain</span>  element in the XML document. Had there been more than
+ one  <span class='emphasis'>domain</span>  element we would have to use the  <span class='code'>$which</span>  parameter to
+ single out  the desired  <span class='emphasis'>domain</span>  element.  The same mechanism applies, of course, to
+ the server elements.
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>A Closer Look at the Parameters to XML_PullParser_getText</span><br>
+
+The element parameter ( <span class='emphasis'>$el</span> )  passed in to  <span class='code'>XML_PullParser_getText</span>  can be either a string,
+which is the name of an element, or a tokenized array.
+ <OL><LI>
+If the element parameter is the name of an element,
+then either the  <span class='code'>$current_element</span>  or the current token will be searched for the named element,
+depending on which is currently operative.
+The method returns the  <span class='emphasis'>which_th</span>  instance of that element.  If  <span class='code'>$which = 0,</span>
+it will return the texts from all instances of the named element found in the token.
+
+
+ <LI>
+If the element parameter is a tokenized array, the method will
+return the character data from  <span class='emphasis'>which_th</span>  element found in the array.
+If   <span class='code'>$which = 0,</span>  it will return all the character data found in the array.
+This is the rule which governs the output of line 6 in  <span class='emphasis'>Listing 16</span>  above.
+That is, no parameters are passed into the method, so that the the default token becomes the entire
+ &lt;ENTRY> array  and  <span class='code'>$which</span>  defaults to zero.  Therefore, all the
+character data found in the default token is returned--all parents, all descendents,
+
+ </OL>
+
+The difference between the two sets of returned values arises out of what the method knows.  In the first
+case, it knows the name of the element and can therefore search the default token for one of more instances
+of the named element.  In the second case, it doesn't have the name of an element.  Therefore, if
+it's passed a  <span class='code'>$which</span>  value of 1, it returns the character data of the first element,
+regardless of its name.
+
+</p></div>
+
+<p><div class="para">
+The third parameter to  <span class='code'>XML_PullParser_getText</span>  is the boolean  <b>$xcl</b>.
+This parameter plays a part only in the handling of arrays, that is where  <span class='code'>$el</span>  is a
+tokenized array or one of the two default tokens.  It defaults to FALSE.  But when it is set to TRUE,
+the subject array is filtered through
+ <A href="../doc/XML_PullParser/XML_PullParser.html#XML_PullParser_childXCL">XML_PullParser_childXCL.</A>
+This means that all descendent elements are removed and that we are left with an array consisting
+solely of the parent or of elements with the same name as the first top-level element
+and which are themselves not descendents of any other element.
+
+</p></div>
+
+<p><div class="para">
+
+</p></div>
+
+<p><div class="para">
+</p></div>
+
+<p><div class="para">
+This is a complex function and it might be worthwhile to look at the class
+ <A href="../doc/XML_PullParser/XML_PullParser.html#XML_PullParser_getText">documentation.</A>  In addition,
+ <A href="../html/Listing_23.phps">Listing_23.php</A>
+ and
+ <A href="../html/Listing_24.phps">Listing_24.php</A>
+in the manual/listings directory demonstrate the variety of parameter
+combinations and their results.
+To see their output, click on these links:   <A href="../listings/Listing_23.php">Listing_23.php</A>  and
+ <A href="../listings/Listing_24.php">Listing_24.php.</A>
+</p></div>
+
+<table border=1 bgcolor='#eeeeee' width = 750 cellpadding ='6'>
+<tr><th align='left' class='block'>Note<tr><td class='block'>Prior to release 1.2.1, if the  <span class='code'>$el</span>  parameter was the name of the default token,
+             <span class='emphasis'>Null</span>  was returned. In current releases,
+            if  <span class='code'>$el</span>  is the name of the default token, the behavior is the same as
+            the behavior when an array is passed in as  <span class='code'>$el.</span></td>
+</table>
+<p><div class="para"><br><span class='emphasis'>4. XML_PullParser_getTextMarkedUp</span><br>
+
+This function is designed for converting streams of XML to HTML. It converts XML elements to
+HTML tags. Otherwise, its functionlity is the essentially the same as
+that of  <span class='code'>XML_PullParser_getTextStripped,</span>  with one exception:  it is not subject to the
+ <A href="#cdata_modifiers">CDATA  modifiers.</A>
+</p></div>
+
+<p><div class="para">
+  It takes two parameters. The first is the  <span class='code'>$markup</span>  array which maps XML elements to HTML tags,
+  the second an optional element parameter consisting of either a tokenized array or the name of an element.
+  The element parameter behaves exactly as it does in  <span class='code'>XML_PullParser_getTextStripped.</span>
+  The advantage of placing the optional element parameter last is that it can be omitted when one of the
+  two default tokens is being used. <span class='super'>2</span>  &nbsp;  All that is needed then is to
+  pass in the  <span class='code'>$markup</span>  array.
+</p></div>
+
+<p><div class="para">
+</p></div>
+
+<TABLE width="800"><TR><TD class="white_block">The markup array uses four helper methods:</table>
+<OL TYPE = '1' START = '1'>
+<LI>array XML_PullParser_getCSSSpans (array $markup)
+<LI>array XML_PullParser_getHTMLTags (array $markup)
+<LI>array XML_PullParser_getStyledSpans (array $markup, array $attributes)
+<LI>array XML_PullParser_getStyledTags (array $markup, array $attributes)
+</OL>
+<p><div class="para">
+  All the parameters are associative arrays.  In the two "Spans" methods, the  <span class='code'>$markup</span>
+  arrays map XML element names to HTML class names:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>array("code"=>"code", "emphasis"=>"bold_italic", "classname"=>"cname")</pre></table><p><div class="para">
+  These will create  &lt;SPAN> tags with the  <span class='emphasis'>class</span>  attribute set to the
+  the mapped value:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>&lt;span class="cname">XML_PullParser&lt;/span></pre></table><p><div class="para">
+  In the two "Tags" methods, the  <span class='code'>$markup</span>  arrays map XML element names to
+  standard HTML tag names:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>array("code"=>"code", "emphasis"=>"b", "classname"=>"i")</pre></table><p><div class="para">The  <span class='code'>$attributes</span>  parameter of the two "Styled" methods allows for additional
+attributes to be inserted in the HTML tags.  For the most part these will be  <span class='emphasis'>style</span>
+attributes, but technically they can be anything. The  <span class='code'>$attributes</span>  parameters
+are also associative arrays:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+    array("style"=>"font-size: 10pt; text-decoration:underline",
+        "style"=>"background-color:blue; color: yellow;", "style"="color: #999999">)</pre></table><p><div class="para">
+ The  <span class='code'>$attributes</span>  array has to be sequentially parallel to the  <span class='code'>$markup</span>
+ array, so that if the above styles were applied to the tags example, the first tag would
+ get the first style, the second tag the second style, etc:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+   &lt;code style="font-size: 10pt; text-decoration:underline">$markup&lt;/code>
+   &lt;b style="background-color:blue; color: yellow;">This is BOLD yellow on Blue&lt;/b>
+</pre></table><p><div class="para">The  <span class='code'>$markup</span>  arrays can be concatenated:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+  $markup =  $parser->XML_PullParser_getCSSSpans(array(. . . .));
+  $markup += $parser->XML_PullParser_getHTMLTags(array(. . . .));
+  $markup += $parser->XML_PullParser_getStyledTags (array(. . . .), array(. . . .));
+
+  $text = $parser->XML_PullParser_getTextMarkedUp($markup);
+</pre></table><p><div class="para">
+A final point. This manual was written in conformance with the Docbook specification.
+ <span class='code'>XML_PullParser_getTextMarkedUp</span>
+has built-in support for the Docbook  <span class='emphasis'>ulink</span>  element
+and will automatically  convert a  <span class='emphasis'>ulink</span>
+to an HTML  <span class='emphasis'>A</span>  tag:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+   &lt;ulink url="http://XML_PullParse.org/manual.html">Manual&lt;/ulink>
+    &lt;A href="http://XML_PullParse.org/manual.html">>Manual&lt;/A>
+</pre></table><p><div class="para"></p></div>
+
+
+<!--   REPLACEMENT MADE -->
+<table border=1 bgcolor='#ffffff' width = 750 cellpadding ='6'>
+<tr><th align='left' class='white_block'>Notes<tr><td class='white_block'>1. See
+         <A href="XML_PullParserCoding_3.html#selectors_2">Instantiating the XML_PullParser Object</A></td>
+<tr><td class='white_block'>2. <span class='code'>$current_element</span>  or  <span class='code'>$converted_token</span></td>
+<tr><td class='white_block'></td>
+</table>
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParserCodingStrategies_5.html'>Token Returning Functions</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParser_AttributeAccessors.html' class='navigation'>Attribute Accessors</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+

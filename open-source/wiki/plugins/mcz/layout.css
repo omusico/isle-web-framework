@@ -1,0 +1,197 @@
+/**
+ * Tableless Layout for default template
+ *
+ * @author Andreas Gohr <andi@splitbrain.org>
+ * @author moraes <moraes@tipos.com.br>
+ */ /* -------------- top row --------------- */
+div.dokuwiki .header {
+	padding: 3px 0 0 2px;
+}
+
+div.dokuwiki .pagename {
+	float: right;
+	font-size: 120%;
+	font-weight: bolder;
+	color: __background_alt__;
+	text-align: right;
+	vertical-align: middle;
+	top: 0px;
+	left: 0px;
+}
+
+div.dokuwiki .pagename a {
+	color: __extern__ !important;
+	text-decoration: none !important;
+}
+
+div.dokuwiki .logoshadow {
+	clear: both;
+	margin-top: 10px;
+	border-right: 2px solid __shadow__;
+	border-bottom: 2px solid __shadow__;
+	background-color: __shadow__;
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+div.dokuwiki .logo {
+	background-image: url(__background_image__);
+	background-repeat: repeat;
+	//background-color: #999;	
+	background-color: __white__;
+	position: relative;
+	top: -5px;
+	left: -6px;
+	float: none;
+	font-size: 250%;
+	font-weight: bolder;
+	font-variant: small-caps;
+	text-align: center;
+	vertical-align: middle;
+	padding: 10px;
+	padding-bottom: 5px;
+	font-family: monospace;
+	font-weight: bolder;
+	border: 1px solid __black__;
+	clear: both;
+	color: __black__;
+	font-color: __black__;	
+}
+
+div.dokuwiki .logo:AFTER {
+	content: "Lesen - Schreiben - Verlegen";
+	display: block;
+	font-weight: bolder;
+	font-variant: small-caps;
+	color: __black__;
+	font-color: __black__;	
+}
+
+div.dokuwiki .logo a, div.dokuwiki .logo a:visited{
+	//color: __background__ !important;
+	color: __black__;
+	font-color: __black__;	
+	text-decoration: none !important;
+	font-variant: small-caps;
+	letter-spacing: 2pt;
+}
+
+/* ---------------  top and bottom bar ---------------- */
+div.dokuwiki .bar {
+	border-top: 0px solid __border__;
+	border-bottom: 0px solid __border__; //
+	background: __page_background__;
+	padding: 0.0em 0.0em;
+	clear: both;
+}
+
+div.dokuwiki .navigation-bar {
+	border-top: 0px solid __border__;
+	border-bottom: 0px solid __border__;
+	background: __background_alt__;
+	padding: 0.0em 0.0em;
+	clear: both;
+	margin-top: 25px;
+	margin-bottom: 15px;
+}
+
+div.dokuwiki .bar-left {
+	float: left;
+}
+
+div.dokuwiki .bar-right {
+	float: right;
+	text-align: right;
+	bottom: 0px;
+	min-width: 150px;
+	max-width: 10%; //
+	border-top: 1px solid __background_alt__; //
+	border-bottom: 1px solid __background_alt__; //
+	background: __background_alt__;
+	z-index: 99;
+}
+
+div.dokuwiki #bar__topright {
+	position: fixed;
+	right: 0px;
+	top: 0px;
+	height: 18px;
+	float: right;
+	text-align: right;
+	min-width: 150px;
+	max-width: 10%;
+	width: 10%; //
+	border-left: 10px solid __background_alt__;
+	border-top: 2px solid __background_alt__;
+	border-bottom: 1px solid __background_alt__;
+	background: __background_alt__;
+}
+
+div.dokuwiki #bar__bottomright {
+	float: right;
+	text-align: right;
+	bottom: 0px;
+	min-width: 250px;
+	max-width: 80%; //
+	border-top: 1px solid __background_alt__; //
+	border-bottom: 1px solid __background_alt__; //
+	background: __background_alt__;
+	z-index: 99;
+}
+
+div.dokuwiki .rssfeed {
+	float: right;
+	text-align: right;
+	bottom: 0px;
+	background: __background__;
+	font-size: 80%;
+}
+
+div.dokuwiki .commonpages {
+	float: left;
+	text-align: left;
+	bottom: 0px;
+	background: __background__;
+	font-size: 80%;
+	vertical-align: bottom;
+}
+
+div.dokuwiki #bar__bottom {
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	right: 0px;
+	left: 0px;
+	max-height: 18px;
+	margin-bottom: 0px;
+}
+
+/* ------------- File Metadata ----------------------- */
+div.dokuwiki div.meta {
+	position: absolute;
+	right: 90%;
+	left: 5%;
+	bottom: 100%;
+	clear: both;
+	float: left;
+	padding-bottom: 1em;
+	margin-top: 1em;
+	color: __text_alt__;
+	font-size: 70%;
+}
+
+div.dokuwiki div.meta div.user {
+	float: left;
+	max-width: 50%;
+	max-height: 2em;
+	overflow: hidden;
+}
+
+div.dokuwiki div.meta div.doc {
+	float: right;
+	text-align: right;
+	max-height: 2em;
+	overflow: hidden;
+	white-space: nowrap;
+	clip: auto;
+}

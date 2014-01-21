@@ -1,0 +1,550 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Namespace Support</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para">
+Starting with version 1.3.0 Namespace support is built into  <span class='classname'>XML_PullParser</span> .
+It is invoked by calling the package level function  <span class='code'>XML_PullParser_NamespaceSupport</span>
+with a  <span class='emphasis'>true</span>  value before creating a new instance of  <span class='classname'>XML_PullParser</span> :
+
+<table cellpadding="2" align="center">
+<tr><td>
+<tr><td class="code">
+XML_PullParser_NamespaceSupport(true);<br>
+$parser = new XML_PullParser($file, $tags, $child_tags);
+<tr><td>
+</table>
+
+
+For backward compatibility with versions prior to 1.3.0, two stub class files are provided:
+
+
+<table cellpadding="2" align="center"><tr><td>
+<tr><td class="code">
+XML_PullParser_NS.inc<br>
+
+<tr><td class="code">
+XML_PullParser_NS_doc.inc <br>
+
+<tr><td>
+</table>
+
+
+These files call  <span class='code'>XML_PullParser_NamespaceSupport</span> , so that it's not necessary to call it in
+the script.  These files are used as follows:
+
+
+<table cellpadding="2" align="center"><tr><td>
+<tr><td class="code">
+require_once "XML_PullParser_NS.inc";<br>
+$parser = new XML_PullParser_NS($file, $tags, $child_tags);
+
+<tr><td class="code">
+require_once "XML_PullParser_NS_doc.inc";<br>
+$parser = new XML_PullParser_NS_doc($doc, $tags, $child_tags);
+<tr><td>
+</table>
+
+
+
+</p></div>
+
+<p><div class="para">
+
+</p></div>
+
+<p><div class="para">
+</p></div>
+
+<p><div class="para">
+</p></div>
+
+<br><span class='emphasis'>Namespace Methods and Functions</span><br><TABLE width="800"><TR><TD class="white_block">Methods</table>
+<OL TYPE = '1' START = '1'>
+<LI>mixed XML_PullParser_setCurrentNS (string $ns)
+
+
+<table width=600><td class='list_phrase'>Used to create the current namespace definition
+</table>
+<LI>mixed XML_PullParser_unsetCurrentNS ()
+
+
+<table width=600><td class='list_phrase'>Sets the current namespace definition to  <span class='emphasis'>NULL</span>
+</table>
+<LI>boolean  _is_current_NS (array $ns_array)
+
+
+<table width=600><td class='list_phrase'>Used to test whether an element or an attribute falls within the current
+         namespace definition.  This is primarily an internal method but can be used as
+         described below.
+</table>
+<LI>string XML_PullParser_getAttr_NS (string $name, array $attr_array)
+
+
+<table width=600><td class='list_phrase'>Gets the value of an attribute if it falls with the
+        current namespace definition
+</table>
+<LI>string XML_PullParser_getNS_URI (mixed $str, [string name=Null])
+
+
+<table width=600><td class='list_phrase'>Extracts the namespace URI from the internally constructed attribute name.
+</table>
+<LI>string XML_PullParser_getNS_AttrName(string $str)
+
+
+<table width=600><td class='list_phrase'>Extracts the unqualified attribute name from the internally constructed attribute name.
+</table>
+</OL>
+<TABLE width="800"><TR><TD class="white_block">Package Level Function(s)</table>
+<OL TYPE = '1' START = '7'>
+<LI>void XML_PullParser_Disable_NS_Prefixes (mixed $bool)
+
+
+<table width=600><td class='list_phrase'>This function controls whether namespace prefixes are removed from element and
+        attribute names or left in place.
+        If this function is called with a value of  <span class='emphasis'>TRUE,</span>  prefixes
+        will be removed from all element and attribute names; otherwise, they will
+        remain in place.
+	 <BR /> <BR />
+        When prefixes remain in place, they are considered to be part of the
+        names. Therefore,  <span class='emphasis'>dns:server,</span>
+         <span class='emphasis'>uri:server,</span>  and  <span class='emphasis'>server</span>  are all
+        traeted as separate and distinct names.
+        This is the default behavior and is consistent with releases prior to 1.3.1,
+        when this function was added.
+
+	 <BR /> <BR />
+        This function has meaning only when namespace support
+        has not been invoked, since prefixes are replaced by their URI's when namespace support
+        is in effect.
+</table>
+</OL>
+<p><div class="para"><A Name='setNS'></a><br><span class='emphasis'>1. XML_PullParser_setCurrentNS</span><br>
+
+The most important of the new methods is XML_PullParser_setCurrentNS(), which creates
+the current namespace definition.  In its simplest form, it takes a single namespace:
+  <center><span style="line-height: 2;" class="code">
+	XML_PullParser_setCurrentNS('http://example.com/doc/def/');</span></center>
+
+But it can also take multiple namespaces, which are also passed into the method as
+a string but each namespace URI is separated from the others by the vertical bar:
+   <table width="600" cellpadding = "4"><td class="code">
+	$ns="http://example.com/doc/def/|http://my_site.com/movies/|"
+        &nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;"http://my_site.com/movies/title/";
+	XML_PullParser_setCurrentNS($ns);
+</table>
+
+If successful, this method returns the previously defined namespace if there was one or TRUE if there
+was no previous namespace definition.
+If not successful it returns FALSE;
+</p></div>
+
+<p><div class="para">
+Only those namespaces which have been defined by XML_PullParser_setCurrentNS() will be recognized.
+Let's look at an example:
+</p></div>
+
+<p><div class="para"><A Name='movies'></a>
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+	 < Movies
+	 xmlns = "http://fedora.gemini.ca/local/"
+	 xmlns:mov = "http://room535.org/movies/mov/"
+	 xmlns:star = "http://room535.org/movies/star/"
+	 xmlns:title = "http://room535.org/movies/title/"
+	 xmlns:date = "http://room535.org/movies/dates/"
+	>
+	  < Movie>
+	     < title:Title>Gone With The wind < /title:Title>
+	     < date:date date:day="25" date:month="Apr">1939 < /date:date>
+	     < star:leading_lady>Vivien Leigh < /star:leading_lady>
+	     < leading_man>Clark Gable < /leading_man>
+	  < /Movie>
+        < /Movies>
+</pre></table><p><div class="para">
+Let's assume that the namespace definition were the following:
+   <table width="600" cellpadding = "4"><td class="code">
+   $parser->XML_PullParser_setCurrentNS("http://room535.org/movies/title/|"
+   &nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;"http://room535.org/movies/mov/|http://room535.org/movies/star/|"
+   &nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;"http://room535.org/movies/dates/");
+   </table>
+
+
+ <span class='classname'>XML_PullParser</span>  would locate all of the elements and attributes, except for
+
+  <center><span style="line-height: 2;" class="code">&lt;leading_man>Clark Gable&lt;/leading_man></span></center>
+
+which has no namespace prefix assigned to it.  Its namespace is the default namespace:
+
+  <center><span style="line-height: 2;" class="code">xmlns = "http://fedora.gemini.ca/local/"</span></center>
+
+But the default namespace has not been included in the current namespace definition.
+</p></div>
+
+<p><div class="para">
+If we were to include the default namespace in the definiton, then
+XML_PullParser would locate  <span class='emphasis'>leading_man,</span>  even
+though it does not have a namespace prefix. This is because the default
+namespace applies to all elements which do not have prefixes attached to
+them.
+</p></div>
+
+<p><div class="para"><A Name='unsetNS'></a><br><span class='emphasis'>2. XML_PullParser_unsetCurrentNS</span><br>
+
+Calling XML_PullParser_unsetCurrentNS unsets the current namespace definition.  If there is no
+namespace definition, then XML_PullParser ignores namespaces and behaves exactly as it would
+if there were no namespaces.
+If successful, this method returns the previously defined namespace if there was one or TRUE if there
+was no previous namespace definiton.
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>3. _is_current_NS</span><br>
+
+This is for internal use; it returns true if an element or attribute
+appears within the current namespace definition. But it can be used by
+the programmer to determine whether an attribute resides within the
+current namespace definition. This can be done by extracting the
+namespace URI from the attribute's name with  <span class='code'>XML_PullParser_getNS_URI()</span>
+and then using it as the key in an associative array, which takes the form:
+
+  <center><span style="line-height: 2;" class="code">URI=>attribute-value</span></center>
+
+It's this array that is passed into  <span class='code'>_is_current_NS()</span>  as a parameter:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+     $name = XML_PullParser_getNS_URI($name);
+     if(is_current_NS(array($name=>$value)) ) {
+     }
+</pre></table><p><div class="para"><br><span class='emphasis'>4. XML_PullParser_getAttr_NS</span><br>
+This method gets the value of an attribute if it falls within the current namespace definition.
+If the attribute is not within the namespace definition, then this method returns  <span class='emphasis'>NULL</span> .
+  <br />
+ <span class='emphasis'>Note: </span> <span class='emphasis'>NULL</span>  doesn't mean that the attribute has no value, only that it does not have a
+namespace which has been defined by a call to XML_PullParser_setCurrentNS.
+  <br /><br />
+ <span class='emphasis'>Note: </span> This method was designed primarily for internal use but may have
+applicability in some scripting situations. But for most situations
+ <span class='code'>XML_PullParser_getAttrVal</span>  should be used to get attribute values.
+  <br />  <br />
+
+
+This method takes two parameters:
+</p></div>
+
+<OL TYPE = '1' START = '1'>
+<LI>string  <span class='emphasis'>$name</span>
+
+
+<table width=600><td class='list_phrase'>a string, which is the name of the attribute without its namespace qualification
+</table>
+<LI>array  <span class='emphasis'>$attr_array</span>
+
+
+<table width=600><td class='list_phrase'>an assocative array consisting of the attribute's name  and value,
+          formed as follows:   <span class='code'>attribute-name=>attribute-value.</span>
+</table>
+</OL>
+<p><div class="para"><A Name='getAttr_NS'></a>
+
+       <span class='emphasis'>attribute-name</span>  is the name supplied by XML_PullParser, which is an
+      internally constructed key.  The keys can be derived from the arrays returned
+      by one of the following:
+
+
+<TABLE cellspacing="2" width = "400"align="center">
+    <td class="code">XML_PullParser_getAttributes
+   <tr><td class="code">XML_PullParser_nextAttr
+   <tr><td class="code">XML_PullParser_getAttrValues
+</table>
+
+ An example of its use is as follows:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+	       $attr_array = $parser->XML_PullParser_getAttributes('date');
+	       foreach($attr_array as $name=>$value) {
+	             $name = $parser->XML_PullParser_getNS_URI($name);
+		     if($parser->_is_current_NS(array($name=>$value)) ) {
+	                  echo "$name=>$value is in current namespace\n";
+		     }
+		}
+</pre></table><p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+Examples of how to use  <span class='code'>XML_PullParser_nextAttr</span>  and  <span class='code'>XML_PullParser_getAttrValues</span>
+will be found will be found in the next section:
+ <A href="XML_PullParser_NS_2.html">Coding Namespace Support for XML_PullParser</A> .
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>5. XML_PullParser_getNS_URI </span><br>
+This method will search for the namespace URI of either an attribute or an element.
+If a namespace is found it returns the namespace as a string.
+If a namespace is not found, it returns  <span class='emphasis'>NULL</span> .
+</p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+All attributes are held in associative arrays.  When namespace support is not requested,
+the attribute names serve as keys which point to the attribute values. For instance:
+  <center><span style="line-height: 2;" class="code">[date]=>1945</span></center>
+
+If an attribute is assigned to a namespace,
+a key is created from the attribute name and the namespace URI.
+This method extracts the namespace URI from the internally constructed key.
+In the case of elements, the namespace is treated internally as a specially constructed
+attribute, and this method queries that attribute for the namespace assigned to the
+element.  See the namespace
+ <A href="appendix_1.html#namespace">example</A>
+in the appendix for more detail on how namespaces are treated.
+</p></div>
+
+<TABLE width="800"><TR><TD class="white_block"><span class='code'>XML_PullParser_getNS_URI</span>  takes two parameters:</table>
+<OL TYPE = '1' START = '1'>
+<LI>mixed  <span class='emphasis'>$str</span>
+
+
+<table width=600><td class='list_phrase'>the internally constructed attribute name (string)
+         or an attribute array <span class='super'>1</span>
+</table>
+<LI>string  <span class='emphasis'>$name (optional)</span>
+
+
+<table width=600><td class='list_phrase'>the name of the attribute without its namespace qualification
+</table>
+</OL>
+<p><div class="para">
+
+
+<TABLE cellspacing="2" width = "800" align="center">
+   <td class="white_block">
+   1. If the parameter <code><b>$str</b></code> is a string, this method assumes that it is the internal name of an attribute.
+
+   <tr><td class="white_block">
+   2. If the parameter is an array and $name is not specified,
+      it assumes that the element's own namespace is being sought.
+   <tr> <td class="white_block">
+   3. If the parameter is an array and $name is specified, it looks for the attribute of that $name.
+</table>
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>6. XML_PullParser_getNS_AttrName</span><br>
+This method extracts the unqualified attribute name from the
+name which is created internally for all namespace-qualified attributes.
+Its single parameter is a string holding this internally constructed name. It
+returns the unqualified attribute name, i.e. without the namespace or the namespace
+prefix prepended. (The namespace prefix is the namespace identifier that is
+prefixed to attributes and elements assigned to a namespace, as in
+  <center style="line-height:2">
+<code><b>identifier:element_name</b></code></center>
+
+
+</p></div>
+
+<p><div class="para">
+
+</p></div>
+
+<p><div class="para"><A Name='att_and_NS'></a><br><span class='emphasis'>Atttibutes and Namespaces</span><br>
+
+
+Because  <span class='classname'>XML_PullParser</span>  uses internally constucted keys for attributes assigned to
+namespaces, when namespace support is in effect
+attribute names should not be addressed independently of the methods supplied to deal with
+attributes.
+</p></div>
+
+<p><div class="para">
+That is, when namespace support is not in effect, it's possible to
+extract individual attrribute names and values from the various arrays which supply
+attributes, using  <span class='code'>each</span>  and  <span class='code'>foreach</span> .  And where the attribute name is known,
+it's possible to get its value from  <span class='code'>$array[$name]</span> .
+
+
+But when working with namespaces,  <span class='code'>XML_PullParser_getAttrVal</span>
+should always be used. It has been updated to reflect the namespace code and is called
+exactly as before:
+
+    <center><span style="line-height: 2;" class="code">
+  $parser->XML_PullParser_getAttrVal($attr_name, $attr_array);
+</span></center>
+
+ <span class='emphasis'>$attr_name</span>  is the unqualified attribute name, i.e. it does not
+include either the namespace URI or the namespace prefix.
+To take an instance from the sample
+ <A href="#movies">Movies</A>  document, if we wanted to get at the  <span class='emphasis'>month</span>
+attribute, we would use the following code:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+    $date = $parser->XML_PullParser_getElement('date');
+    $attr_array = $parser->XML_PullParser_getAttributes($date);
+    echo "Month:  " . $parser->XML_PullParser_getAttrVal('month', $attr_array) . "\n";
+
+ /*
+ Result
+ Month: Apr
+ */
+</pre></table><p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+See the appendix for an
+ <A href="appendix_1.html#namespace">example token</A>
+ created with namespace support. It helps to clarify the issues inovled in accessing attribute data.
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>Namespace Agreement</span><br>
+When a request if made for data,  <span class='classname'>XML_PullParser</span>  tests for namespace
+agreement. In the case of attributes, if no agreement is found, then  <span class='code'>XML_PullParser_getAttrVal</span>
+returns  <span class='emphasis'>NULL</span> .
+
+In the case of the character data, if no agreement is found, then the text methods will skip over the data.
+Their return values will reflect any absence of data in the ways appropriate to each method.
+</p></div>
+
+<p><div class="para">
+ <span class='classname'>XML_PullParser</span>  uses the method  <span class='code'>_is_current_NS</span>  to determine namespace agreement.
+So, it is useful to look at how that method works.
+  <OL>
+<LI>If no namespace definition has been set
+in  <A href="#setNS">XML_PullParser_setCurrentNS</A> , or if the current namespace definition
+has been unset with  <A href="#unsetNS">XML_PullParser_unsetCurrentNS</A> ,
+then  <span class='code'>_is_current_NS</span>  returns  <span class='emphasis'>True</span> .  In effect, all elements and
+attributes are deemed to be in agreement with current namespace definition, which is
+ <span class='emphasis'>Null</span> .  After passing this test, the element or attribute in question is subject to the
+normal rules and constraints which govern the handling of elements and attributes.
+
+
+<LI>When a namespace definition has been set, this method returns <b>True</b> if the
+namespace of an element or attribute is found in the current namespace definition.
+Otherwise, it returns <b>False.</b>
+<LI>
+If there is a default namespace, the parser will apply it to all elements
+which have no explicit namespace prefix, and rule number 2 above will apply to them. <span class='super'>2</span>
+
+
+</OL>
+
+
+</p></div>
+
+<p><div class="para">
+</p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+Below are some examples illustrating namespace agreement.
+They all refer to the file Movies.xml, from the listings directory
+of this distribution; it is reprinted for convenience on the
+  <A href="XML_PullParser_NS_2.html#movies_xml">next page</A>  of this manual.
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;">Namespace Agreement 1</span></b></center>
+<pre>
+   $parser->XML_PullParser_setCurrentNS("http://room535.org/movies/title/|"
+  . "http://room535.org/movies/mov/|http://room535.org/movies/star/|
+  . "http://room535.org/movies/dates/");
+
+    while($token = $parser->XML_PullParser_getToken()) {
+        $title = $parser->XML_PullParser_getText('title');
+        echo "Title: $title\n";
+        $attr_vals = $parser->XML_PullParser_getAttrValues(array('date'=>$token));
+        echo "Month:  " . $parser->XML_PullParser_getAttrVal('month', $attr_vals[0]) . "\n";;
+        echo "Day:  " . $parser->XML_PullParser_getAttrVal('day', $attr_vals[0]) . "\n";
+    }
+
+ /*
+  Result
+	Title: Gone With The wind
+	Month:  Apr
+	Day:  25
+	Title: How Green Was My Valley
+	Month:
+	Day:
+	Title: Jurassic Park
+	Month:  June
+	Day:  15
+
+ */
+
+</pre></div>
+<p><div class="para"><A Name='which_param'></a><br><span class='emphasis'>Namespaces and the $which Parameter</span><br>
+
+Namespaces are applied to an  <span class='classname'>XML_Pullarser</span>  token only when data
+is requested, that is only when functions such as  <span class='code'>XML_Pullparser_getText</span>  and
+ <span class='code'>XML_Pullarser_getAttributes</span>  are called.  The token returned by
+ <span class='code'>XML_Pullparser_getToken</span>  holds the parent element and all of its dependents,
+just as it would if namespace support were not in effect.  Take, for instance,
+the following snippet:
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+
+  &lt;ENTRY>
+    &lt;dns:server dns:ip="192.168.10.1">example_1.com&lt;/dns:server>
+    &lt;dns_2:server dns_2ip="192.168.10.2">example_2.com&lt;/dns_2server>
+    &lt;dns:server dns:ip="192.168.10.3">example_3.com&lt;/dns:server>
+  &lt;/ENTRY>
+
+</pre></table><p><div class="para">
+ <span class='code'>XML_Pullparser_getToken</span>  would return the complete  &lt;ENTRY> element,
+with all three  <span class='emphasis'>server</span>  elements, regardless of the nameserver
+definition created in  <span class='code'>XML_PullParser_setCurrentNS</span> .  Therefore, if the
+namespace definition included the namespace represented by  <span class='emphasis'>dns</span>
+but not the one represented by  <span class='emphasis'>dns_2</span> , the following call to
+ <span class='code'>XML_PullParser_getText</span>  would yield  <span class='emphasis'>Null</span> :
+
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+   $parser->XML_PullParser_getElement('server');
+   $dns_server =  $parser->XML_PullParser_getText('server', 2);
+</pre></table><p><div class="para">
+
+</p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<hr width='800' align='left'>
+<table border=1 bgcolor='#ffffff' width = 750 cellpadding ='6'>
+<tr><th align='left' class='white_block'>Notes<tr><td class='white_block'>1.  The attribute arrays are derived from the same methods ennumerated under
+       <span class='code'>XML_PullParser_getAttr_NS</span>   <A href="#getAttr_NS">above.</A></td>
+<tr><td class='white_block'>2. Default namespaces do not apply to attributes, which must have an explicit prefix to be included
+       in a namespace.</td>
+</table>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParser_Utilities.html'>Utilities</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParser_NS_2.html' class='navigation'>Examples: Coding Namespace Support</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para">
+</p></div>
+
+

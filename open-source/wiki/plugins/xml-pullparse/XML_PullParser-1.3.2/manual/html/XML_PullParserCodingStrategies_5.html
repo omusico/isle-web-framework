@@ -1,0 +1,417 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Tokenizers:  The Token Returning Functions</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+  The tokenizing functions create arrays which are mapped to the structure and data of
+  the xml document. It's from these that the data accessors extract text and attribute
+  data.    <A href="appendix_1.html">Appendix 1</A>  has examples of
+  tokens returned by some of these functions as well as notes on their structure.
+</p></div>
+
+
+<!--   REPLACEMENT MADE -->
+<br><span class='emphasis'>There are several basic rules which apply to all tokenizers: </span><br><OL TYPE = '1' START = '1'>
+<LI>They  return tokenized arrays or NULL or FALSE.
+
+
+<table width=600><td class='list_phrase'>They return  <span class='emphasis'>NULL</span>  when conditions are normal but no tokens are
+            available.  This makes it possible to use several of these methods
+            in loops that come to an end when no more tokens are available.
+            They return  <span class='emphasis'>FALSE</span>  when an error occurs.
+</table>
+<LI>The read buffer must be large enough to hold the entire token.
+
+
+<table width=600><td class='list_phrase'>This means that a program must be able to accomodate the largest token it will request. The
+        default read buffer is 8KB.  This can be reset using the package level utility
+         <span class='emphasis'>XML_PullParser_setReadLength.</span>
+        For more on this function, see the  <A href="XML_PullParser_Utilities.html#package_level">package level
+        utilities</A>  in the Utilities section
+        and its description in the class
+         <A href="../doc/XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_setReadLength">documentation.</A>
+</table>
+</OL>
+<br><span class='emphasis'>There  are six tokenizers</span><br><OL TYPE = '1' START = '1'>
+<LI>array XML_PullParser_childXCL (array $parent, [mixed $args = ""])
+<LI>array XML_PullParser_getChild (string $child, [integer $which = 1], [array $el = ""])
+<LI>array XML_PullParser_getElement (string $el)
+<LI>array XML_PullParser_getEscapedToken ()
+<LI>array XML_PullParser_getToken ()
+<LI>array XML_PullParser_nextElement ($xcl = True)
+<LI>void XML_PullParser_getChildren (string $child, [array $el = ""])
+<LI>array XML_PullParser_getChildrenFromName (string $name, string $el)
+</OL>
+<p><div class="para">
+All the tokenizing functions return  <span class='code'>Null</span>  or an empty array if no token is available and therefore
+are suited for use in loops which test for these to signal the end of the loop.
+</p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+ <span class='code'>XML_PullParser_getToken</span>  and  <span class='code'>XML_PullParser_getElement</span>  have been used throughout
+the manual and were explained in some detail  <A href="XML_PullParserCoding_3.html#selectors">
+earlier</A>  in the manual.  This section will look at the other tokenizers.
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>1. XML_PullParser_childXCL</span><br>
+<!--   REPLACEMENT MADE -->
+
+
+ <span class='code'>XML_PullParser_childXCL</span>  is an important  <span class='emphasis'>selector</span>  function.
+We've already seen its usefulness in the
+ <A href="XML_PullParserCodingStrategies_4.html#childXCL">previous section,</A>
+where it was used to strip out all child elements from the parent.  It does this when passed
+a single parameter, a token representing the parent element. It is used internally in several
+class methods for just this purpose.   But it can also take a second parameter, either a vairable
+parameter list of strings or an array of strings. These are the names of selected elements for exclusion.
+That is, they will be excluded from the returned array, which will consist of the parent and
+any child elements which are not named.   <span class='emphasis'>Example 1</span>  and
+ <span class='emphasis'>Listing 15</span>  demonstrate how this might be used.
+</p></div>
+
+<p><div class="block"><center><b>Example 1</b></center>
+<pre>
+
+&lt;Confidential_report>
+&lt;item>
+The company has a ground-breaking new product called  &lt;emphasis>Ground-breaker. &lt;/emphasis>
+&lt;/item>
+&lt;topsecret>Its formula is H20 &lt;/topsecret>
+&lt;item>We expect to begin selling it by the end of the year. &lt;/item>
+&lt;/Confidential_report>
+
+</pre></div>
+<p><div class="para">
+ The point here will be to exclude  <span class='emphasis'>topsecret</span>  from the final output.
+  <span class='emphasis'>Listing 15</span>  does this:
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;">Listing 15</span></b></center>
+<pre>
+
+ 1.  tags = array("Confidential_report");
+ 2.  $child_tags = array();
+ 3.  XML_PullParser_trimCdata(true);
+ 4.  XML_PullParser_excludeBlanks(true);
+ 5.
+ 6.  $parser = new XML_PullParser_doc($topsecret, $tags, $child_tags);
+ 7.  $token = $parser->XML_PullParser_getToken();
+ 8.  $classified = $parser->XML_PullParser_childXCL($token, "topsecret");
+ 9.
+11.  $old_delim = $parser->XML_PullParser_setDelimiter("\n");
+12.  echo $parser->XML_PullParser_getTextStripped($classified) . "\n";
+13.  $parser->XML_PullParser_setDelimiter($old_delim);
+
+
+/* Result
+        The company has a ground-breaking new product called
+        Ground-breaker.
+        We expect to begin selling it by the end of the year.
+*/
+
+</pre></div>
+<p><div class="para">
+There are a number of things in this listing that we haven't seen before.  First, it uses
+ <span class='code'>XML_PullParser_getTextStripped</span>  (line 12),  which ignores element boundaries and
+returns a string consisting of all the character data found within the parent
+element, i.e. including all text found in child elements.  Secondly, the default text
+delimiter is a single space.  This is replaced in line 11 by the newline character so that
+the output is printed in several lines.  Lines 3 and 4 make sure that the output is cleaned up,
+since the parser will return as part of the character data any newlines it finds in the
+text, which includes the newlines between the element declarations.
+</p></div>
+
+<p><div class="para"> We exclude  <span class='emphasis'>topsecret</span>  in line 8. Consequently, the final output
+consists of all the lines of  <span class='emphasis'>Confidential_report,</span>  excluding the
+topsecret formula.
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>2. XML_PullParser_getChild</span><br>
+This method extracts an individual child element and all its descendents from a parent.
+The first parameter is a string, the name of the child element to extract from the parent.
+
+The second is an optional  <span class='code'>$which</span>  value. It specifies which instance of the child element
+to extract; the instances are treated as a sequence, which mirrors the order of appearance in the XML document.
+
+The parent is  (optionally) specified in the 3rd parameter.
+If the parent is not passed in, then it uses the  <span class='code'>$current_element</span>  or, failing that,
+the current token.
+
+</p></div>
+
+<p><div class="para">
+This method is set up so as to work effortlessly with  <span class='code'>XML_PullParser_getToken</span>  or
+ <span class='code'>XML_PullParser_getElement</span> .  If either of these has been
+called, and there is only one instance of the child in the xml, then all that's needed is to
+call  <span class='code'>XML_PullParser_getElement</span>  with the name of the child, since  <span class='code'>$which</span>
+defaults to 1.  Otherwise, the  <span class='code'>$which</span>  has to be passed in.
+</p></div>
+
+<p><div class="para">
+To illustrate this method, let's look at the numbered list of function definitions at the top
+of this page.  It's XML basis is a  <span class='emphasis'>Docbook</span>  structure called
+ <span class='emphasis'>simplelist</span> . <span class='super'>1</span>
+  &nbsp;&nbsp; Here is the XML:
+</p></div>
+
+<p><div class="block"><center><b>Example 2</b></center>
+<pre>
+&lt;para>
+&lt;simplelist type='vert' columns='1'>
+&lt;member>array XML_PullParser_childXCL (array $parent, [mixed $args = ""]) &lt;/member>
+&lt;member>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; array XML_PullParser_getChild (string $child, [integer $which = 1],[array $el = ""])
+&lt;/member>
+&lt;member>array XML_PullParser_getElement (string $el) &lt;/member>
+&lt;member>array XML_PullParser_getEscapedToken () &lt;/member>
+&lt;member>array XML_PullParser_getToken () &lt;/member>
+&lt;member>array XML_PullParser_nextElement () &lt;/member>
+&lt;/simplelist>
+&lt;/para>
+
+</pre></div>
+<p><div class="para">
+Following is the code which created the numbered list, using the HTML  &lt;OL> tag.
+The result, of course, is the list printed at the top of the top.  So, instead, in the
+Result section is printed one instance of a child array extracted by
+ <span class='code'>XML_PullParser_getChild.</span>
+</p></div>
+
+<p><div class="block"><center><b><span class="code_title" style="font-style:italic;">Listing 16</span></b></center>
+<pre>
+
+ 1.  $tags = array('para');
+ 2.  $child_tags = array();
+ 3.  $parser = new XML_PullParser("List.xml", $tags, $child_tags);
+ 4.
+ 5.                   $parser->XML_PullParser_getToken();
+ 6.                   $list = $parser->XML_PullParser_getChild('simpleList');
+ 7.
+ 8.                   $which = 1;
+ 9.                   $items = "";
+10.                   echo " &lt;OL>\n";
+11.                     while($member =  $parser->XML_PullParser_getChild('member',$which,$list)) {
+12.                        $member_text =  $parser->XML_PullParser_getText($member);
+13.                        $items .= " &lt;LI>". trim($member_text) . "\n";
+14.                        $which++;
+15.                   }
+16.                   echo $items;
+17.                   echo " &lt;/OL>\n";
+
+/*  Result: Child token $member returned by XML_PullParser_getChild
+    [8] => S__MEMBER
+    [9] => Array
+        (
+        )
+
+    [10] => Array
+        (
+            [cdata] =>
+        array XML_PullParser_getChild (string $child, [integer $which = 1], [array $el = ""])
+
+        )
+
+    [11] => E__MEMBER
+*/
+
+
+</pre></div>
+<p><div class="para">
+  The call to  <span class='code'>XML_PullParser_getToken</span>  (line 5) gets the entire  <span class='emphasis'>para</span>
+  structure and all of its children.  We don't need to save its return value, because we will
+  be relying on the token saved internally in  <span class='code'>$converted_token.</span> <span class='super'>2</span>
+    &nbsp;&nbsp; In  line 6,  <span class='code'>XML_PullParser_getChild</span>  extracts the entire
+   <span class='emphasis'>simplelist</span>  and all of its children from  <span class='emphasis'>para.</span>
+  These are the six  <span class='emphasis'>member</span>  elements.  We initialize  <span class='code'>$which</span>  to 1
+  (line 8), create an empty string to hold our list (line 9), and set up a while loop which
+  repeatedly calls  <span class='code'>XML_PullParser_getChild</span>  with the name of the child element we
+  want ("member"), the instance ("$which"), and the parent array ("$list").
+</p></div>
+
+<p><div class="para">Line 13 trims  <span class='code'>$member_text</span>  in order to remove extra line feeds.   We can
+  see that there are two extra line feeds in the Result array's  <span class='code'>[cdata],</span>  one
+  before the function definition and one after. <span class='super'>3</span>  &nbsp;&nbsp;
+  And line 14 updates  <span class='code'>$which</span>  so that we get the next child element.
+</p></div>
+
+<p><div class="para">Let's look at one more real world example.
+  Both  <span class='code'>XML_PullParser_getChild,</span>  and  <span class='code'>XML_PullParser_childXCL,</span>  are used
+  internally by a number of the class methods.  In some cases they are used together, as in
+  this snippet from  <span class='code'>XML_PullParser_getText:</span>
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+    if ($el  &amp;&amp;  $which  >  0) {
+        if(!$tmp_array = $this->XML_PullParser_getChild($el, $which)) {
+            return Null;
+        }
+        $tmp_array=$this- > XML_PullParser_childXCL($tmp_array);
+        return $this- > XML_PullParser_getTextStripped($tmp_array);
+    }
+
+</pre></table><p><div class="para">
+    <span class='code'>$el</span>  is the name of the child and  <span class='code'>$which</span>  is the instance
+   of the child in the parent, which here will default to either the current token
+   i.e.  <span class='code'>$converted_token,</span>  or to  <span class='code'>$current_element.</span>   If
+    <span class='code'>XML_PullParser_getChild</span>  finds a child instance, it is saved in a temporary
+   variable which is then fed into  <span class='code'>XML_PullParser_childXCL</span>  in order
+   to strip away all of this child's children.  The reason for this is that almost all text
+   in  <span class='classname'>XML_PullParser</span>  is ultimately retrieved from
+    <span class='code'>XML_PullParser_getTextStripped.</span> <span class='super'>4</span> &nbsp;
+   So, it's necessary to exclude any of the child's descendents; otherwise
+    <span class='code'>XML_PullParser_getTextStripped,</span>  which does not observe element
+   boundaries, will return all the text it finds.
+
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>3. XML_PullParser_nextElement</span><br>
+  This method is tied in to  <span class='code'>XML_PullParser_getElement.</span>  Whenever
+   <span class='code'>XML_PullParser_getElement</span>  is called, a copy is made of the  <span class='code'>$current_element</span>
+  which serves as a stack for  <span class='code'>XML_PullParser_nextElement.</span>   Each time it is called,
+   <span class='code'>XML_PullParser_nextElement</span>  shifts the next element off its stack and returns it
+  to the caller.  When the stack is exhausted, it returns  <span class='code'>Null,</span>  a feature which
+  makes it suitable for use in a loop.
+</p></div>
+
+<p><div class="para">
+   By default, before the element is returned, it is filtered through  <span class='code'>XML_PullParser_childXCL,</span>
+   which strips out all child elements.
+   This guarantees that the result returned when requesting text and attributes is for the element
+   named in the parameter to XML_PullParser_getElement:
+           <h4  style="left:150px">$parser->XML_PullParser_getElement('element_name')</h4>
+   But this also means that it is not suitable for use in applications which need to slurp together
+   text from parent and all its  children, as in a marked-up paragraph, since all the mark-up
+   would be deleted in favor of the parent element.
+</p></div>
+
+<p><div class="para">
+  The default behvior can be turned off by passing in a  <span class='emphasis'>False</span>  value as a parameter:
+      <h4  style="left:190px">$parser->XML_PullParser_nextElement(False)</h4>
+   In this case the returned element will not be filtered through  <span class='code'>XML_PullParser_childXCL.</span>
+</p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+  For examples using this method, see these earlier manual listings:
+   <A href="XML_PullParserCoding_1.html#listing_2">Listing 2,</A>
+   <A href="XML_PullParserCoding_2.html#listing_3">Listing 3,</A>
+   <A href="XML_PullParserCoding_2.html#listing_4">Listing 4.</A>
+  See also the class
+  <A href="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextElement">documentation.</A>
+
+</p></div>
+
+<p><div class="para"><br><span class='emphasis'>4. XML_PullParser_getEscapedToken</span><br>
+  This method returns a single escaped token each time it is called.
+  An escaped token represents an element which is declared in both the  <span class='code'>$tags</span>  array and the
+   <span class='code'>$child_tags</span>  array.  A separate stack is created for these tokens.
+  Each time  <span class='code'>XML_PullParser_getEscapedToken</span>
+  returns a token the token is popped off the stack: the method returns tokens until
+  the stack is exhausted, at which  point it returns  <span class='emphasis'>Null,</span>
+  making this method suitable for use in a loop.
+</p></div>
+
+<p><div class="para">
+  The stack is persistent. If it is not exhausted and if the file being processed is larger than
+   <span class='code'>$read_length,</span> <span class='super'>5</span>  
+  tokens will be added to the stack when the next chunk of the file is parsed.
+  A function is provided to clear the stack, should that be necessary:
+   <h4  style="left:190px">void  XML_PullParser_clearEscapedTokens ()</h4>
+</p></div>
+
+<table border=1 bgcolor='#eeeeee' width = 750 cellpadding ='6'>
+<tr><th align='left' class='block'>Some Points about Escaped Tokens<tr><td class='block'>An escaped token can be accessed by  <span class='code'>XML_PullParser_getEscapedToken</span>  at any time,
+    as long as it is still on the stack.</td>
+<tr><td class='block'>Escaped tokens are treated as valid members of the  <span class='code'>$child_tags</span>  array and
+   therefore can be accessed in normal document order by  <span class='code'>XML_PullParser_getElement.</span></td>
+<tr><td class='block'>Escaped tokens are not treated as members of the  <span class='code'>$tags</span>  arrray
+  and therefore are not returned by  <span class='code'>XML_PullParser_getToken</span> .
+  But an  escaped element can still be the child of the current token, if
+  its  <span class='emphasis'>parent</span>  has been declared in the  <span class='code'>$tags</span>  array. If so, it can
+  be accessed in the same ways as any child of the current token.</td>
+</table>
+<p><div class="para"><br><span class='emphasis'>5. XML_PullParser_getChildren</span><br>
+<!--   REPLACEMENT MADE -->
+
+ <span class='emphasis'>6. XML_PullParser_getChildrenFromName</span> <br />
+  These methods are tokenizers but instead of returning tokens they return
+  numerically indexed arrays of tokens, which is illustrated in the
+   <A href="appendix_1.html#getChildren">appendix.</A>
+  The only difference between the two methods is in their parameters.
+</p></div>
+
+<p><div class="para"><A Name='getChildren'></a>
+
+  The first parameter to both of these functions is a string, the name of an element.
+  It's this element which will consistute the child elements being sought.  The difference
+  between them is in the second paramter.  In  <span class='code'>XML_PullParser_getChildren</span>
+  the second parameter is either a tokenized array, which is parent to the children,
+  or null, in which case either   <span class='code'>$current_element</span>  will be
+  used or faling that the current token.  In  <span class='code'>XML_PullParser_getChildrenFromName</span>
+  the second parameter is required and is the name of the parent element.
+</p></div>
+
+<p><div class="para">
+  Accesing the tokens returned by these arrays is a matter simply of running them through a loop.  This
+  can be a  <span class='emphasis'>foreach</span>  loop, a  <span class='emphasis'>for</span>  loop, or  <span class='emphasis'>while</span>
+  loop that uses an indexing variable.
+  <br/><br/>
+</p></div>
+
+
+<!--   REPLACEMENT MADE -->
+<table border=1 bgcolor='#ffffff' width = 750 cellpadding ='6'>
+<tr><th align='left' class='white_block'>Notes<tr><td class='white_block'>1.  <span class='emphasis'>SimpleList</span>  should technically be an 'undecorated" list,
+        according to the  <span class='emphasis'>Docbook</span>  spec but has been recast here
+        as a numbered list.</td>
+<tr><td class='white_block'>2. See
+         <A href="XML_PullParserCoding_3.html#selectors_2">Instantiating the XML_PullParser Object</A></td>
+<tr><td class='white_block'>3.  We could also have called  <span class='code'>XML_PullParser_trimCdata(true)</span>  at the top
+        of the listing to trim all text internally.</td>
+<tr><td class='white_block'>4. The one exception to this is  <span class='code'>XML_PullParser_getTextMarkedUp.</span></td>
+<tr><td class='white_block'>5. The  <span class='emphasis'>length</span>  value passed to PHP's  <span class='code'>fread</span>  function.
+         See the class documentation for
+         <A href="../doc/XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_setReadLength">XML_PullParser_setReadLength</A>
+        and
+         <A href="../doc/XML_PullParser/XML_PullParser.html#$read_length">$read_length</A></td>
+</table>
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParserCodingStrategies_4.html'>Strategies 4: Nested Selecting</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParser_TextAccessors.html' class='navigation'>Text Accessors</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+

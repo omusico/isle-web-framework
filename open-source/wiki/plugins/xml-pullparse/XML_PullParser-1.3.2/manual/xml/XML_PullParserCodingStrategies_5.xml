@@ -1,0 +1,466 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+        <!ENTITY version SYSTEM "version.xml">
+        <!ENTITY nbsp  "&#160;">
+       <!ENTITY logical_and  "&amp;&amp;">  
+       ] 
+>
+
+<article>
+
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Tokenizers:  The Token Returning Functions</subtitle> 
+          &version;
+
+      <author>
+         <surname>Turner</surname>
+
+         <firstname>Myron</firstname>
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+<simpara role ="contents"><ulink url="XML_PullParser_contents.xml">Contents</ulink>
+</simpara>
+<formalpara><title></title><para></para></formalpara>
+ 
+  <formalpara><title></title><para>
+  The tokenizing functions create arrays which are mapped to the structure and data of
+  the xml document. It's from these that the data accessors extract text and attribute
+  data.   <ulink url="appendix_1.xml">Appendix 1</ulink> has examples of
+  tokens returned by some of these functions as well as notes on their structure. 
+  </para></formalpara>
+   <formalpara role="list">
+   <title><emphasis>There are several basic rules which apply to all tokenizers: </emphasis></title>
+   <para>   
+   <simplelist type='vert' columns='1'>
+   <member>
+        They  return tokenized arrays or NULL or FALSE.
+        <phrase>
+            They return <emphasis>NULL</emphasis> when conditions are normal but no tokens are
+            available.  This makes it possible to use several of these methods
+            in loops that come to an end when no more tokens are available.  
+            They return <emphasis>FALSE</emphasis> when an error occurs.
+        </phrase>
+   </member>
+    <member>
+        The read buffer must be large enough to hold the entire token.               
+        <phrase>
+        This means that a program must be able to accomodate the largest token it will request. The
+        default read buffer is 8KB.  This can be reset using the package level utility
+        <emphasis>XML_PullParser_setReadLength.</emphasis>
+        For more on this function, see the <ulink url="XML_PullParser_Utilities.xml#package_level">package level
+        utilities</ulink> in the Utilities section
+        and its description in the class
+        <ulink url="../doc/XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_setReadLength">documentation.</ulink>
+        </phrase>
+   </member>
+   </simplelist>
+   </para></formalpara>
+
+  
+   <formalpara role="list"><title><emphasis>There  are six tokenizers</emphasis></title>
+   <para>
+   
+   <simplelist type='vert' columns='1'>
+   <member>
+        array XML_PullParser_childXCL (array $parent, [mixed $args = ""])
+   </member>
+   <member>
+        array XML_PullParser_getChild (string $child, [integer $which = 1], [array $el = ""])
+   </member>
+   <member>
+        array XML_PullParser_getElement (string $el)
+   </member>
+   <member>
+        array XML_PullParser_getEscapedToken ()
+   </member>
+   <member>
+        array XML_PullParser_getToken ()
+   </member>
+   <member>
+        array XML_PullParser_nextElement ($xcl = True)
+   </member>  
+   <member>
+      void XML_PullParser_getChildren (string $child, [array $el = ""])
+   </member>
+   <member>
+      array XML_PullParser_getChildrenFromName (string $name, string $el)
+   </member>
+   </simplelist>
+   </para></formalpara>
+
+<formalpara><title></title><para>
+All the tokenizing functions return <code>Null</code> or an empty array if no token is available and therefore
+are suited for use in loops which test for these to signal the end of the loop.
+</para></formalpara>
+
+<formalpara><title></title><para>
+<code>XML_PullParser_getToken</code> and <code>XML_PullParser_getElement</code> have been used throughout
+the manual and were explained in some detail <ulink url="XML_PullParserCoding_3.xml#selectors">
+earlier</ulink> in the manual.  This section will look at the other tokenizers.  
+</para></formalpara>
+
+
+<formalpara><title><emphasis>1. XML_PullParser_childXCL</emphasis></title><para>
+
+<code>XML_PullParser_childXCL</code> is an important <emphasis>selector</emphasis> function.  
+We've already seen its usefulness in the 
+<ulink url="XML_PullParserCodingStrategies_4.xml#childXCL">previous section,</ulink>
+where it was used to strip out all child elements from the parent.  It does this when passed
+a single parameter, a token representing the parent element. It is used internally in several
+class methods for just this purpose.   But it can also take a second parameter, either a vairable 
+parameter list of strings or an array of strings. These are the names of selected elements for exclusion.
+That is, they will be excluded from the returned array, which will consist of the parent and
+any child elements which are not named.  <emphasis>Example 1</emphasis> and
+<emphasis>Listing 15</emphasis> demonstrate how this might be used.
+</para></formalpara>
+
+<blockquote><title>Example 1</title>
+<programlisting>
+
+&lt;Confidential_report>
+&lt;item>
+The company has a ground-breaking new product called &lt;emphasis>Ground-breaker.&lt;/emphasis>
+&lt;/item>
+&lt;topsecret>Its formula is H20&lt;/topsecret>
+&lt;item>We expect to begin selling it by the end of the year.&lt;/item>
+&lt;/Confidential_report>
+
+</programlisting>
+</blockquote>
+
+
+ <formalpara><title></title><para>
+ The point here will be to exclude <emphasis>topsecret</emphasis> from the final output.
+ <emphasis>Listing 15</emphasis> does this:   
+ </para></formalpara>
+
+
+<blockquote><title role="code">Listing 15</title>
+<programlisting>
+
+ 1.  tags = array("Confidential_report");
+ 2.  $child_tags = array();
+ 3.  XML_PullParser_trimCdata(true);
+ 4.  XML_PullParser_excludeBlanks(true);
+ 5.
+ 6.  $parser = new XML_PullParser_doc($topsecret, $tags, $child_tags);
+ 7.  $token = $parser->XML_PullParser_getToken();
+ 8.  $classified = $parser->XML_PullParser_childXCL($token, "topsecret");
+ 9.
+11.  $old_delim = $parser->XML_PullParser_setDelimiter("\n");
+12.  echo $parser->XML_PullParser_getTextStripped($classified) . "\n";
+13.  $parser->XML_PullParser_setDelimiter($old_delim);
+
+
+/* Result
+        The company has a ground-breaking new product called
+        Ground-breaker.
+        We expect to begin selling it by the end of the year.
+*/
+
+</programlisting>
+</blockquote>
+
+
+<formalpara><title></title><para>
+There are a number of things in this listing that we haven't seen before.  First, it uses
+<code>XML_PullParser_getTextStripped</code> (line 12),  which ignores element boundaries and
+returns a string consisting of all the character data found within the parent
+element, i.e. including all text found in child elements.  Secondly, the default text
+delimiter is a single space.  This is replaced in line 11 by the newline character so that
+the output is printed in several lines.  Lines 3 and 4 make sure that the output is cleaned up,
+since the parser will return as part of the character data any newlines it finds in the
+text, which includes the newlines between the element declarations.  
+</para></formalpara>
+<formalpara><title></title><para> We exclude <emphasis>topsecret</emphasis> in line 8. Consequently, the final output
+consists of all the lines of <emphasis>Confidential_report,</emphasis> excluding the 
+topsecret formula.
+</para></formalpara>
+
+
+<formalpara><title><emphasis>2. XML_PullParser_getChild</emphasis></title><para>
+This method extracts an individual child element and all its descendents from a parent.
+The first parameter is a string, the name of the child element to extract from the parent. 
+
+The second is an optional <code>$which</code> value. It specifies which instance of the child element
+to extract; the instances are treated as a sequence, which mirrors the order of appearance in the XML document.
+
+The parent is  (optionally) specified in the 3rd parameter.
+If the parent is not passed in, then it uses the <code>$current_element</code> or, failing that, 
+the current token.
+
+</para></formalpara>
+
+<formalpara><title></title><para>
+This method is set up so as to work effortlessly with <code>XML_PullParser_getToken</code> or
+<code>XML_PullParser_getElement</code>.  If either of these has been
+called, and there is only one instance of the child in the xml, then all that's needed is to
+call <code>XML_PullParser_getElement</code> with the name of the child, since <code>$which</code>
+defaults to 1.  Otherwise, the <code>$which</code> has to be passed in. 
+</para></formalpara>
+
+<formalpara><title></title><para>
+To illustrate this method, let's look at the numbered list of function definitions at the top
+of this page.  It's XML basis is a <emphasis>Docbook</emphasis> structure called
+<emphasis>simplelist</emphasis>.<superscript>1</superscript>
+<![CDATA[ &nbsp;&nbsp;]]>Here is the XML:
+</para></formalpara>
+
+<blockquote><title>Example 2</title>
+<programlisting>
+&lt;para>
+   &lt;simplelist type='vert' columns='1'>
+      &lt;member>array XML_PullParser_childXCL (array $parent, [mixed $args = ""])&lt;/member>
+      &lt;member>
+     <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>array XML_PullParser_getChild (string $child, [integer $which = 1],[array $el = ""])      
+      &lt;/member>
+      &lt;member>array XML_PullParser_getElement (string $el)&lt;/member>
+      &lt;member>array XML_PullParser_getEscapedToken ()&lt;/member>
+      &lt;member>array XML_PullParser_getToken ()&lt;/member>
+      &lt;member>array XML_PullParser_nextElement ()&lt;/member>
+  &lt;/simplelist>
+&lt;/para>
+
+</programlisting>
+</blockquote>
+
+<formalpara><title></title><para>
+Following is the code which created the numbered list, using the HTML &lt;OL> tag.
+The result, of course, is the list printed at the top of the top.  So, instead, in the
+Result section is printed one instance of a child array extracted by
+<code>XML_PullParser_getChild.</code>
+</para></formalpara>
+
+<blockquote><title role="code">Listing 16</title>
+<programlisting>
+
+ 1.  $tags = array('para');
+ 2.  $child_tags = array();
+ 3.  $parser = new XML_PullParser("List.xml", $tags, $child_tags);
+ 4.
+ 5.                   $parser->XML_PullParser_getToken();  
+ 6.                   $list = $parser->XML_PullParser_getChild('simpleList');
+ 7.
+ 8.                   $which = 1;
+ 9.                   $items = "";
+10.                   echo "&lt;OL>\n"; 
+11.                     while($member =  $parser->XML_PullParser_getChild('member',$which,$list)) {
+12.                        $member_text =  $parser->XML_PullParser_getText($member);
+13.                        $items .= "&lt;LI>". trim($member_text) . "\n";
+14.                        $which++; 
+15.                   }
+16.                   echo $items;
+17.                   echo "&lt;/OL>\n"; 
+
+/*  Result: Child token $member returned by XML_PullParser_getChild
+    [8] => S__MEMBER
+    [9] => Array
+        (
+        )
+
+    [10] => Array
+        (
+            [cdata] =>
+        array XML_PullParser_getChild (string $child, [integer $which = 1], [array $el = ""])
+
+        )
+
+    [11] => E__MEMBER
+*/
+
+
+</programlisting>
+</blockquote>
+
+  <formalpara><title></title><para>
+  The call to <code>XML_PullParser_getToken</code> (line 5) gets the entire <emphasis>para</emphasis>
+  structure and all of its children.  We don't need to save its return value, because we will
+  be relying on the token saved internally in <code>$converted_token.</code><superscript>2</superscript>
+  <![CDATA[ &nbsp;&nbsp;]]>In  line 6, <code>XML_PullParser_getChild</code> extracts the entire
+  <emphasis>simplelist</emphasis> and all of its children from <emphasis>para.</emphasis>
+  These are the six <emphasis>member</emphasis> elements.  We initialize <code>$which</code> to 1
+  (line 8), create an empty string to hold our list (line 9), and set up a while loop which 
+  repeatedly calls <code>XML_PullParser_getChild</code> with the name of the child element we
+  want ("member"), the instance ("$which"), and the parent array ("$list").
+  </para></formalpara>
+
+  <formalpara><title></title><para>Line 13 trims <code>$member_text</code> in order to remove extra line feeds.   We can
+  see that there are two extra line feeds in the Result array's <code>[cdata],</code> one
+  before the function definition and one after.<superscript>3</superscript><![CDATA[ &nbsp;&nbsp;]]>
+  And line 14 updates <code>$which</code> so that we get the next child element.
+  </para></formalpara>
+
+  <formalpara><title></title><para>Let's look at one more real world example.
+  Both <code>XML_PullParser_getChild,</code> and <code>XML_PullParser_childXCL,</code> are used
+  internally by a number of the class methods.  In some cases they are used together, as in
+  this snippet from <code>XML_PullParser_getText:</code>
+  </para></formalpara>
+
+  <simpara>   
+    if ($el &logical_and; $which &gt; 0) {
+        if(!$tmp_array = $this->XML_PullParser_getChild($el, $which)) {
+            return Null;   
+        }    
+        $tmp_array=$this-&gt;XML_PullParser_childXCL($tmp_array);
+        return $this-&gt;XML_PullParser_getTextStripped($tmp_array);     
+    }
+
+  </simpara>
+
+  <formalpara><title></title><para>
+   <code>$el</code> is the name of the child and <code>$which</code> is the instance
+   of the child in the parent, which here will default to either the current token
+   i.e. <code>$converted_token,</code> or to <code>$current_element.</code>  If 
+   <code>XML_PullParser_getChild</code> finds a child instance, it is saved in a temporary
+   variable which is then fed into <code>XML_PullParser_childXCL</code> in order
+   to strip away all of this child's children.  The reason for this is that almost all text
+   in <classname>XML_PullParser</classname> is ultimately retrieved from 
+   <code>XML_PullParser_getTextStripped.</code><superscript>4</superscript><![CDATA[&nbsp;]]>
+   So, it's necessary to exclude any of the child's descendents; otherwise
+   <code>XML_PullParser_getTextStripped,</code> which does not observe element
+   boundaries, will return all the text it finds.
+
+  </para></formalpara>
+
+ <formalpara><title><emphasis>3. XML_PullParser_nextElement</emphasis></title><para>
+  This method is tied in to <code>XML_PullParser_getElement.</code> Whenever
+  <code>XML_PullParser_getElement</code> is called, a copy is made of the <code>$current_element</code>
+  which serves as a stack for <code>XML_PullParser_nextElement.</code>  Each time it is called,
+  <code>XML_PullParser_nextElement</code> shifts the next element off its stack and returns it
+  to the caller.  When the stack is exhausted, it returns <code>Null,</code> a feature which
+  makes it suitable for use in a loop.  
+ </para></formalpara>
+
+  <formalpara><title></title><para>
+   By default, before the element is returned, it is filtered through <code>XML_PullParser_childXCL,</code>
+   which strips out all child elements.  
+   This guarantees that the result returned when requesting text and attributes is for the element
+   named in the parameter to XML_PullParser_getElement:
+          <token>$parser->XML_PullParser_getElement('element_name')</token>
+   But this also means that it is not suitable for use in applications which need to slurp together
+   text from parent and all its  children, as in a marked-up paragraph, since all the mark-up
+   would be deleted in favor of the parent element.
+ </para></formalpara>
+
+  <formalpara><title></title><para>
+  The default behvior can be turned off by passing in a <emphasis>False</emphasis> value as a parameter:
+     <token>$parser->XML_PullParser_nextElement(False)</token>
+   In this case the returned element will not be filtered through <code>XML_PullParser_childXCL.</code>
+ </para></formalpara>
+
+ <formalpara><title></title><para>
+  For examples using this method, see these earlier manual listings:
+  <ulink url="XML_PullParserCoding_1.xml#listing_2">Listing 2,</ulink>
+  <ulink url="XML_PullParserCoding_2.xml#listing_3">Listing 3,</ulink>
+  <ulink url="XML_PullParserCoding_2.xml#listing_4">Listing 4.</ulink>
+  See also the class
+ <ulink url="../doc/XML_PullParser/XML_PullParser.html#methodXML_PullParser_nextElement">documentation.</ulink>
+  
+ </para></formalpara>
+
+
+ <formalpara><title><emphasis>4. XML_PullParser_getEscapedToken</emphasis></title><para>
+  This method returns a single escaped token each time it is called.
+  An escaped token represents an element which is declared in both the <code>$tags</code> array and the
+  <code>$child_tags</code> array.  A separate stack is created for these tokens.  
+  Each time <code>XML_PullParser_getEscapedToken</code>
+  returns a token the token is popped off the stack: the method returns tokens until
+  the stack is exhausted, at which  point it returns <emphasis>Null,</emphasis>
+  making this method suitable for use in a loop.
+ </para></formalpara>
+
+ <formalpara><title></title><para>
+  The stack is persistent. If it is not exhausted and if the file being processed is larger than
+  <code>$read_length,</code><superscript>5</superscript>&#160;
+  tokens will be added to the stack when the next chunk of the file is parsed.
+  A function is provided to clear the stack, should that be necessary:
+  <token>void  XML_PullParser_clearEscapedTokens ()</token>
+  </para></formalpara>
+
+<blockquote role="box"><title>Some Points about Escaped Tokens </title>
+ <simplelist type='vert' columns='1'>
+  <member>
+    An escaped token can be accessed by <code>XML_PullParser_getEscapedToken</code> at any time,
+    as long as it is still on the stack. 
+  </member>
+  <member>
+   Escaped tokens are treated as valid members of the <code>$child_tags</code> array and
+   therefore can be accessed in normal document order by <code>XML_PullParser_getElement.</code>  
+  </member>
+  <member>
+  Escaped tokens are not treated as members of the <code>$tags</code> arrray
+  and therefore are not returned by <code>XML_PullParser_getToken</code>.  
+  But an  escaped element can still be the child of the current token, if
+  its <emphasis>parent</emphasis> has been declared in the <code>$tags</code> array. If so, it can 
+  be accessed in the same ways as any child of the current token.
+  </member>
+ </simplelist>  
+</blockquote>
+
+<formalpara><title><emphasis>5. XML_PullParser_getChildren</emphasis></title><para>
+<emphasis>6. XML_PullParser_getChildrenFromName</emphasis><![CDATA[<br />]]>
+  These methods are tokenizers but instead of returning tokens they return
+  numerically indexed arrays of tokens, which is illustrated in the 
+  <ulink url="appendix_1.xml#getChildren">appendix.</ulink>
+  The only difference between the two methods is in their parameters.
+</para></formalpara>
+<formalpara><title></title><para>
+ <anchor id="getChildren" />
+  The first parameter to both of these functions is a string, the name of an element.
+  It's this element which will consistute the child elements being sought.  The difference
+  between them is in the second paramter.  In <code>XML_PullParser_getChildren</code>
+  the second parameter is either a tokenized array, which is parent to the children,
+  or null, in which case either  <code>$current_element</code> will be
+  used or faling that the current token.  In <code>XML_PullParser_getChildrenFromName</code>
+  the second parameter is required and is the name of the parent element.
+ </para></formalpara>
+
+ <formalpara><title></title><para>
+  Accesing the tokens returned by these arrays is a matter simply of running them through a loop.  This
+  can be a <emphasis>foreach</emphasis> loop, a <emphasis>for</emphasis> loop, or <emphasis>while</emphasis>
+  loop that uses an indexing variable.
+ <![CDATA[<br/><br/>]]>
+ </para></formalpara>
+
+
+<blockquote role="blank_box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+        <member>1. <emphasis>SimpleList</emphasis> should technically be an 'undecorated" list,
+        according to the <emphasis>Docbook</emphasis> spec but has been recast here
+        as a numbered list.
+        </member>        
+        <member>2. See 
+        <ulink url="XML_PullParserCoding_3.xml#selectors_2">Instantiating the XML_PullParser Object</ulink>
+        </member>
+        <member>
+         3.  We could also have called <code>XML_PullParser_trimCdata(true)</code> at the top
+        of the listing to trim all text internally.
+        </member>
+        <member>
+        4. The one exception to this is <code>XML_PullParser_getTextMarkedUp.</code>
+        </member>        
+        <member>
+         5. The <emphasis>length</emphasis> value passed to PHP's <code>fread</code> function.
+         See the class documentation for 
+        <ulink url="../doc/XML_PullParser/_XML_PullParser.inc.html#functionXML_PullParser_setReadLength">XML_PullParser_setReadLength</ulink>
+        and
+        <ulink url="../doc/XML_PullParser/XML_PullParser.html#$read_length">$read_length</ulink>
+        </member>
+       </simplelist>
+   </blockquote> 
+
+ <simpara role="hr"></simpara>
+
+  <formalpara><title></title><para>
+  <ulink type="prev" url="XML_PullParserCodingStrategies_4.xml">Strategies 4: Nested Selecting</ulink>
+  <ulink type="next" url="XML_PullParser_TextAccessors.xml">Text Accessors</ulink>
+  </para></formalpara>    
+  <formalpara><title></title><para></para></formalpara><formalpara><title></title><para></para></formalpara>
+
+</article>
+
+

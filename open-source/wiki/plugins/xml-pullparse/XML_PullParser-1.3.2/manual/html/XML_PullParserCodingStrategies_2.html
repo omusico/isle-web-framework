@@ -1,0 +1,138 @@
+<style type="text/css">
+ body, .block, .simpara { position: relative; font-family: sans-serif;  line-height: 1.25; font-size: 11pt;}
+ body { left: 20px; }
+ .simpara { background-color: #eeeeee; }
+.header, .block { width:800px; background-color: #eeeeee; }
+.white_block { width:800px; background-color: #ffffff; font-size: 11pt;}
+.header { padding: 6px; }
+.section_2, .section_1, .para { width:800px; }
+.subtitle { font-size: 12pt; line-height: 1.25;}
+.title, .subtitle_2 { font-size: 13pt; font-weight: bold; line-height: 2;}
+ pre, .token, h4 { position: relative; font-family: serif; left: 20px; font-weight:bold; font-size: 11pt; }
+.code { font-weight: bold; font-family: monospace; font-size: 11pt; }
+.emphasis { font-weight: bold; }
+.code_title { color: #0066cc;  font-family: sans-serif; font-size: 12pt;}
+.token, h4 { font-size: 11pt; }
+.navigation, .navigation_2 { font-size: 10pt;; font-weight:bold;}
+.navigation_2 { color: #999999; }
+.super { font-size: 9pt; vertical-align:super; font-weight:bold; }
+.classname { font-weight: bold; font-style: italic; }
+td.list_phrase { font-size: 10pt; font-weight: normal; }
+</style>
+
+<div class='header'><span class='title'>XML_PullParser</span><br>
+<span class="subtitle">A token-based interface to the PHP expat XML library</span><br>
+<b>version 1.3.2</b><br>
+<b>Myron Turner</b><br>
+<span class='subtitle_2'>Coding Strategies 2: the 'which' parameter</span><br>
+</div><p><div class='block'><table width=800 cellpadding = 8><tr><td align = "right"><A href="contents.html" class="navigation_2">Contents</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></table></div><p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+<p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+  Several functions take a  <span class='code'>$which</span>  parameter. In this section we'll look at two
+  of these which often work in tandem:
+
+     <h4  style="left:20px">array  XML_PullParser_getAttributes  (mixed $name, [mixed $which = 1], [array $el = ""])</h4>
+     <h4  style="left:20px">string  XML_PullParser_getText  ([mixed $el = ""], [integer $which = 0], [boolean $xcl = false])</h4>
+
+  As we said in the section on  <A href="XML_PullParserCoding_3.html#selectors">instantiation</A> ,
+   the  <span class='code'>$child_tags</span>  and the  <span class='code'>$tags</span>  arrays in conjunction with
+   <span class='code'>XML_PullParser_getToken</span>  and  <span class='code'>XML_PullParser_getElement</span>
+  act as selectors.  The  <span class='code'>$which</span>  parameter refines the selection.
+  Where a token contains more than one element of the same name,  <span class='code'>$which</span>
+  specifies which of them is the subject of the query. The elements are stored in the token arrays in document
+  order, beginning at a  <span class='code'>$which</span>  value of 1.
+</p></div>
+
+<table width='750' bgcolor='#eeeeee'><td class='block'><pre>
+    <span class='emphasis'>Note: </span> The  <span class='code'>$which</span>  value is a selector and shouldn't be confused
+   with array indexes, which start at zero.
+</pre></table><p><div class="para">
+<!--   REPLACEMENT MADE -->
+
+  In the  <A href="XML_PullParserCoding_1.html#example_1">DNS</A>
+  Example that we've been working with, there are three  <span class='emphasis'>server</span>  elements:
+</p></div>
+
+<p><div class="block"><center><b></b></center>
+<pre>
+
+&lt;server ip="192.168.10.1"&gt; example_1.com &lt;/server&gt;
+&lt;server ip="192.168.10.2"&gt; example_2.com &lt;/server&gt;
+&lt;server ip="192.168.10.3"&gt; example_3.com &lt;/server&gt;
+
+</pre></div>
+<p><div class="para">  The following code will get both the names and the ip addresses of the three servers:</p></div>
+
+<A Name='listing_9'><p><div class="block"><A Name="listing_9"></A><center><b><span class="code_title" style="font-style:italic;">Listing 9</span></b></center>
+<pre>
+
+    1.  $tags = array("entry");
+    2.  $child_tags = array("server","ipaddress", "domain");
+
+    3.  $parser = new XML_PullParser("DNS.xml",$tags,$child_tags);
+
+    4.  while($token = $parser->XML_PullParser_getToken())
+    5.  {
+    6.      $parser->XML_PullParser_getElement('server');
+    7.      $which=1;
+    8.      while($server = $parser->XML_PullParser_getText('server',$which)) {
+    9.         $ip = $parser->XML_PullParser_getAttributes('server',$which);
+   10.         echo "Name: $server\n";
+   11.         echo "\tIP: " . $parser->XML_PullParser_getAttrVal('ip', $ip) . "\n";
+   12.         $which++;
+   13.     }
+   14.  }
+/*
+  Result
+    Name:  example_1.com
+        IP: 192.168.10.1
+    Name:  example_2.com
+        IP: 192.168.10.2
+    Name:  example_3.com
+        IP: 192.168.10.3
+*/
+
+
+</pre></div>
+<p><div class="para">
+   <span class='emphasis'>Listing 9</span>  assumes that we are going to be interested more than just
+  the servers. So we declare the "entry" element
+  in the  <span class='code'>$tags</span>  array and the other elements of interest in the  <span class='code'>$child_tags</span>
+  array.  Line 4 gets the "entry" token and then  <span class='code'>XML_PullParser_getElement</span>  (line 6)
+  isolates the token's server elements for processing.
+</p></div>
+
+<p><div class="para">
+   Beginning with line 8, the while loop first gets each server's name and then its ipaddress, which
+   is stored as an attribute of  <span class='emphasis'>server</span> .  The server name is returned as a string and the attribute
+   as an array, which is passed in to the helper function  <span class='code'>XML_PullParser_getAttributes,</span>
+   which then returns the attribute value as a string. The  <span class='code'>$which</span>  value is updated with each turn of the loop
+   (line 12).
+</p></div>
+
+
+<!--   REPLACEMENT MADE -->
+<table border=1 bgcolor='#eeeeee' width = 750 cellpadding ='6'>
+<tr><th align='left' class='block'>Note<tr><td class='block'><span class='code'>XML_PullParser_getText</span>  is a complex function; its return value depends
+        on what is passed in as parameters, including the  <span class='code'>$xcl</span>  parameter, which has not
+        been discussed here.  See the class
+        <A href="../doc/XML_PullParser/XML_PullParser.html#XML_PullParser_getText">documentation</A>
+       and the
+       <A href="XML_PullParser_TextAccessors.html#get_Text">TextAccesors</A>
+      section of this manual.</td>
+</table>
+<p><div class="para"></p></div>
+
+<hr width='800' align='left'>
+<TABLE width='800'><TR><TD align='left' class='navigation'><b>Prev: </b><a href='XML_PullParserCodingStrategies_1.html'>Introduction to Coding Strategies</a></td><TD align='right' class='navigation'><b>Next: </b><a href='XML_PullParserCodingStrategies_3.html' class='navigation'>Strategies 3: XML_PullParser_getSequence
+</a></td></table>&nbsp;&nbsp;&nbsp;
+<p><div class="para"></p></div>
+
+<p><div class="para"></p></div>
+
+

@@ -1,0 +1,605 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"[
+     <!ENTITY version SYSTEM "version.xml">
+    ] 
+>
+<article>
+  <title
+    role="A token-based interface to the PHP expat XML library">XML_PullParser</title>
+   <articleinfo>
+    <subtitle>Namespace Support</subtitle> 
+      &version;
+      <author>
+         <surname>Turner</surname>
+         <firstname>Myron</firstname>
+      </author>
+   </articleinfo>
+<formalpara><title></title><para></para></formalpara>
+ 
+ 
+<formalpara><title></title><para>
+Starting with version 1.3.0 Namespace support is built into <classname>XML_PullParser</classname>.
+It is invoked by calling the package level function <code>XML_PullParser_NamespaceSupport</code>
+with a <emphasis>true</emphasis> value before creating a new instance of <classname>XML_PullParser</classname>:
+<![CDATA[
+<table cellpadding="2" align="center">
+<tr><td>
+<tr><td class="code"> 
+XML_PullParser_NamespaceSupport(true);<br>
+$parser = new XML_PullParser($file, $tags, $child_tags);
+<tr><td>
+</table>
+]]>
+
+For backward compatibility with versions prior to 1.3.0, two stub class files are provided:
+
+<![CDATA[
+<table cellpadding="2" align="center"><tr><td>
+<tr><td class="code"> 
+XML_PullParser_NS.inc<br>
+
+<tr><td class="code"> 
+XML_PullParser_NS_doc.inc <br>
+
+<tr><td>
+</table>
+]]>
+
+These files call <code>XML_PullParser_NamespaceSupport</code>, so that it's not necessary to call it in
+the script.  These files are used as follows:
+
+<![CDATA[
+<table cellpadding="2" align="center"><tr><td>
+<tr><td class="code"> 
+require_once "XML_PullParser_NS.inc";<br>
+$parser = new XML_PullParser_NS($file, $tags, $child_tags);
+
+<tr><td class="code"> 
+require_once "XML_PullParser_NS_doc.inc";<br>
+$parser = new XML_PullParser_NS_doc($doc, $tags, $child_tags);
+<tr><td>
+</table>
+]]>
+
+
+</para></formalpara>
+
+<formalpara><title></title><para>
+
+</para></formalpara>
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+
+ <formalpara role="list"><title><emphasis>Namespace Methods and Functions</emphasis></title>
+   Methods
+   <para>
+   <simplelist type='vert' columns='1'>
+   <member>
+        mixed XML_PullParser_setCurrentNS (string $ns)
+        <phrase>
+          Used to create the current namespace definition
+        </phrase>
+   </member>
+   <member>
+        mixed XML_PullParser_unsetCurrentNS ()
+        <phrase>
+         Sets the current namespace definition to <emphasis>NULL</emphasis> 
+        </phrase>
+   </member>
+
+   <member>
+        boolean  _is_current_NS (array $ns_array)
+        <phrase>
+         Used to test whether an element or an attribute falls within the current
+         namespace definition.  This is primarily an internal method but can be used as 
+         described below. 
+        </phrase>
+   </member>
+   <member>
+         string XML_PullParser_getAttr_NS (string $name, array $attr_array)
+        <phrase>
+	Gets the value of an attribute if it falls with the
+        current namespace definition
+        </phrase>
+   </member>
+   <member>
+         string XML_PullParser_getNS_URI (mixed $str, [string name=Null])
+        <phrase>
+         Extracts the namespace URI from the internally constructed attribute name.          
+        </phrase>
+   </member>
+   <member>
+     string XML_PullParser_getNS_AttrName(string $str)
+      <phrase>
+         Extracts the unqualified attribute name from the internally constructed attribute name.          
+      </phrase>
+   </member>
+ </simplelist>
+</para></formalpara>
+
+ <formalpara role="list"><title></title>
+   <para>
+   Package Level Function(s)
+   <simplelist type='vert' columns='1' role="7">
+   <member>
+         void XML_PullParser_Disable_NS_Prefixes (mixed $bool)
+      <phrase >
+        This function controls whether namespace prefixes are removed from element and
+        attribute names or left in place.  
+        If this function is called with a value of <emphasis>TRUE,</emphasis> prefixes
+        will be removed from all element and attribute names; otherwise, they will
+        remain in place.
+	<![CDATA[<BR /> <BR />]]>
+        When prefixes remain in place, they are considered to be part of the 
+        names. Therefore, <emphasis>dns:server,</emphasis>
+        <emphasis>uri:server,</emphasis> and <emphasis>server</emphasis> are all
+        traeted as separate and distinct names.
+        This is the default behavior and is consistent with releases prior to 1.3.1,
+        when this function was added.
+
+	<![CDATA[<BR /> <BR />]]>
+        This function has meaning only when namespace support
+        has not been invoked, since prefixes are replaced by their URI's when namespace support
+        is in effect.  
+
+
+      </phrase>
+   </member>
+
+ </simplelist>
+</para></formalpara>
+
+<formalpara><title><emphasis>1. XML_PullParser_setCurrentNS</emphasis></title><para>
+<anchor id="setNS" />
+The most important of the new methods is XML_PullParser_setCurrentNS(), which creates
+the current namespace definition.  In its simplest form, it takes a single namespace:
+<![CDATA[ <center><span style="line-height: 2;" class="code">
+	XML_PullParser_setCurrentNS('http://example.com/doc/def/');</span></center> ]]>
+
+But it can also take multiple namespaces, which are also passed into the method as
+a string but each namespace URI is separated from the others by the vertical bar:
+  <![CDATA[<table width="600" cellpadding = "4"><td class="code">
+	$ns="http://example.com/doc/def/|http://my_site.com/movies/|"
+        &nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;"http://my_site.com/movies/title/";
+	XML_PullParser_setCurrentNS($ns);
+</table> ]]>
+
+If successful, this method returns the previously defined namespace if there was one or TRUE if there
+was no previous namespace definition.
+If not successful it returns FALSE;
+</para></formalpara>
+
+<formalpara><title></title><para>
+Only those namespaces which have been defined by XML_PullParser_setCurrentNS() will be recognized.
+Let's look at an example:  
+</para></formalpara>
+<formalpara><title></title><para>
+<anchor id="movies" /></para></formalpara>
+<simpara>
+	&lt;Movies
+	 xmlns = "http://fedora.gemini.ca/local/"
+	 xmlns:mov = "http://room535.org/movies/mov/"
+	 xmlns:star = "http://room535.org/movies/star/"
+	 xmlns:title = "http://room535.org/movies/title/"
+	 xmlns:date = "http://room535.org/movies/dates/"
+	>
+	 &lt;Movie>
+	    &lt;title:Title>Gone With The wind&lt;/title:Title>
+	    &lt;date:date date:day="25" date:month="Apr">1939&lt;/date:date>
+	    &lt;star:leading_lady>Vivien Leigh&lt;/star:leading_lady>
+	    &lt;leading_man>Clark Gable&lt;/leading_man>
+	 &lt;/Movie>
+       &lt;/Movies>
+</simpara>
+
+<formalpara><title></title><para>
+Let's assume that the namespace definition were the following:
+  <![CDATA[<table width="600" cellpadding = "4"><td class="code">
+   $parser->XML_PullParser_setCurrentNS("http://room535.org/movies/title/|"
+   &nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;"http://room535.org/movies/mov/|http://room535.org/movies/star/|"
+   &nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;"http://room535.org/movies/dates/");
+   </table>
+  ]]>
+
+<classname>XML_PullParser</classname> would locate all of the elements and attributes, except for
+
+<![CDATA[ <center><span style="line-height: 2;" class="code">&lt;leading_man>Clark Gable&lt;/leading_man></span></center>]]>
+
+which has no namespace prefix assigned to it.  Its namespace is the default namespace:
+
+<![CDATA[ <center><span style="line-height: 2;" class="code">xmlns = "http://fedora.gemini.ca/local/"</span></center>]]>
+
+But the default namespace has not been included in the current namespace definition.
+</para></formalpara>
+
+<formalpara><title></title><para>
+If we were to include the default namespace in the definiton, then
+XML_PullParser would locate <emphasis>leading_man,</emphasis> even
+though it does not have a namespace prefix. This is because the default
+namespace applies to all elements which do not have prefixes attached to
+them. 
+</para></formalpara>
+
+<formalpara><title><emphasis>2. XML_PullParser_unsetCurrentNS</emphasis></title><para>
+<anchor id="unsetNS" />
+Calling XML_PullParser_unsetCurrentNS unsets the current namespace definition.  If there is no
+namespace definition, then XML_PullParser ignores namespaces and behaves exactly as it would
+if there were no namespaces.
+If successful, this method returns the previously defined namespace if there was one or TRUE if there
+was no previous namespace definiton.
+</para></formalpara>
+
+
+<formalpara><title><emphasis>3. _is_current_NS</emphasis></title><para>
+
+This is for internal use; it returns true if an element or attribute
+appears within the current namespace definition. But it can be used by
+the programmer to determine whether an attribute resides within the
+current namespace definition. This can be done by extracting the
+namespace URI from the attribute's name with <code>XML_PullParser_getNS_URI()</code>
+and then using it as the key in an associative array, which takes the form:
+
+<![CDATA[ <center><span style="line-height: 2;" class="code">URI=>attribute-value</span></center>]]>
+
+It's this array that is passed into <code>_is_current_NS()</code> as a parameter:
+</para></formalpara>
+
+<simpara>
+     $name = XML_PullParser_getNS_URI($name);
+     if(is_current_NS(array($name=>$value)) ) {
+     }
+</simpara>
+
+
+
+
+
+
+<!--  XML_PULLPARSER_GETATTR_NS  -->    
+
+<formalpara><title><emphasis>4. XML_PullParser_getAttr_NS</emphasis></title><para>
+This method gets the value of an attribute if it falls within the current namespace definition. 
+If the attribute is not within the namespace definition, then this method returns <emphasis>NULL</emphasis>.
+<![CDATA[ <br />]]>
+<emphasis>Note: </emphasis><emphasis>NULL</emphasis> doesn't mean that the attribute has no value, only that it does not have a
+namespace which has been defined by a call to XML_PullParser_setCurrentNS.
+<![CDATA[ <br /><br /> ]]>
+<emphasis>Note: </emphasis>This method was designed primarily for internal use but may have
+applicability in some scripting situations. But for most situations
+<code>XML_PullParser_getAttrVal</code> should be used to get attribute values.
+<![CDATA[ <br />]]><![CDATA[ <br />]]>
+
+
+This method takes two parameters:  
+</para></formalpara>
+
+<formalpara><title><emphasis></emphasis></title><para>
+   <simplelist type='vert' columns='1'>
+   <member>
+        string <emphasis>$name</emphasis>
+        <phrase>
+          a string, which is the name of the attribute without its namespace qualification
+        </phrase>
+   </member>
+   <member>
+        array <emphasis>$attr_array</emphasis>
+        <phrase>
+          an assocative array consisting of the attribute's name  and value,
+          formed as follows:  <code>attribute-name=>attribute-value.</code>
+        </phrase>
+   </member>
+
+  </simplelist>
+</para></formalpara>
+
+<formalpara><title></title><para>
+<anchor id="getAttr_NS" />
+      <emphasis>attribute-name</emphasis> is the name supplied by XML_PullParser, which is an
+      internally constructed key.  The keys can be derived from the arrays returned
+      by one of the following:
+
+<![CDATA[ 
+<TABLE cellspacing="2" width = "400"align="center">
+    <td class="code">XML_PullParser_getAttributes
+   <tr><td class="code">XML_PullParser_nextAttr
+   <tr><td class="code">XML_PullParser_getAttrValues
+</table> ]]>
+
+ An example of its use is as follows:
+</para></formalpara>
+
+<simpara>
+	       $attr_array = $parser->XML_PullParser_getAttributes('date');   
+	       foreach($attr_array as $name=>$value) {
+	             $name = $parser->XML_PullParser_getNS_URI($name);
+		     if($parser->_is_current_NS(array($name=>$value)) ) {
+	                  echo "$name=>$value is in current namespace\n";
+		     }
+		}
+</simpara>
+<formalpara><title></title><para>
+Examples of how to use <code>XML_PullParser_nextAttr</code> and <code>XML_PullParser_getAttrValues</code>
+will be found will be found in the next section:
+<ulink url="XML_PullParser_NS_2.xml">Coding Namespace Support for XML_PullParser</ulink>.
+</para></formalpara>
+
+
+
+<!--  XML_PULLPARSER_GETNS_URI -->
+
+<formalpara><title><emphasis>5. XML_PullParser_getNS_URI </emphasis></title><para>
+This method will search for the namespace URI of either an attribute or an element.
+If a namespace is found it returns the namespace as a string.
+If a namespace is not found, it returns <emphasis>NULL</emphasis>.
+</para></formalpara>
+
+<formalpara><title><emphasis></emphasis></title><para>
+All attributes are held in associative arrays.  When namespace support is not requested,
+the attribute names serve as keys which point to the attribute values. For instance:
+<![CDATA[ <center><span style="line-height: 2;" class="code">[date]=>1945</span></center>]]>
+
+If an attribute is assigned to a namespace, 
+a key is created from the attribute name and the namespace URI.  
+This method extracts the namespace URI from the internally constructed key.
+In the case of elements, the namespace is treated internally as a specially constructed
+attribute, and this method queries that attribute for the namespace assigned to the
+element.  See the namespace 
+<ulink url="appendix_1.xml#namespace">example</ulink> 
+in the appendix for more detail on how namespaces are treated.
+</para></formalpara>
+
+
+<formalpara><title><emphasis></emphasis></title><para>
+<code>XML_PullParser_getNS_URI</code> takes two parameters:  
+   <simplelist type='vert' columns='1'>
+   <member>
+        mixed <emphasis>$str</emphasis>
+        <phrase>
+         the internally constructed attribute name (string)
+         or an attribute array<superscript>1</superscript> 
+        </phrase>
+   </member>
+   <member>
+        string <emphasis>$name (optional)</emphasis>
+        <phrase>
+         the name of the attribute without its namespace qualification
+        </phrase>
+   </member>
+  </simplelist>
+</para></formalpara>
+
+<formalpara><title></title><para>
+
+<![CDATA[ 
+<TABLE cellspacing="2" width = "800" align="center">
+   <td class="white_block">
+   1. If the parameter <code><b>$str</b></code> is a string, this method assumes that it is the internal name of an attribute.
+      
+   <tr><td class="white_block">
+   2. If the parameter is an array and $name is not specified,
+      it assumes that the element's own namespace is being sought.
+   <tr> <td class="white_block">
+   3. If the parameter is an array and $name is specified, it looks for the attribute of that $name.
+</table> ]]>
+</para></formalpara>
+
+<formalpara><title><emphasis>6. XML_PullParser_getNS_AttrName</emphasis></title><para>
+This method extracts the unqualified attribute name from the 
+name which is created internally for all namespace-qualified attributes.
+Its single parameter is a string holding this internally constructed name. It
+returns the unqualified attribute name, i.e. without the namespace or the namespace
+prefix prepended. (The namespace prefix is the namespace identifier that is
+prefixed to attributes and elements assigned to a namespace, as in 
+<![CDATA[ <center style="line-height:2">
+<code><b>identifier:element_name</b></code></center>]]>
+
+
+</para></formalpara>
+
+<formalpara><title></title><para>
+
+</para></formalpara>
+
+
+
+
+<!--  ATTTIBUTES AND NAMESPACES -->
+<formalpara><title><emphasis>Atttibutes and Namespaces</emphasis></title><para>
+<anchor id="att_and_NS" />
+
+Because <classname>XML_PullParser</classname> uses internally constucted keys for attributes assigned to
+namespaces, when namespace support is in effect
+attribute names should not be addressed independently of the methods supplied to deal with
+attributes. 
+</para></formalpara>
+
+<formalpara><title></title><para>
+That is, when namespace support is not in effect, it's possible to 
+extract individual attrribute names and values from the various arrays which supply
+attributes, using <code>each</code> and <code>foreach</code>.  And where the attribute name is known,
+it's possible to get its value from <code>$array[$name]</code>.
+
+
+But when working with namespaces, <code>XML_PullParser_getAttrVal</code>
+should always be used. It has been updated to reflect the namespace code and is called
+exactly as before:
+
+  <![CDATA[ <center><span style="line-height: 2;" class="code">
+  $parser->XML_PullParser_getAttrVal($attr_name, $attr_array);
+</span></center>]]>
+
+<emphasis>$attr_name</emphasis> is the unqualified attribute name, i.e. it does not
+include either the namespace URI or the namespace prefix. 
+To take an instance from the sample
+<ulink url = "#movies">Movies</ulink> document, if we wanted to get at the <emphasis>month</emphasis>
+attribute, we would use the following code:
+</para></formalpara>
+
+<simpara>
+    $date = $parser->XML_PullParser_getElement('date');
+    $attr_array = $parser->XML_PullParser_getAttributes($date);   
+    echo "Month:  " . $parser->XML_PullParser_getAttrVal('month', $attr_array) . "\n";
+
+ /* 
+ Result
+ Month: Apr
+ */
+</simpara>
+
+<formalpara><title></title><para>
+See the appendix for an
+<ulink url ="appendix_1.xml#namespace">example token</ulink>
+ created with namespace support. It helps to clarify the issues inovled in accessing attribute data.
+</para></formalpara>
+
+
+<formalpara><title><emphasis>Namespace Agreement</emphasis></title><para>
+When a request if made for data, <classname>XML_PullParser</classname> tests for namespace
+agreement. In the case of attributes, if no agreement is found, then <code>XML_PullParser_getAttrVal</code>
+returns <emphasis>NULL</emphasis>. 
+
+In the case of the character data, if no agreement is found, then the text methods will skip over the data. 
+Their return values will reflect any absence of data in the ways appropriate to each method.
+</para></formalpara>
+
+<formalpara><title><emphasis></emphasis></title><para>
+<classname>XML_PullParser</classname> uses the method <code>_is_current_NS</code> to determine namespace agreement.
+So, it is useful to look at how that method works.  
+<![CDATA[ <OL>
+<LI>If no namespace definition has been set]]>
+in <ulink url="#setNS">XML_PullParser_setCurrentNS</ulink>, or if the current namespace definition
+has been unset with <ulink url="#unsetNS">XML_PullParser_unsetCurrentNS</ulink>,
+then <code>_is_current_NS</code> returns <emphasis>True</emphasis>.  In effect, all elements and
+attributes are deemed to be in agreement with current namespace definition, which is
+<emphasis>Null</emphasis>.  After passing this test, the element or attribute in question is subject to the
+normal rules and constraints which govern the handling of elements and attributes.
+
+<![CDATA[
+<LI>When a namespace definition has been set, this method returns <b>True</b> if the
+namespace of an element or attribute is found in the current namespace definition. 
+Otherwise, it returns <b>False.</b>
+<LI>  ]]>
+If there is a default namespace, the parser will apply it to all elements 
+which have no explicit namespace prefix, and rule number 2 above will apply to them.<superscript>2</superscript>
+
+<![CDATA[
+</OL>
+]]>
+
+</para></formalpara>
+
+<formalpara><title><emphasis></emphasis></title><para>
+</para></formalpara>
+
+<formalpara><title><emphasis></emphasis></title><para>
+Below are some examples illustrating namespace agreement.
+They all refer to the file Movies.xml, from the listings directory
+of this distribution; it is reprinted for convenience on the
+ <ulink url = "XML_PullParser_NS_2.xml#movies_xml">next page</ulink> of this manual.
+</para></formalpara>
+
+ <blockquote><title role="code">Namespace Agreement 1</title>
+ <programlisting>
+   $parser->XML_PullParser_setCurrentNS("http://room535.org/movies/title/|"
+  . "http://room535.org/movies/mov/|http://room535.org/movies/star/|
+  . "http://room535.org/movies/dates/");
+
+    while($token = $parser->XML_PullParser_getToken()) {
+        $title = $parser->XML_PullParser_getText('title');
+        echo "Title: $title\n";
+        $attr_vals = $parser->XML_PullParser_getAttrValues(array('date'=>$token));      
+        echo "Month:  " . $parser->XML_PullParser_getAttrVal('month', $attr_vals[0]) . "\n";;
+        echo "Day:  " . $parser->XML_PullParser_getAttrVal('day', $attr_vals[0]) . "\n";    
+    }
+
+ /*
+  Result
+	Title: Gone With The wind
+	Month:  Apr
+	Day:  25
+	Title: How Green Was My Valley
+	Month:
+	Day:
+	Title: Jurassic Park
+	Month:  June
+	Day:  15
+
+ */
+
+</programlisting>
+</blockquote>
+
+
+<formalpara><title><emphasis>Namespaces and the $which Parameter</emphasis></title><para>
+<anchor id="which_param" />
+Namespaces are applied to an <classname>XML_Pullarser</classname> token only when data
+is requested, that is only when functions such as <code>XML_Pullparser_getText</code> and
+<code>XML_Pullarser_getAttributes</code> are called.  The token returned by 
+<code>XML_Pullparser_getToken</code> holds the parent element and all of its dependents,
+just as it would if namespace support were not in effect.  Take, for instance,
+the following snippet:
+</para></formalpara>
+
+<simpara>
+<![CDATA[
+  &lt;ENTRY>
+    &lt;dns:server dns:ip="192.168.10.1">example_1.com&lt;/dns:server> 
+    &lt;dns_2:server dns_2ip="192.168.10.2">example_2.com&lt;/dns_2server> 
+    &lt;dns:server dns:ip="192.168.10.3">example_3.com&lt;/dns:server> 
+  &lt;/ENTRY>
+]]>
+</simpara>
+
+<formalpara><title></title><para>
+<code>XML_Pullparser_getToken</code> would return the complete &lt;ENTRY> element,
+with all three <emphasis>server</emphasis> elements, regardless of the nameserver
+definition created in <code>XML_PullParser_setCurrentNS</code>.  Therefore, if the
+namespace definition included the namespace represented by <emphasis>dns</emphasis>
+but not the one represented by <emphasis>dns_2</emphasis>, the following call to
+<code>XML_PullParser_getText</code> would yield <emphasis>Null</emphasis>:
+
+</para></formalpara>
+
+<simpara>
+   $parser->XML_PullParser_getElement('server'); 
+   $dns_server =  $parser->XML_PullParser_getText('server', 2);
+</simpara>
+
+<formalpara><title></title><para>
+
+</para></formalpara>
+
+<formalpara><title></title><para></para></formalpara>
+<formalpara><title></title><para></para></formalpara>
+
+ 
+  <simpara role="hr"></simpara>
+
+  <blockquote role="blank_box"><title>Notes</title>
+    <simplelist type='vert' columns='1'>
+       <member>1.  The attribute arrays are derived from the same methods ennumerated under
+      <code>XML_PullParser_getAttr_NS</code> <ulink url = "#getAttr_NS">above.</ulink>
+     </member>    
+        <member>2. Default namespaces do not apply to attributes, which must have an explicit prefix to be included
+       in a namespace.
+     </member>    
+    </simplelist>
+  </blockquote> 
+
+<formalpara><title></title><para>
+<ulink type="prev" url="XML_PullParser_Utilities.xml">Utilities</ulink>
+<ulink type="next" url="XML_PullParser_NS_2.xml">Examples: Coding Namespace Support</ulink>
+</para></formalpara>
+
+<formalpara><title></title><para>
+</para></formalpara>
+
+</article>
+
+
